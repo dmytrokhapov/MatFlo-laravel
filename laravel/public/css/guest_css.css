@@ -1,0 +1,353 @@
+body{
+    font-family: 'Nunito', sans-serif;
+}
+body.login-page{
+    background-color: #0F8EFF;
+    position: relative;
+}
+body.login-page .login-box{
+    width: 555px;
+}
+body.login-page .login-box .card{
+    box-shadow:none;
+    background-color: transparent;
+}
+body.login-page .login-box .card .card-body.login-card-body{
+    background-color: #2799ff;
+    color:#fff;
+    padding: 40px 90px;
+    border-radius: 32px;
+    margin-bottom: 20px;
+}
+body.login-page .login-box .card .card-body.login-card-body .login-logo{
+    font-weight: 800;
+    font-size: 50px;
+}
+body.login-page .login-box .card .card-body.login-card-body.register-card-body .login-logo{
+    font-weight: 700;
+    font-size: 30px;
+}
+body.login-page .login-box .card .card-body.login-card-body .login-logo a{
+    color: #fff;
+}
+body.login-page .login-box .card .card-body.login-card-body h3{
+   font-size: 20px;
+   font-weight: 700;
+}
+body.login-page .login-box .card .card-body.login-card-body p{
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 2rem;
+ }
+ body.login-page .login-box .card .card-body.login-card-body.register-card-body .form-group p{
+    margin-bottom: 20px;
+}
+body.login-page .login-box .card .card-body.login-card-body.register-card-body .form-group select option{
+    color: #000;
+    padding: 5px;
+    background-color: #fff;
+}
+body.login-page .login-box .card .card-body.login-card-body .form-group label{
+    font-size: 12px;
+    font-weight: 400;
+    margin-bottom: 0;
+ }
+ body.login-page .login-box .card .card-body.login-card-body .form-group p{
+    display: flex;
+    border-bottom: solid 1px rgba(255,255,255,0.3);
+    margin-bottom: 30px;
+    position: relative;
+ }
+ body.login-page .login-box .card .card-body.login-card-body .form-group label.error{
+    display: block;
+    width: 100%;
+    position: absolute;
+    bottom: -22px;
+ }
+ body.login-page .login-box .card .card-body.login-card-body .form-group p.password{
+    margin-bottom: 20px;
+ }
+ body.login-page .login-box .card .card-body.login-card-body .form-group img{
+    margin-right: 10px;
+ }
+ body.login-page .login-box .card .card-body.login-card-body .form-group .form-control{
+    background: none;
+    border: none;
+    padding: 0;
+    color: #fff;
+    font-size: 16px;
+ }
+ body.login-page .login-box .card .card-body.login-card-body .form-group .form-control::placeholder{
+    color: #fff;
+    font-family: 'Nunito', sans-serif;
+ }
+ body.login-page .login-box .card .card-body.login-card-body [class*=icheck-]>input:first-child+input[type=hidden]+label::before, body.login-page .login-box .card .card-body.login-card-body [class*=icheck-]>input:first-child+label::before{
+    background-color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin-left: -36px;
+ }
+
+ body.login-page .login-box .card .card-body.login-card-body .icheck-primary label{
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.4);
+    padding-left: 38px!important;
+ }
+ body.login-page .login-box .card .card-body.login-card-body .forgot-pwd{
+    text-align: right;
+ }
+ body.login-page .login-box .card .card-body.login-card-body .forgot-pwd a{
+    color: #fff;
+    font-size: 12px;
+ }
+ body.login-page .login-box .card .card-body.login-card-body .forgot-pwd a:hover{
+    text-decoration: underline;
+ }
+
+ body.login-page .login-box .card .card-body.login-card-body button.btn-primary{
+    background-color: #fff;
+    color: #1D6DB4;
+    border-radius: 15px;
+    font-weight: 800;
+    height: 48px;
+    border: solid 1px #fff;
+ }
+ body.login-page .login-box .card .card-body.login-card-body button.btn-info{
+    border-radius: 15px;
+    height: 48px;
+ }
+
+ body.login-page .login-box .card .card-body.login-card-body button.btn-primary:hover{
+    background-color: transparent;
+    color: #fff;
+    border: solid 1px #fff;
+ }
+ body.login-page .login-box .card .card-body.login-card-body p a.text-white{
+    color: #fff;
+    font-weight: 800;
+    text-decoration: underline;
+    margin-left: 5px;
+ }
+ body.login-page .login-box .card .card-body.login-card-body p a.text-white:hover{
+    text-decoration: none;
+ }
+ body.login-page .login-box .card .card-body.login-card-body [class*=icheck-]>input:first-child:checked+input[type=hidden]+label::after, body.login-page .login-box .card .card-body.login-card-body [class*=icheck-]>input:first-child:checked+label::after{
+    border-color:#1D6DB4;
+    width: 9px;
+    height: 11px;
+ }
+ body.login-page .footer-menu{
+  position: absolute;
+  bottom: 10px;
+ }
+ body.login-page .footer-menu ul{
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+body.login-page a.box_login_link{
+  color: #fff;
+}
+body.login-page .footer-menu ul li{
+  list-style-type: none;
+  font-size: 14px;
+  padding: 0 35px;
+
+}
+body.login-page .footer-menu ul li a{
+  color: #fff;
+}
+
+ input:-webkit-autofill,
+ input:-webkit-autofill:focus {
+     transition: background-color 600000s 0s, color 600000s 0s;
+ }
+
+ .nice-select {
+   -webkit-tap-highlight-color: transparent;
+   background-color: transparent;
+   border-radius: 5px;
+   border-bottom: solid 1px #e0e7ee;
+   box-sizing: border-box;
+   clear: both;
+   cursor: pointer;
+   display: block;
+   float: left;
+   font-family: inherit;
+   font-size: 14px;
+   font-weight: normal;
+   height: 42px;
+   line-height: 40px;
+   outline: none;
+   padding-left: 15px;
+   padding-right: 30px;
+   position: relative;
+   text-align: left !important;
+   color: #fff;
+   -webkit-transition: all 0.2s ease-in-out;
+   transition: all 0.2s ease-in-out;
+   -webkit-user-select: none;
+      -moz-user-select: none;
+       -ms-user-select: none;
+           user-select: none;
+   white-space: nowrap;
+   width: 100%; }
+   .nice-select:hover {
+     border-color: #d0dae5; }
+   .nice-select:active, .nice-select.open, .nice-select:focus {
+     border-color: #88bfff; }
+   .nice-select:after {
+     border-bottom: 2px solid #fff;
+     border-right: 2px solid #fff;
+     content: '';
+     display: block;
+     height: 7px;
+     margin-top: -4px;
+     pointer-events: none;
+     position: absolute;
+     right: 15px;
+     top: 50%;
+     -webkit-transform-origin: 66% 66%;
+         -ms-transform-origin: 66% 66%;
+             transform-origin: 66% 66%;
+     -webkit-transform: rotate(45deg);
+         -ms-transform: rotate(45deg);
+             transform: rotate(45deg);
+     -webkit-transition: all 0.15s ease-in-out;
+     transition: all 0.15s ease-in-out;
+     width: 7px; }
+   .nice-select.open:after {
+     -webkit-transform: rotate(-135deg);
+         -ms-transform: rotate(-135deg);
+             transform: rotate(-135deg); }
+   .nice-select.open .list {
+     opacity: 1;
+     pointer-events: auto;
+     padding: 5px 0;
+     -webkit-transform: scale(1) translateY(0);
+         -ms-transform: scale(1) translateY(0);
+             transform: scale(1) translateY(0); }
+   .nice-select.disabled {
+     border-color: #e7ecf2;
+     color: #90a1b5;
+     pointer-events: none; }
+     .nice-select.disabled:after {
+       border-color: #cdd5de; }
+   .nice-select.wide {
+     width: 100%; }
+     .nice-select.wide .list {
+       left: 0 !important;
+       right: 0 !important; }
+   .nice-select.right {
+     float: right; }
+     .nice-select.right .list {
+       left: auto;
+       right: 0; }
+   .nice-select.small {
+     font-size: 12px;
+     height: 36px;
+     line-height: 34px; }
+     .nice-select.small:after {
+       height: 4px;
+       width: 4px; }
+     .nice-select.small .option {
+       line-height: 34px;
+       min-height: 34px; }
+   .nice-select .list {
+     background-color: #fff;
+     width: 100%;
+     border-radius: 15px;
+     box-shadow: 0 0 0 1px rgba(68, 88, 112, 0.11);
+     box-sizing: border-box;
+     margin-top: 4px;
+     opacity: 0;
+     left: 0;
+     overflow: hidden;
+     padding: 0;
+     pointer-events: none;
+     position: absolute;
+     /* top: 100%;
+     left: 0;
+     -webkit-transform-origin: 50% 0;
+         -ms-transform-origin: 50% 0;
+             transform-origin: 50% 0;
+     -webkit-transform: scale(0.75) translateY(-21px);
+         -ms-transform: scale(0.75) translateY(-21px);
+             transform: scale(0.75) translateY(-21px);
+     -webkit-transition: all 0.2s cubic-bezier(0.5, 0, 0, 1.25), opacity 0.15s ease-out;
+     transition: all 0.2s cubic-bezier(0.5, 0, 0, 1.25), opacity 0.15s ease-out; */
+     z-index: 9; }
+     .nice-select .list:hover .option:not(:hover) {
+       background-color: transparent !important; }
+   .nice-select .option {
+     cursor: pointer;
+     font-weight: 400;
+     line-height: 40px;
+     list-style: none;
+     min-height: 40px;
+     outline: none;
+     padding-left: 18px;
+     padding-right: 29px;
+     text-align: left;
+     -webkit-transition: all 0.2s;
+     transition: all 0.2s;
+     color: #333;
+     border-radius: 10px;
+     margin: 0 5px;
+   }
+     .nice-select .option:hover, .nice-select .option.focus, .nice-select .option.selected.focus {
+       background-color: rgba(196, 196, 196, 0.2); }
+     .nice-select .option.selected {
+       font-weight: bold; }
+     .nice-select .option.disabled {
+       background-color: transparent;
+       color: #90a1b5;
+       cursor: default; }
+
+      @media screen and (max-width:1200px) {  
+
+      body.login-page .footer-menu{
+          position: static;
+      }
+      body.login-page .footer-menu ul{
+        flex-wrap: wrap;
+        align-items: center;
+        margin: 10px 0;
+      }
+      .login-page, .register-page{
+        height: auto;
+      }
+      body.login-page a.box_login_link{
+        margin-top: 10px;
+        display: block;
+      }
+  }  
+
+
+ @media screen and (max-width:576px) {
+
+    body.login-page .login-box{
+        width: 100%;
+    }
+    body.login-page .login-box .card .card-body.login-card-body{
+        padding: 20px;
+        margin: 20px;
+    }
+    body.login-page .login-box .card .card-body.login-card-body.register-card-body .login-logo{
+        font-size: 25px;
+        margin-bottom: 30px !important;
+    }
+    body.login-page .login-box .card .card-body.login-card-body .icheck-primary label{
+        padding-left: 35px!important;
+        font-size: 12px;
+    }
+ }
+ @media screen and (max-width:320px) {
+
+    body.login-page .login-box .card .card-body.login-card-body .icheck-primary label{
+        font-size: 11px;
+    }
+
+ }

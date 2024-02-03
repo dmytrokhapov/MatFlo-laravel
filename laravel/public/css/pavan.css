@@ -1,0 +1,317 @@
+::placeholder{
+    color: #495057;
+}
+::-moz-placeholder{
+    color: #495057;
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #495057;
+    opacity: 1; /* Firefox */
+  }
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #495057;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: #495057;
+}
+.workflow-card{
+    width: 70%;
+    margin: 0 auto;
+}
+.workflow-card .workflow-header {
+    margin-bottom: 20px;
+}
+.workflow-card .heading{
+    font-family: Nunito;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 36px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+.workflow-card .workflow-header h5{
+    font-family: Nunito;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 30px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #3B3B3B;
+
+}
+.btn-outline-theme {
+    background: #BF37FF1A;
+    border: 2px solid #bf37ff;
+    color: #bf37ff !important;
+    height: 48px;
+    font-family: Nunito;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+.verifier_body .btn-outline-theme {
+    background: #FF37A31A;
+    border: 2px solid #FF37A3;
+    color: #FF37A3 !important;
+}
+.workflow-card .workflow-header .text-right span{
+    font-family: Nunito;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0em;
+    text-align: left;
+}
+.workflow-card .btn-theme {
+    width: auto;
+    height: 42px;
+    padding: 8px 16px 8px 16px;
+    border-radius: 8px;
+    background: #6B37FF;
+    font-family: Nunito;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0em;
+    color: #fff;
+}
+.workflow-card .btn-theme img{
+    width: 22px;
+    height: 22px;
+}
+.workflow-card .card-body{
+    background: #FFFFFF;
+    border-radius: 15px;
+}
+body .workflow-card .card-body .dataTables_wrapper .dataTables_filter label input {
+    background-color: #F4F4F4;
+    border-radius: 6px;
+    height: 33px;
+    margin-left: 10px;
+    border: none;
+    box-shadow: none;
+}
+body .workflow-card .card-body .dataTables_wrapper .dataTables_length label select {
+    background-color: #F4F4F4;
+    border-radius: 6px;
+    height: 33px;
+    margin: 0 10px;
+    border: none;
+    box-shadow: none;
+}
+body .workflow-card .card-body table.product-overview thead tr {
+    background-color: rgba(15, 142, 255, 0.10);
+}
+body .workflow-card .card-body table.product-overview thead tr th {
+    border: none;
+    padding: 15px;
+}
+body .workflow-card .card-body table.product-overview tbody tr td {
+    border: none;
+    padding: 15px;
+}
+body .workflow-card .card-body table.product-overview tbody tr:nth-child(odd) {
+    background-color: #FBFBFB;
+}
+body .workflow-card .card-body table.product-overview tbody tr:nth-child(even) {
+    background-color: #F5F5F5;
+}
+body table tr th:first-child,
+body table tr td:first-child {
+    border-radius: 10px 0 0 10px;
+}
+body table tr th:last-child,
+body table tr td:last-child {
+    border-radius: 0 10px 10px 0;
+}
+.createForm .form-group label{
+    font-family: Nunito;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin: 0;
+}
+.createForm .form-control {
+    background: #F5F5F5;
+    border-radius: 6px;
+    border: none;
+    height: 48px;
+    line-height: 32px;
+    font-family: Nunito;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-top: 8px;
+}
+.createForm textarea.form-control {
+    height: auto;
+    border-radius: 15px;
+}
+
+.workflow-card .stepContent .card{
+    background: #FFFFFF;
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0px 1px 10px 5px #0000000D;
+}
+.createForm .card{
+    background: #FFFFFF;
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0px 1px 10px 5px #0000000D;
+}
+.workflow-card .add-step-btn{
+    color: #0F8EFF;
+    border: 1px solid #0F8EFF !important;
+    width: 140px;
+    height: 40px;
+    padding: 8px 12px 8px 12px;
+    border-radius: 30px;
+    background-color: transparent;
+}
+.workflow-card .childRow .row {
+    position: relative;
+}
+.workflow-card #dataDiv .row {
+    position: relative;
+}
+.workflow-card .removeParentBtn,
+.workflow-card .removechildRow,
+.workflow-card .removeDataBtn {
+    right: 0;
+    background: red;
+    color: #fff;
+    height: 25px;
+    width: 25px;
+    text-align: center;
+    padding: 0;
+    top: 0;
+    transform: translate(4px, -12px);
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 25px;
+    margin: 0;
+}
+
+.cancel-btn{
+    height: 48px;
+    padding: 12px 42px 12px 40px;
+    border-radius: 8px;
+    border: 1px solid #666666;
+    color: #666666;
+    font-family: Work Sans;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+    margin-right: 5px;
+}
+.submit-btn{
+    height: 48px;
+    padding: 12px 42px 12px 40px;
+    border-radius: 8px;
+    background: #0F8EFF;
+    color: #fff !important;
+    font-family: Work Sans;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+    margin-left: 5px;
+}
+.producer_body .submit-btn{
+    background: #6B37FF;
+}
+.calculator_body .submit-btn{
+    background: #BF37FF;
+}
+.verifier_body .submit-btn {
+    background: #FF37A3;
+}
+
+/* Modeal popups */
+/* .modal .workflow-header {
+    margin-bottom: 20px;
+} */
+.modal .modal-title{
+    font-family: Nunito;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 36px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+.white-popup-block .mfp-close,
+.modal .modal-header .close {
+    background: #0F8EFF;
+    opacity: 1;
+    color: #fff !important;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    padding: 0 !important;
+    line-height: 25px;
+    display: block;
+    border-radius: 4px;
+    margin: 0 !important;
+    transition: all .3s ease;
+}
+.producer_body .white-popup-block .mfp-close,
+.producer_body .modal .modal-header .close {
+    background: #6B37FF;
+}
+.calculator_body .white-popup-block .mfp-close,
+.calculator_body .modal .modal-header .close {
+    background: #BF37FF;
+}
+.verifier_body .white-popup-block .mfp-close,
+.verifier_body .modal .modal-header .close {
+    background: #FF37A3;
+}
+
+.white-popup-block {
+    border-radius: 8px;
+}
+.white-popup-block .mfp-close{
+    transform: translate(-10px, 10px);
+}
+.workflow-card .removeBtn{
+    margin-top: 30px;
+    text-align: center;
+}
+.workflow-card .removeBtn .removechildRow{
+
+    position: static;
+}
+#stepsDiv{
+    width: 100%;
+    float: left;
+    margin-top: 10px;
+}
+@media only screen and (max-width: 768px){
+    .workflow-card{
+        width: 100%;
+    }
+    .cancel-btn{
+        margin-right: 0;
+    }
+    .submit-btn{
+        margin-left: 0;
+    }
+   
+}
+@media only screen and (max-width: 576px){
+
+    .cancel-btn{
+        padding: 12px 20px 12px 20px;
+    }
+
+}
