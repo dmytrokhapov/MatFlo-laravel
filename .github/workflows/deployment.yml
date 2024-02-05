@@ -1,0 +1,92 @@
+name: MatFlo workflow
+on:
+  push:
+    branches: [devops]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Upgrade AWS CLI version and setup lightsailctl
+        run: |
+          aws --version
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
+          which aws
+          aws --version
+          sudo curl "https://s3.us-west-2.amazonaws.com/lightsailctl/latest/linux-amd64/lightsailctl" -o "/usr/local/bin/lightsailctl"
+          sudo chmod +x /usr/local/bin/lightsailctl
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Create Build and Tag tag
+        env:
+          IMAGE_TAG: latest
+          IMAGE_SHA_TAG: ${{ github.sha }}
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          docker build -t $ECR_REGISTRY/${{vars.ECR_REPOSITORY}}:$IMAGE_TAG .
+          docker build -t $ECR_REGISTRY/${{vars.ECR_REPOSITORY}}:$IMAGE_SHA_TAG .
+          docker push $ECR_REGISTRY/${{vars.ECR_REPOSITORY}}:$IMAGE_TAG
+          docker push $ECR_REGISTRY/${{vars.ECR_REPOSITORY}}:$IMAGE_SHA_TAG
+
+      - name: Push the Docker Image to lightsail
+        env: 
+          IMAGE_SHA_TAG: ${{ github.sha }}
+          IMAGE_URL: ${{vars.LIGHTSAIL_IMAGE}}:${{ github.sha }}
+        run: >
+          aws lightsail push-container-image
+          --service-name ${{ vars.SERVICE_NAME }}
+          --image $IMAGE_URL
+          --region us-east-1
+          --label git-push
+
+      - name: Save updated LIGHTSAIL_IMAGE_TAG 
+        run: |
+          echo "LIGHTSAIL_DOCKER_IMAGE=$(aws lightsail get-container-images --service-name ${{ vars.SERVICE_NAME }} --region us-east-1 | jq -r .containerImages[0].image)"  >> $GITHUB_ENV
+      
+      - name: Start New Deployment to Light Sail
+        run: |
+          aws lightsail create-container-service-deployment  --region us-east-1 \
+          --service-name ${{vars.SERVICE_NAME}} \
+          --output yaml \
+          --containers "{
+            \"${{vars.SERVICE_NAME}}\": {
+              \"image\": \"$LIGHTSAIL_DOCKER_IMAGE\",
+              \"environment\": {
+                  \"VERSION\": \"${{github.run_number}}\"
+                },
+              \"ports\": {
+                \"80\": \"HTTP\"
+              }
+            }
+          }" \
+          --public-endpoint "{
+            \"containerName\": \"${{vars.SERVICE_NAME}}\",
+            \"containerPort\": 80,
+            \"healthCheck\": {
+              \"path\": \"/login",
+              \"intervalSeconds\": 10
+            }
+          }"
+
+      - name: Debug container logs Update
+        run: >
+          aws lightsail get-container-log
+          --region us-east-1
+          --service-name ${{ vars.SERVICE_NAME }}
+          --container-name ${{vars.SERVICE_NAME}}
+          --output yaml
