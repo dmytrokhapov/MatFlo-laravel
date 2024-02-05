@@ -13,7 +13,6 @@ RUN apt-get update && apt-get install -y \
 
 RUN docker-php-ext-install pdo_mysql gd mbstring exif pcntl bcmath opcache
 
-
 RUN apt install apt-transport-https lsb-release ca-certificates curl gnupg -y ; \
 curl https://mirror-cdn.xtom.com/sb/nginx/public.key | apt-key add - ; \
 echo "deb https://mirror-cdn.xtom.com/sb/nginx/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/sb-nginx.list ; \
@@ -38,7 +37,8 @@ RUN chmod -R 777 public storage
 RUN echo '#!/bin/bash \n\
 service redis-server start \n\
 php-fpm & \n\
-nginx -g "daemon off;"' > /entrypoint.sh
+service nginx start \n\
+tail -f /dev/null' > /entrypoint.sh
 
 EXPOSE 80
 
