@@ -78,7 +78,7 @@ jobs:
             \"containerName\": \"${{vars.SERVICE_NAME}}\",
             \"containerPort\": 80,
             \"healthCheck\": {
-              \"path\": \"/login",
+              \"path\": \"/login\",
               \"intervalSeconds\": 10
             }
           }"
