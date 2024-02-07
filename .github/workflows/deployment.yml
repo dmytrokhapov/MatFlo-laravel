@@ -38,9 +38,11 @@ jobs:
           IMAGE_SHA_TAG: ${{ github.sha }}
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
-          docker build --build-arg MAIL_USERNAME=${{ secrets.MAIL_USERNAME }} --build-arg MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }} --build-arg MAIL_FROM_ADDRESS=${{ secrets.MAIL_FROM_ADDRESS }} --build-arg DB_CONNECTION=${{ secrets.DB_CONNECTION }} --build-arg DB_HOST=${{ secrets.DB_HOST }} --build-arg DB_PORT=${{ secrets.DB_PORT }} --build-arg DB_DATABASE=${{ secrets.DB_DATABASE }} --build-arg DB_USERNAME=${{ secrets.DB_USERNAME }} --build-arg DB_PASSWORD=${{ secrets.DB_PASSWORD }} -t $ECR_REGISTRY/${{vars.ECR_REPOSITORY}}:$IMAGE_TAG -t $ECR_REGISTRY/${{vars.ECR_REPOSITORY}}:$IMAGE_SHA_TAG .
-          docker push --all-tags $ECR_REGISTRY/$ECR_REPOSITORY
-
+          docker build --build-arg MAIL_USERNAME=${{ secrets.MAIL_USERNAME }} --build-arg MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }} --build-arg MAIL_FROM_ADDRESS=${{ secrets.MAIL_FROM_ADDRESS }} --build-arg DB_CONNECTION=${{ secrets.DB_CONNECTION }} --build-arg DB_HOST=${{ secrets.DB_HOST }} --build-arg DB_PORT=${{ secrets.DB_PORT }} --build-arg DB_DATABASE=${{ secrets.DB_DATABASE }} --build-arg DB_USERNAME=${{ secrets.DB_USERNAME }} --build-arg DB_PASSWORD=${{ secrets.DB_PASSWORD }} -t $ECR_REGISTRY/${{vars.ECR_REPOSITORY}}:$IMAGE_TAG .
+          docker build --build-arg MAIL_USERNAME=${{ secrets.MAIL_USERNAME }} --build-arg MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }} --build-arg MAIL_FROM_ADDRESS=${{ secrets.MAIL_FROM_ADDRESS }} --build-arg DB_CONNECTION=${{ secrets.DB_CONNECTION }} --build-arg DB_HOST=${{ secrets.DB_HOST }} --build-arg DB_PORT=${{ secrets.DB_PORT }} --build-arg DB_DATABASE=${{ secrets.DB_DATABASE }} --build-arg DB_USERNAME=${{ secrets.DB_USERNAME }} --build-arg DB_PASSWORD=${{ secrets.DB_PASSWORD }} -t $ECR_REGISTRY/${{vars.ECR_REPOSITORY}}:$IMAGE_SHA_TAG .
+          docker push $ECR_REGISTRY/${{vars.ECR_REPOSITORY}}:$IMAGE_TAG
+          docker push $ECR_REGISTRY/${{vars.ECR_REPOSITORY}}:$IMAGE_SHA_TAG
+          
       - name: Push the Docker Image to lightsail
         env: 
           IMAGE_SHA_TAG: ${{ github.sha }}
