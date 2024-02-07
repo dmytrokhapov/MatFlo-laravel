@@ -2,26 +2,6 @@ FROM php:8.1-fpm
 
 WORKDIR /var/www/html
 
-ARG MAIL_USERNAME
-ARG MAIL_PASSWORD
-ARG MAIL_FROM_ADDRESS
-ARG DB_CONNECTION
-ARG DB_HOST
-ARG DB_PORT
-ARG DB_DATABASE
-ARG DB_USERNAME
-ARG DB_PASSWORD
-
-ENV MAIL_USERNAME=${MAIL_USERNAME}
-ENV MAIL_PASSWORD=${MAIL_PASSWORD}
-ENV MAIL_FROM_ADDRESS=${MAIL_FROM_ADDRESS}
-ENV DB_CONNECTION=${DB_CONNECTION}
-ENV DB_HOST=${DB_HOST}
-ENV DB_PORT=${DB_PORT}
-ENV DB_DATABASE=${DB_DATABASE}
-ENV DB_USERNAME=${DB_USERNAME}
-ENV DB_PASSWORD=${DB_PASSWORD}
-
 RUN apt-get update && apt-get install -y \
     curl \
     git \
@@ -43,8 +23,6 @@ COPY default /etc/nginx/sites-available/default
 
 COPY . .
 
-RUN mv .env.example .env
-
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php \
     && mv composer.phar /usr/local/bin/composer
@@ -56,13 +34,13 @@ RUN apt install redis-server -y
 RUN chown -R www-data:www-data /var/www/html
 RUN chmod -R 777 public storage
 
-#RUN echo '#!/bin/bash \n\
-#service redis-server start \n\
-#php-fpm & \n\
-#nginx -g "daemon off;"' > /entrypoint.sh
-
-RUN chmod +x entrypoint.sh
+RUN echo '#!/bin/bash \n\
+service redis-server start \n\
+php-fpm & \n\
+service nginx start \n\
+tail -f /dev/null' > /entrypoint.sh
 
 EXPOSE 80
 
-ENTRYPOINT ["./entrypoint.sh"]
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
