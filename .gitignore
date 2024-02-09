@@ -1,3 +1,13 @@
+chain/build
+chain/node_modules
+new-matflo.pem
+concrete_chain_laravel.sql
+db/*
+oldcodes
+documents
+documents-for db and server configuration
+.env.local
+
 /.phpunit.cache
 /node_modules
 /public/build
@@ -6,6 +16,7 @@
 /public/ImportExcelFiles
 /storage/*.key
 /vendor
+.env
 .env.backup
 .env.production
 .phpunit.result.cache
@@ -18,4 +29,3 @@ yarn-error.log
 /.idea
 /.vscode
 /.example
-
