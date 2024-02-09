@@ -6,6 +6,7 @@ db/*
 oldcodes
 documents
 documents-for db and server configuration
+.env.local
 
 /.phpunit.cache
 /node_modules
