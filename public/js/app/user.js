@@ -25,58 +25,6 @@ $(document).ready(function(){
   }, 3000);
 });
 
-$(window).on("coinbaseReady", function ()
-{
-   console.log("dfdf",globUserContract)
-    getUser(globUserContract, function(data){
-        console.log("data",data)
-      globCurrentUser = data ;
-      console.log("Dfdf",globCurrentUser)
-      if(data.isActive == true){
-        if(data.role.trim().length <=0 )
-        {
-          swal("Oops","Your Account was not found , Please contact Admin ","error");
-          setTimeout(function()
-          {
-            window.location = "/";
-          },1000);
-          return ;
-        }
-      }else{
-          swal({
-              title: "Insufficient Access",
-              text: "Your Account is blocked by Admin, Please contact Admin.",
-              type: "error",
-              showCancelButton: false,
-              confirmButtonColor: "#DD6B55",
-              confirmButtonText: "Ok",
-              closeOnConfirm: false
-            },
-            function(isConfirm)
-            {
-              if(isConfirm==true)
-              {
-                $("#logout").trigger('click');
-              }
-            });
-          return ;
-      }
-      if(data.profileHash !== '') {
-        $("#userImage").attr('src','https://ipfs.io/ipfs/'+data.profileHash);
-      }
-
-
-      if(data.role.trim() != "PRODUCER") $("#btnBatch").hide();
-      if (data.role.trim() == "CALCULATOR") {
-
-      }
-
-
-    });
-
-    getCultivationEvents(globMainContract);
-});
-
 /* --------------- User Section -----------------------*/
 $("#editUser").on('click',function(){
   startLoader();

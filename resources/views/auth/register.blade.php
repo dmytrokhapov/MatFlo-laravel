@@ -115,8 +115,6 @@
                 submitHandler: function(form, event) {
                     event.preventDefault();
                     $('#submitBtn').prop('disabled', true);
-                    const wallet = ethers.Wallet.createRandom();
-                    $("#wallet").val(wallet.address);
                     //signUp();
                     form.submit();
                     //submit via ajax

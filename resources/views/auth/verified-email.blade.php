@@ -10,7 +10,4 @@
         </div>
     </div>
     <script type="text/javascript" src="{{asset('js/app/auth.js')}}"></script>
-    <script>
-        postSignUp("{{\Auth::user()->wallet}}", "{{\Auth::user()->role}}", "");
-    </script>
 </x-guest-layout>

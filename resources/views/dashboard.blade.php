@@ -34,7 +34,9 @@
                 <div class="card-header">
                   <h3 class="card-title">WorkFlows</h3>
                   <h4>
-                    <a href="javascript:void(0);" id="btnBatch" class="create-btn btn btn-info float-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light" onclick="javascript:$('#batchFormModel').modal();"><i class="fa fa-plus"></i>Create Batch</a>
+                    @if(Auth::user()->role == 'PRODUCER')
+                    <a href="javascript:void(0);" id="btnBatch" class="create-btn btn btn-info float-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light" onclick="javascript:$('#batchFormModel').modal();"><i class="fa fa-plus"></i>Upload Document</a>
+                    @endif
                   </h4>
                 </div>
                 <!-- /.card-header -->
@@ -51,23 +53,15 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header border-0">
-                                    <h3 class="modal-title">Add Batch</h3>
+                                    <h3 class="modal-title">Upload Document</h3>
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 </div>
                                 <div class="modal-body">
                                     <form id="batchForm" class="createForm" onsubmit="return false;">
                                     <fieldset style="border:0;">
                                         <div class="form-group">
-                                            <label class="control-label" for="registrationNo">Registration No <i class="red">*</i></label>
-                                            <input type="text" class="form-control" id="registrationNo" name="registrationNo" placeholder="Registration No" data-parsley-required="true">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label" for="producerName">Producer Name <i class="red">*</i></label>
+                                            <label class="control-label" for="producerName">Document Name <i class="red">*</i></label>
                                             <input type="text" class="form-control" id="producerName" name="producerName" placeholder="Producer Name" data-parsley-required="true">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label" for="factoryAddress">Factory Address <i class="red">*</i></label>
-                                            <input class="form-control" id="factoryAddress" name="factoryAddress" placeholder="Factory Address" data-parsley-required="true">
                                         </div>
                                     </fieldset>
 
