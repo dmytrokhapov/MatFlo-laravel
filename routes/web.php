@@ -5,11 +5,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\FarmerVendorController;
 use App\Http\Controllers\LandDetailController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WorkFlowController;
 use App\Http\Controllers\WorkspaceController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -36,11 +38,14 @@ Route::get('/', function () {
 // Route::get('/dashboard', function () {
 //     Route::post('/d', [WorkspaceController::class,'export'])->name('export');
 // })->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard')->middleware(['auth', 'verified']);
 
-Route::middleware('auth','verified')->group(function () {
 
-    Route::get('/view-batch/{batchNo}/{txn}', [DashboardController::class,'viewBatch'])->name('viewBatch');
+Route::middleware(['auth'])->group(function () {
+    // Route::middleware(['role:ADMIN,PRODUCER'])->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // });
+
+    Route::get('/view-batch/{batchNo}', [DashboardController::class,'viewBatch'])->name('viewBatch');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::get('/change-password', [ProfileController::class, 'changepasswordFrom'])->name('profile.change-password');
@@ -48,8 +53,6 @@ Route::middleware('auth','verified')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::post('/workspace/getUsersList', [WorkspaceController::class, 'getUsersList'])->name('getUsersList');
-
-
 
     //users routers
     Route::group(['middleware' => 'adminRoutes'], function () {
@@ -65,11 +68,34 @@ Route::middleware('auth','verified')->group(function () {
         // Update User
         Route::post('/updateUser', [UserController::class, 'updateUser'])->name('updateUser');
     });
-    
+
+    // Producer-only routes
+    Route::middleware(['producer'])->group(function () {
+
+        // file upload route
+        // Route::post('/dashboard/upload', [DocumentController::class, 'upload'])->name('dashboard.upload')->middleware('web');
+        // Route::get('/documents/{document}/download', [DocumentController::class, 'download'])->name('document.download');
+    });
+
+    Route::post('/dashboard/upload', [DocumentController::class, 'upload'])->name('dashboard.upload')->middleware('web');
+    Route::post('/dashboard/sign', [DocumentController::class, 'sign'])->name('dashboard.sign')->middleware('web');
+    Route::get('/documents/{document}/download', [DocumentController::class, 'download'])->name('document.download');
+
+    // Verifier-only routes
+    Route::middleware(['verifier'])->group(function () {
+    // Verifier routes here
+
+        Route::get('/documents/{document}/accept', [DocumentController::class, 'accept'])->name('verifier.document.accept');
+        Route::get('/documents/{document}/preview', [DocumentController::class, 'preview'])->name('verifier.document.preview');
+        // Route::get('/documents/{document}/sign', [DocumentController::class, 'sign'])->name('verifier.document.sign');
+        Route::get('/documents/{document}/reject', [DocumentController::class, 'reject'])->name('verifier.document.reject');
+        Route::get('/documents/{document}/verify', [DocumentController::class, 'show'])->name('verifier.document.verify');
+    });
+
     //company routes
     Route::get('/workflow/create', [WorkFlowController::class, 'create'])->name('workflow.create');
     // Route::post('/workflow/store', [UserController::class, 'store'])->name('workflow.store');
-    
+
     // Route::post('/getCompanyList', [WorkFlowController::class, 'getCompanyList'])->name('getCompanyList');
     // Route::delete('/deleteCompany/{id}', [WorkFlowController::class, 'destroy'])->name('deleteCompany');
     // Route::get('/companies/create', [WorkFlowController::class, 'create'])->name('companies.create');
@@ -77,8 +103,6 @@ Route::middleware('auth','verified')->group(function () {
     // Route::get('/companies/{id}/edit', [WorkFlowController::class, 'edit'])->name('companies.edit');
     // Route::put('/companies/update', [WorkFlowController::class, 'update'])->name('companies.update');
     // Route::post('/companies/updateStatus', [WorkFlowController::class, 'updateStatus'])->name('companies.updateStatus');
-
-
     });
 
 require __DIR__.'/auth.php';

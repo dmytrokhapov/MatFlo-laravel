@@ -11,13 +11,14 @@ class AdminRoutes
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle(Request $request, Closure $next): Response
     {
-        //admin user type is 2
-        if(\Auth::user()->role != 'ADMIN'){
-        // if(\Auth::user()->user_type != 2){
+        // Check if user is not an admin (assuming 'ADMIN' role)
+        if (\Auth::user()->role !== 'ADMIN') {
             return abort(401);
         }
 

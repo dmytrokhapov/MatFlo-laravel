@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="{{asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
   <!-- Theme style -->
-  <link rel="stylesheet" href="{{asset('css/adminlte.min.css')}}">
+  <link rel="stylesheet" href="{{asset('css/adminlte.css')}}">
   <link rel="stylesheet" href="{{asset('assets/css/toastr.min.css')}}">
   <link rel="stylesheet" href="{{asset('css/sweetAlert.css')}}">
   {{-- <link href="{{asset('css/style.css')}}" rel="stylesheet"> --}}
@@ -125,9 +125,9 @@
 <script src="{{asset('js/jquery.nice-select.min.js')}}"></script>
 <script>
   $(document).ready(function() {
-    $('.custom-select-design').niceSelect();      
+    $('.custom-select-design').niceSelect();
     FastClick.attach(document.body);
-  });    
+  });
 </script>
 <!-- AdminLTE for demo purposes -->
 {{-- <script src="{{asset('dist/js/demo.js')}}"></script> --}}
@@ -148,11 +148,12 @@
     }
 @endphp
 <body class="hold-transition sidebar-mini {{$className}}">
-  {{-- <div class="preloader">
-      <div class="cssload-speeding-wheel"></div>
-  </div> --}}
+  
 <div class="wrapper">
   <!-- Navbar -->
+  <div class="preloader">
+    <span>Please wait... </span>
+  </div>
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
 

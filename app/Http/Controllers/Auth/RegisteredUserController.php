@@ -10,9 +10,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator; 
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
-use Validator;
 
 class RegisteredUserController extends Controller
 {
@@ -49,19 +49,20 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        // $request->merge(['wallet' => 0]);
 
-        //dd($request->all());
+
+        // dd($request->all());
         $user = User::create([
             'role' => $request->role,
             'user_name' => $request->name,
             'email' => $request->email,
-            'wallet' => $request->wallet,
             'password' => Hash::make($request->password),
         ]);
 
         event(new Registered($user));
 
-        Auth::login($user);
+        // Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
     }

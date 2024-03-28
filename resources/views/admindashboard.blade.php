@@ -118,7 +118,7 @@ input[type="checkbox"].js-switch:checked:after {
                     <figure><img src="{{asset('img/register-user.svg')}}"></figure>
                     <div class="inner">
                       <p>Regitered Users</p>
-                      <h3 id="totalUsers" >0</h3>
+                      <h3 id="totalUsers" >{{count($res)}}</h3>
                       
                     </div>
 
@@ -133,7 +133,7 @@ input[type="checkbox"].js-switch:checked:after {
                     <div class="inner">
                       
                       <p>Total Role</p>
-                      <h3>3</h3>
+                      <h3>2</h3>
                     </div>
                     {{-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> --}}
                   </div>
@@ -146,7 +146,7 @@ input[type="checkbox"].js-switch:checked:after {
                     <div class="inner">
                       
                       <p>Total Batches</p>
-                      <h3  id="totalBatch">0</h3>
+                      <h3  id="totalBatch">{{count($documentAll)}}</h3>
                     </div>
                     {{-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> --}}
                   </div>
@@ -157,10 +157,7 @@ input[type="checkbox"].js-switch:checked:after {
             @endif
             <div class="card work-flow">
                 <div class="card-header">
-                  <h3 class="card-title m-0">WorkFlows</h3>
-                  <h4>
-                    <a href="javascript:void(0);" id="btnBatch" class="btn btn-link hidden-sm hidden-xs waves-effect waves-light" onclick="javascript:$('#workflowFormModel').modal();"><i class="fa fa-plus mr-2"></i>Add Workflow</a>
-                  </h4>
+                  <h3 class="card-title m-0">Documents</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -168,18 +165,47 @@ input[type="checkbox"].js-switch:checked:after {
                         <table class="table product-overview" id="adminCultivationTable">
                             <thead>
                                 <tr>
-                                    <th>Batch ID</th>
-                                    <th>QR-Code</th>
+                                    <th>Document ID</th>
+                                    <th>Name</th>
                                     <th>Producer</th>
-                                    <th>Calculator</th>
-                                    <th>Verifier</th>
-                                    <th>Actions</th>
+                                    <th>Created Date</th>
+                                    <th>Status</th>
+                                    <th>Note</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                 <tr>
-                                     <td colspan="7" align="center">No Data Available</td>
-                                 </tr>
+                            @forelse($documentAll as $document)
+                            <tr>
+                              <td><a href="{{route('viewBatch', $document->document_id)}}" target="_blank">{{ $document->document_id }}</a></td>
+                              <td>{{ $document->name }}</td>
+                              <td>{{ $document->producer->user_name ?? null }}</td>
+                              <td>{{ $document->created_at->format('d M, Y') }}</td>
+                              <td>
+                                  @php
+                                      $badgeClass = '';
+                                      switch($document->status) {
+                                          case 'Ready for preview':
+                                              $badgeClass = 'badge-warning';
+                                              break;
+                                          case 'Signing':
+                                              $badgeClass = 'badge-primary';
+                                              break;
+                                          case 'Signed':
+                                              $badgeClass = 'badge-success';
+                                              break;
+                                          default:
+                                              $badgeClass = 'badge-danger';
+                                      }
+                                  @endphp
+                                  <span class="badge badge {{ $badgeClass }}">{{ $document->status }}</span>
+                              </td>
+                              <td>{{ $document->note ?? 'N/A' }}</td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="6" align="center">No Data Available</td>
+                            </tr>
+                            @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -198,15 +224,25 @@ input[type="checkbox"].js-switch:checked:after {
                     <table class="table product-overview" id="tblUser">
                         <thead>
                             <tr>
-                                <th>User Address</th>
+                                <th>Email</th>
+                                <th>Name</th>
                                 <th>Role</th>
-                                <th>Actions</th>
+                                <th>Joined Date</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td colspan="3" align="center">No Data Available</td>
-                            </tr>
+                          @forelse($res as $user)
+                          <tr>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->user_name }}</td>
+                            <td>{{ $user->role }}</td>
+                            <td>{{ $user->created_at }}</td>
+                          </tr>
+                          @empty
+                          <tr>
+                              <td colspan="4" align="center">No Data Available</td>
+                          </tr>
+                          @endforelse
                         </tbody>
                     </table>
                   
@@ -318,6 +354,4 @@ input[type="checkbox"].js-switch:checked:after {
       </script>
     <script type="text/javascript" src="{{asset('js/app/admin.js')}}"></script>
     
-
-
 </x-app-layout>

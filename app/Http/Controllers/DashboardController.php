@@ -3,25 +3,40 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Document;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index(){
-        $res = User::select('user_name', 'wallet')->where('role','<>','ADMIN')->get()->toArray();
-        if(\Auth::user()->role == 'ADMIN'){
-            return view('admindashboard',compact('res'));
-        }
-        return view('dashboard',compact('res'));
+    public function index()
+    {
+        $userRole = \Auth::user()->role;
+        $res = User::where('role', '<>', 'ADMIN')->get();
+        $userId = auth()->id();
+        $documentAll = Document::with(['producer', 'verifier'])->get();
+        $documents = Document::with(['producer', 'verifier'])->where('producer_id', $userId)->latest()->paginate(10);
+        $documentsForReview = Document::with(['producer', 'verifier'])->where('verifier_id', $userId)->latest()->paginate(10);
 
+        if ($userRole === 'ADMIN') {
+            return view('admindashboard', compact('res', 'documentAll'));
+        } elseif ($userRole === 'PRODUCER') {
+            return view('dashboard')->with('documents', $documents);
+        }elseif ($userRole === 'VERIFIER') {
+            return view('verifierdashboard')->with('documents', $documentsForReview);
+        }
+
+        return view('dashboard')->with('documents', $documents);
     }
 
-    public function viewBatch($batchNo,$txn){
-        if(!isset($batchNo) || (isset($batchNo) && $batchNo=='') &&
-        !isset($txn) || (isset($txn) && $txn=='')){
-            return redirect(route('dashboard'));
+    public function viewBatch($batchNo)
+    {
+        if (!isset($batchNo)) {
+            return redirect()->route('dashboard');
         }
-        //dd($batchNo,$txn);
-        return view('view_batch',compact('batchNo','txn'));
+
+        $document = Document::with(['producer', 'verifier'])->where('document_id', $batchNo)->first();
+
+        return view('view_batch', compact('document'));
     }
+
 }

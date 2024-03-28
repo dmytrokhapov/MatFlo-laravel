@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -16,11 +15,6 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens, HasFactory, Notifiable;
     use SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'user_name',
         'email',
@@ -31,27 +25,22 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
-        // 'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
 
     public function getCreatedAtAttribute($date) {
-		return Carbon::parse($date)->format("Y-m-d");
-	}
+        return Carbon::parse($date)->format("Y-m-d");
+    }
+
+    // Method to check if user has a specific role
+    public function hasRole($role)
+    {
+        return $this->role === $role;
+    }
 }
