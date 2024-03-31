@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout :search=$search>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.css">
 
     <script type="text/javascript" src="{{asset('js/app/auth.js')}}"></script>

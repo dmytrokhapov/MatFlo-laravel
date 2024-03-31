@@ -165,8 +165,8 @@
       </ul>
 
       <div class="search">
-        <input type="text" placeholder="Search here...">
-        <img src="{{asset('img/search-top.svg')}}">
+        <input id="searchQuery" type="text" placeholder="Search here..." onkeypress="inputKeyClicked(event)" value="{{$attributes['search']}}">
+        <img style="cursor: pointer" src="{{asset('img/search-top.svg')}}" onClick="searchDocument()">
       </div>
 
       <!-- Right navbar links -->
@@ -313,4 +313,15 @@
 </div>
 
 </body>
+<script>
+  function searchDocument() {
+    window.location.href = '/dashboard?q=' + $("#searchQuery").val();
+  }
+
+  function inputKeyClicked(e) {
+    if(e.keyCode == 13) {
+      window.location.href = '/dashboard?q=' + $("#searchQuery").val();
+    }
+  }
+</script>
 </html>

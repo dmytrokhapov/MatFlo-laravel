@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout :search=$search>
     <script type="text/javascript" src="{{asset('js/app/auth.js')}}"></script>
 
 <style>
