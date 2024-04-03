@@ -62,7 +62,6 @@ class DocumentController extends Controller
 
         $bucket = 'matflo';
         $key = str_replace(env("AWS_URL"), "", $document->file_path);
-
         try {
             $result = $s3->getObject([
                 'Bucket' => $bucket,
@@ -80,7 +79,7 @@ class DocumentController extends Controller
         } catch (\Exception $e) {
             // Tangani kesalahan jika gagal mengambil file
             \Log::error('Error accessing S3 file: ' . $e->getMessage());
-            return response()->json(['message' => 'Error accessing S3 file' . $e->getMessage()], 500);
+            return response()->json(['message' => 'Error accessing S3 file' . $e->getMessage() . "AWS_URL: ". env("AWS_URL")], 500);
         }
     }
 
