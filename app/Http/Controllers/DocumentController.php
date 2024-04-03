@@ -80,7 +80,7 @@ class DocumentController extends Controller
         } catch (\Exception $e) {
             // Tangani kesalahan jika gagal mengambil file
             \Log::error('Error accessing S3 file: ' . $e->getMessage());
-            return response()->json(['message' => 'Error accessing S3 file'], 500);
+            return response()->json(['message' => 'Error accessing S3 file' . $e->getMessage()], 500);
         }
     }
 
