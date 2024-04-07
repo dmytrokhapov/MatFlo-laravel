@@ -1,7 +1,7 @@
 <x-app-layout :search=$search>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.css">
 
-    <script type="text/javascript" src="{{asset('js/app/auth.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('js/app/auth.js') }}"></script>
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -20,22 +20,23 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            @if(request()->has('success')) <div class="alert alert-success"> {{ request()->get('success') }} </div>
+            @if (request()->has('success'))
+                <div class="alert alert-success"> {{ request()->get('success') }} </div>
             @endif
-            @if(request()->has('error')) <div class="alert alert-danger"> {{ request()->get('error') }} </div> @endif
-            @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-            @if(session('success') == "Email verified successfully.")
-
-            <script>
-            //setTimeout(() => {
-            postSignUp("{{\Auth::user()->wallet}}", "{{\Auth::user()->role}}", "");
-            // }, 1000);
-            </script>
-
+            @if (request()->has('error'))
+                <div class="alert alert-danger"> {{ request()->get('error') }} </div>
             @endif
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+                @if (session('success') == 'Email verified successfully.')
+                    <script>
+                        //setTimeout(() => {
+                        postSignUp("{{ \Auth::user()->wallet }}", "{{ \Auth::user()->role }}", "");
+                        // }, 1000);
+                    </script>
+                @endif
             @endif
 
             <div class="card work-flow">
@@ -54,12 +55,15 @@
                     <!-- /.row -->
 
                     <!-- Preview Document Modal -->
-                    <div id="previewDocumentModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-top: 20px;">
-                        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+                    <div id="previewDocumentModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+                        aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-top: 20px;">
+                        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
+                            role="document">
                             <div class="modal-content">
                                 <div class="modal-header border-0">
                                     <h3 class="modal-title">Preview Document</h3>
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">×</button>
                                 </div>
                                 <div class="modal-body">
                                     <!-- Loading indicator -->
@@ -69,9 +73,9 @@
                                         </div>
                                         <div>Loading...</div>
                                     </div>
-
-                                    <img id="previewImage" src="" style="width: 100%; max-height: 500px; display: none;">
-                                    <iframe id="previewFrame" src="" frameborder="0" style="width: 100%; height: 500px;"></iframe>
+                                    <div id="previewImage"></div>
+                                    {{-- <img id="previewImage" src="" style="width: 100%; display: none;">
+                                    <iframe id="previewFrame" src="" frameborder="0" style="width: 100%; height: 500px;"></iframe> --}}
                                 </div>
                                 <div class="modal-footer">
                                     <a id="downloadButton" href="#" class="btn btn-primary btn-sm">Download</a>
@@ -82,8 +86,10 @@
                     <!-- End Preview Document Modal -->
 
                     <!-- Verify Document Modal -->
-                    <div id="verifyDocumentModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-top: 20px;">
-                        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+                    <div id="verifyDocumentModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+                        aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-top: 20px;">
+                        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
+                            role="document">
                             <div class="modal-content">
                                 <div class="modal-header border-0">
                                     <h3 class="modal-title">Sign Document</h3>
@@ -91,19 +97,24 @@
                                         aria-hidden="true">×</button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="{{ route('dashboard.sign') }}" id="batchForm" class="createForm" method="post" enctype="multipart/form-data">
+                                    <form action="{{ route('dashboard.sign') }}" id="batchForm" class="createForm"
+                                        method="post" enctype="multipart/form-data">
                                         @csrf
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <fieldset style="border:0;">
                                                     <div class="form-group">
-                                                        <label class="control-label" for="document_name">Document Name</label>
-                                                        <input type="text" class="form-control" id="document_name" name="document_name" placeholder="Document Name" readonly>
+                                                        <label class="control-label" for="document_name">Document
+                                                            Name</label>
+                                                        <input type="text" class="form-control" id="document_name"
+                                                            name="document_name" placeholder="Document Name" readonly>
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label class="control-label" for="document_id">Document ID</label>
-                                                        <input type="text" class="form-control" id="document_id" name="document_id" placeholder="Document ID" readonly>
+                                                        <label class="control-label" for="document_id">Document
+                                                            ID</label>
+                                                        <input type="text" class="form-control" id="document_id"
+                                                            name="document_id" placeholder="Document ID" readonly>
                                                     </div>
                                                 </fieldset>
                                             </div>
@@ -112,12 +123,15 @@
                                                 <fieldset style="border:0;">
                                                     <div class="form-group">
                                                         <label class="control-label" for="producer_id">Producer</label>
-                                                        <input type="text" class="form-control" id="producer_id" name="producer_id" placeholder="Producer Name" readonly>
+                                                        <input type="text" class="form-control" id="producer_id"
+                                                            name="producer_id" placeholder="Producer Name" readonly>
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label class="control-label" for="created_date">Create Date</label>
-                                                        <input type="text" class="form-control" id="created_date" name="created_date" placeholder="Created Date" readonly>
+                                                        <label class="control-label" for="created_date">Create
+                                                            Date</label>
+                                                        <input type="text" class="form-control" id="created_date"
+                                                            name="created_date" placeholder="Created Date" readonly>
                                                     </div>
                                                 </fieldset>
                                             </div>
@@ -139,7 +153,8 @@
                                     </form>
                                 </div>
                                 <div class="modal-footer border-0">
-                                    <button type="button" class="btn submit-btn" id="submitButton" disabled>Submit</button>
+                                    <button type="button" class="btn submit-btn" id="submitButton"
+                                        disabled>Submit</button>
                                 </div>
                             </div>
                             <!-- Progress bar -->
@@ -174,55 +189,63 @@
                                     </thead>
                                     <tbody>
                                         @forelse($documents as $document)
-                                        <tr>
-                                            <td><a href="{{route('viewBatch', $document->document_id)}}" target="_blank">{{ $document->document_id }}</a></td>
-                                            <td>{{ $document->name }}</td>
-                                            <td>{{ $document->producer->user_name ?? null }}</td>
-                                            <td>{{ $document->created_at->format('d M, Y') }}</td>
-                                            <td>
-                                                @php
-                                                    $badgeClass = '';
-                                                    switch($document->status) {
-                                                        case 'Ready for preview':
-                                                            $badgeClass = 'badge-warning';
-                                                            break;
-                                                        case 'Signing':
-                                                            $badgeClass = 'badge-primary';
-                                                            break;
-                                                        case 'Signed':
-                                                            $badgeClass = 'badge-success';
-                                                            break;
-                                                        default:
-                                                            $badgeClass = 'badge-danger';
-                                                    }
-                                                @endphp
-                                                <span class="badge badge {{ $badgeClass }}">{{ $document->status }}</span>
-                                            </td>
-                                            <td>{{ $document->note ?? 'N/A' }}</td>
-                                            <td>
-                                                <!-- Include other actions like sign, reject, verify -->
-                                                <a href="{{ route('verifier.document.accept', $document->id) }}" class="btn btn-primary btn-sm @if($document->status !== 'Ready for preview') disabled @endif" onclick="startLoader(); return confirm('Are you sure?')">Accept</a>
-                                                <a href="{{ route('verifier.document.reject', $document->id) }}" class="btn btn-danger btn-sm @if($document->status !== 'Ready for preview' && $document->status !== 'Signing') disabled @endif" onclick="return confirm('Are you sure?')">Reject</a>
+                                            <tr>
+                                                <td><a href="{{ route('viewBatch', $document->document_id) }}"
+                                                        target="_blank">{{ $document->document_id }}</a></td>
+                                                <td>{{ $document->name }}</td>
+                                                <td>{{ $document->producer->user_name ?? null }}</td>
+                                                <td>{{ $document->created_at->format('d M, Y') }}</td>
+                                                <td>
+                                                    @php
+                                                        $badgeClass = '';
+                                                        switch ($document->status) {
+                                                            case 'Ready for preview':
+                                                                $badgeClass = 'badge-warning';
+                                                                break;
+                                                            case 'Signing':
+                                                                $badgeClass = 'badge-primary';
+                                                                break;
+                                                            case 'Signed':
+                                                                $badgeClass = 'badge-success';
+                                                                break;
+                                                            default:
+                                                                $badgeClass = 'badge-danger';
+                                                        }
+                                                    @endphp
+                                                    <span
+                                                        class="badge badge {{ $badgeClass }}">{{ $document->status }}</span>
+                                                </td>
+                                                <td>{{ $document->note ?? 'N/A' }}</td>
+                                                <td>
+                                                    <!-- Include other actions like sign, reject, verify -->
+                                                    <a href="{{ route('verifier.document.accept', $document->id) }}"
+                                                        class="btn btn-primary btn-sm @if ($document->status !== 'Ready for preview') disabled @endif"
+                                                        onclick="startLoader(); return confirm('Are you sure?')">Accept</a>
+                                                    <a href="{{ route('verifier.document.reject', $document->id) }}"
+                                                        class="btn btn-danger btn-sm @if ($document->status !== 'Ready for preview' && $document->status !== 'Signing') disabled @endif"
+                                                        onclick="return confirm('Are you sure?')">Reject</a>
 
-                                                @if(Auth::user()->role == 'VERIFIER')
-                                                    <a href="javascript:void(0);" class="btn btn-warning btn-sm previewBtn"
-                                                        data-document-path="{{ route('verifier.document.preview', $document->id) }}"
-                                                        data-document-download="{{ route('document.download', $document->id) }}"
-                                                        data-document-id="{{ $document->id }}"
-                                                        onclick="previewDocument(this)">Preview</a>
+                                                    @if (Auth::user()->role == 'VERIFIER')
+                                                        <a href="javascript:void(0);"
+                                                            class="btn btn-warning btn-sm previewBtn"
+                                                            data-document-path="{{ route('verifier.document.preview', $document->id) }}"
+                                                            data-document-download="{{ route('document.download', $document->id) }}"
+                                                            data-document-id="{{ $document->id }}"
+                                                            onclick="previewDocument(this)">Preview</a>
 
-                                                    <a href="javascript:void(0);" class="btn btn-success btn-sm previewBtn @if($document->status !== 'Signing') disabled @endif"
-                                                        data-document-form="{{ $document }}"
-                                                        data-document-id="{{ route('verifier.document.verify', $document->id) }}"
-                                                        onclick="verifyDocument(this)">Verify</a>
-                                                @endif
+                                                        <a href="javascript:void(0);"
+                                                            class="btn btn-success btn-sm previewBtn @if ($document->status !== 'Signing') disabled @endif"
+                                                            data-document-form="{{ $document }}"
+                                                            data-document-id="{{ route('verifier.document.verify', $document->id) }}"
+                                                            onclick="verifyDocument(this)">Verify</a>
+                                                    @endif
 
-                                            </td>
-                                        </tr>
+                                                </td>
+                                            </tr>
                                         @empty
-                                        <tr>
-                                            <td colspan="6" align="center">No Data Available</td>
-                                        </tr>
+                                            <tr>
+                                                <td colspan="6" align="center">No Data Available</td>
+                                            </tr>
                                         @endforelse
                                     </tbody>
                                 </table>
@@ -240,7 +263,8 @@
                                             </div>
 
                                             <div class="modal-body">
-                                                <form id="updateUserForm" class="createForm" onsubmit="return false;">
+                                                <form id="updateUserForm" class="createForm"
+                                                    onsubmit="return false;">
                                                     <fieldset style="border:0;">
                                                         <div class="form-group">
                                                             <label class="control-label" for="fullname">Full Name <i
@@ -252,15 +276,16 @@
                                                         <div class="form-group">
                                                             <label class="control-label" for="contactNumber">Contact
                                                                 No<i class="red">*</i></label>
-                                                            <input type="text" class="form-control" id="contactNumber"
-                                                                name="contactNumber" placeholder="Contact No."
-                                                                data-parsley-required="true" data-parsley-type="digits"
+                                                            <input type="text" class="form-control"
+                                                                id="contactNumber" name="contactNumber"
+                                                                placeholder="Contact No." data-parsley-required="true"
+                                                                data-parsley-type="digits"
                                                                 data-parsley-length="[10, 15]" maxlength="15">
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="control-label" for="role">Role </label>
-                                                            <select class="form-control" id="role" disabled="true"
-                                                                name="role">
+                                                            <select class="form-control" id="role"
+                                                                disabled="true" name="role">
                                                                 <option value="">Select Role</option>
                                                                 <option value="PRODUCER">Producer</option>
                                                                 <option value="CALCULATOR">Calculator</option>
@@ -397,8 +422,8 @@
 
                                         <div class="form-group">
                                             <label class="control-label" for="shipName">Ship Name</label>
-                                            <input type="text" class="form-control" id="shipName" name="shipName"
-                                                placeholder="Ship Name" data-parsley-required="true">
+                                            <input type="text" class="form-control" id="shipName"
+                                                name="shipName" placeholder="Ship Name" data-parsley-required="true">
                                         </div>
 
                                         <div class="form-group">
@@ -428,8 +453,8 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label" for="importerId">Importer Id</label>
-                                            <input type="number" min="1" class="form-control" id="importerId"
-                                                name="importerId" placeholder="Importer Id"
+                                            <input type="number" min="1" class="form-control"
+                                                id="importerId" name="importerId" placeholder="Importer Id"
                                                 data-parsley-required="true">
                                         </div>
 
@@ -460,9 +485,9 @@
                                         <div class="form-group">
                                             <label class="control-label" for="rostingDuration">Time for Roasting (in
                                                 Seconds)</label>
-                                            <input type="number" min="1" class="form-control" id="rostingDuration"
-                                                name="rostingDuration" placeholder="Time for roasting"
-                                                data-parsley-required="true">
+                                            <input type="number" min="1" class="form-control"
+                                                id="rostingDuration" name="rostingDuration"
+                                                placeholder="Time for roasting" data-parsley-required="true">
                                         </div>
 
                                         <div class="form-group">
@@ -477,8 +502,8 @@
                                             <label class="control-label" for="packageDateTime">Packaging Date &
                                                 Time</label>
                                             <input type="text" class="form-control datepicker-master"
-                                                id="packageDateTime" name="packageDateTime" placeholder="Packaging Date"
-                                                data-parsley-required="true">
+                                                id="packageDateTime" name="packageDateTime"
+                                                placeholder="Packaging Date" data-parsley-required="true">
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label" for="processorName">Processor Name</label>
@@ -511,10 +536,10 @@
         </div>
         <!-- /.container-fluid -->
     </section>
-    @if(\Auth::user())
-    <script>
-    globCoinbase = "{{\Auth::user()->wallet}}";
-    </script>
+    @if (\Auth::user())
+        <script>
+            globCoinbase = "{{ \Auth::user()->wallet }}";
+        </script>
     @endif
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
 
@@ -524,7 +549,7 @@
         const myDropzone = new Dropzone("#fileUpload", {
             url: "{{ route('dashboard.sign') }}",
             maxFilesize: 1024,
-            maxFiles:1,
+            maxFiles: 1,
             autoProcessQueue: false,
             acceptedFiles: ".pdf,.doc,.docx,.jpg,.jpeg,.png,.zip",
             addRemoveLinks: true,
@@ -557,7 +582,7 @@
                         console.log("Success: File uploaded successfully");
 
                         // var provider = new ethers.providers.JsonRpcProvider("@php echo env('RPC_URL') @endphp");
-		                // var wallet = new ethers.Wallet("@php echo env('PRIVATE_KEY') @endphp", provider);
+                        // var wallet = new ethers.Wallet("@php echo env('PRIVATE_KEY') @endphp", provider);
 
                         // var mainContract = new ethers.Contract("@php echo env('CONTRACT_ADDRESS') @endphp", DocChainAbi, wallet);
 
@@ -565,7 +590,7 @@
                         // tx.then(function(transaction) {
                         //     console.log(transaction.hash);
                         //     transaction.wait().then(function(transactionReceipt) {
-                                
+
                         //     }).catch(function(error) {
                         //         alert("Error: ", error.message);
                         //         return;
@@ -596,7 +621,9 @@
                     $('#submitButton').prop('disabled', false);
                     // Display progress bar when file is added
                     const progressBar = $('<div class="progress"></div>');
-                    progressBarInner = $('<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>').css('width', '0%');
+                    progressBarInner = $(
+                        '<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>'
+                    ).css('width', '0%');
                     progressBar.append(progressBarInner);
                     $(file.previewElement).append(progressBar);
                 });
@@ -668,45 +695,49 @@
             });
 
             $.ajax({
-                'url' : documentPath,
-                'type' : 'GET',
-                'data' : {
-                    'numberOfWords' : 10
+                'url': documentPath,
+                'type': 'GET',
+                'data': {
+                    'numberOfWords': 10
                 },
-                'success' : function(data, status, xhr) {
-                    var ct = xhr.getResponseHeader("content-type") || "";
-                    if (ct.indexOf('image') > -1 || ct.indexOf('pdf') > -1) {
-                        var contentType = documentPath.split('.').pop().toLowerCase();
+                'success': function(data, status, xhr) {
+                    console.log(data);
+                    // var ct = xhr.getResponseHeader("content-type") || "";
+                    // if (ct.indexOf('image') > -1 || ct.indexOf('pdf') > -1) {
+                    var contentType = documentPath.split('.').pop().toLowerCase();
+                    stopLoader();
+                    updatePreview(contentType, data);
+                    updateDownloadLink(documentDownload);
 
-                        updatePreview(contentType, documentPath);
-                        updateDownloadLink(documentDownload);
+                    $('#previewDocumentModal').modal('show');
+                    // } else {
+                    //     var contentType = documentPath.split('.').pop().toLowerCase();
+                    //     alert('Only PDF and images can be previewed. Otherwise will be downloaded.');
+                    //     updatePreview(contentType, documentPath);
+                    //     updateDownloadLink(documentDownload);
+                    //     stopLoader();
+                    // }
 
-                        $('#previewDocumentModal').modal('show');
-                    } else {
-                        var contentType = documentPath.split('.').pop().toLowerCase();
-                        alert('Only PDF and images can be previewed. Otherwise will be downloaded.');
-                        updatePreview(contentType, documentPath);
-                        updateDownloadLink(documentDownload);
-                        stopLoader();
-                    }
-                    
                 },
-                'error' : function(request,error)
-                {
-                    alert("Request: "+JSON.stringify(request));
+                'error': function(request, error) {
+                    alert("Request: " + JSON.stringify(request));
                 }
             });
         }
 
-        $('#previewDocumentModal').on('hidden.bs.modal', function () {
+        $('#previewDocumentModal').on('hidden.bs.modal', function() {
             $('#previewFrame').hide().attr('src', '');
-        })  
+        })
 
         function updatePreview(contentType, documentPath) {
-            var $previewImage = $('#previewImage');
-            var $previewFrame = $('#previewFrame');
-            $previewFrame.show().attr('src', documentPath);
-            
+            $("#previewImage").html('');
+            documentPath.forEach((document) => {
+                $("#previewImage").append('<img style="width: 100%;height: auto;" src="' + document + '" />');
+            });
+            // var $previewImage = $('#previewImage').show().attr('src', documentPath[0]);;
+            // var $previewFrame = $('#previewFrame');
+            // $previewFrame.show().attr('src', documentPath[0]);
+
         }
 
         function updateDownloadLink(downloadLink) {
@@ -741,9 +772,8 @@
             createdDateInput.value = createdDate.toLocaleDateString();
             noteInput.value = documentData.note;
         }
-
     </script>
-    <script type="text/javascript" src="{{asset('js/app/user.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('js/app/user.js') }}"></script>
 
 
 </x-app-layout>

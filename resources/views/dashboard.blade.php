@@ -1,7 +1,7 @@
 <x-app-layout :search=$search>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.css">
 
-    <script type="text/javascript" src="{{asset('js/app/auth.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('js/app/auth.js') }}"></script>
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -20,39 +20,40 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            @if(request()->has('success')) <div class="alert alert-success"> {{ request()->get('success') }} </div>@endif
-            @if(request()->has('error')) <div class="alert alert-danger"> {{ request()->get('error') }} </div> @endif
-            @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-            @if(session('success') == "Email verified successfully.")
-
-            <script>
-            // setTimeout(() => {
-            postSignUp("{{ \Auth::user()->role }}", "");
-            // }, 1000);
-            </script>
-
-
+            @if (request()->has('success'))
+                <div class="alert alert-success"> {{ request()->get('success') }} </div>
             @endif
+            @if (request()->has('error'))
+                <div class="alert alert-danger"> {{ request()->get('error') }} </div>
+            @endif
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+                @if (session('success') == 'Email verified successfully.')
+                    <script>
+                        // setTimeout(() => {
+                        postSignUp("{{ \Auth::user()->role }}", "");
+                        // }, 1000);
+                    </script>
+                @endif
             @endif
 
-            @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
             @endif
 
             <div class="card work-flow">
                 <div class="card-header">
                     <h3 class="card-title">WorkFlows</h3>
                     <h4>
-                        @if(Auth::user()->role == 'PRODUCER')
-                        <a href="javascript:void(0);" id="btnBatch"
-                            class="create-btn btn btn-info float-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light"
-                            onclick="javascript:$('#batchFormModel').modal();"><i class="fa fa-plus"></i>Upload
-                            Document</a>
+                        @if (Auth::user()->role == 'PRODUCER')
+                            <a href="javascript:void(0);" id="btnBatch"
+                                class="create-btn btn btn-info float-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light"
+                                onclick="javascript:$('#batchFormModel').modal();"><i class="fa fa-plus"></i>Upload
+                                Document</a>
                         @endif
                     </h4>
                 </div>
@@ -67,20 +68,26 @@
                     <!--row -->
                     <!-- /.row -->
 
-                    <div id="batchFormModel" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-top: 20px;">
+                    <div id="batchFormModel" class="modal fade" tabindex="-1" role="dialog"
+                        aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-top: 20px;">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header border-0">
                                     <h3 class="modal-title">Upload Document</h3>
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">×</button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="{{ route('dashboard.upload') }}" id="batchForm" class="createForm" method="post" enctype="multipart/form-data">
+                                    <form action="{{ route('dashboard.upload') }}" id="batchForm" class="createForm"
+                                        method="post" enctype="multipart/form-data">
                                         @csrf
                                         <fieldset style="border:0;">
                                             <div class="form-group">
-                                                <label class="control-label" for="documentName">Document Name <i class="red">*</i></label>
-                                                <input type="text" class="form-control" id="documentName" name="documentName" placeholder="Document Name" data-parsley-required="true">
+                                                <label class="control-label" for="documentName">Document Name <i
+                                                        class="red">*</i></label>
+                                                <input type="text" class="form-control" id="documentName"
+                                                    name="documentName" placeholder="Document Name"
+                                                    data-parsley-required="true">
                                             </div>
 
                                             <div class="form-group">
@@ -91,14 +98,16 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer border-0">
-                                        <button type="button" class="btn submit-btn" id="submitButton" disabled>Submit</button>
-                                    </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer border-0">
+                                    <button type="button" class="btn submit-btn" id="submitButton"
+                                        disabled>Submit</button>
+                                </div>
                                 <!-- Progress bar -->
                                 <div class="progress" style="display: none;">
-                                    <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                    <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 0%"
+                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
                                 </div>
                             </div>
                         </div>
@@ -128,43 +137,45 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ( $documents as $document )
-                                        <tr>
-                                            <td><a href="{{route('viewBatch', $document->document_id)}}" target="_blank">{{$document->document_id}}</a></td>
-                                            <td>{{$document->name}}</td>
-                                            <td>{{$document->producer->user_name ?? 'N/A'}}</td>
-                                            <td>{{$document->created_at->format('d M, Y')}}</td>
-                                            <td>{{$document->verifier->user_name ?? 'N/A'}}</td>
-                                            <td>
-                                                @php
-                                                    $badgeClass = '';
-                                                    switch($document->status) {
-                                                        case 'Ready for preview':
-                                                            $badgeClass = 'badge-warning';
-                                                            break;
-                                                        case 'Signing':
-                                                            $badgeClass = 'badge-primary';
-                                                            break;
-                                                        case 'Signed':
-                                                            $badgeClass = 'badge-success';
-                                                            break;
-                                                        default:
-                                                            $badgeClass = 'badge-danger';
-                                                    }
-                                                @endphp
-                                                <span class="badge badge {{ $badgeClass }}">{{ $document->status }}</span>
-                                            </td>
-                                            <td>{{$document->note ?? ''}}</td>
-                                            <td>{{$document->verified_at?->format('d M, Y') ?? ''}}</td>
-                                            <td>
-                                                @if(Auth::user()->role === 'PRODUCER')
-                                                <a href="{{ route('document.download', $document->id) }}"
-                                                    class="btn btn-primary btn-sm">Download</a>
-                                                @endif
-                                            </td>
+                                        @forelse ($documents as $document)
+                                            <tr>
+                                                <td><a href="{{ route('viewBatch', $document->document_id) }}"
+                                                        target="_blank">{{ $document->document_id }}</a></td>
+                                                <td>{{ $document->name }}</td>
+                                                <td>{{ $document->producer->user_name ?? 'N/A' }}</td>
+                                                <td>{{ $document->created_at->format('d M, Y') }}</td>
+                                                <td>{{ $document->verifier->user_name ?? 'N/A' }}</td>
+                                                <td>
+                                                    @php
+                                                        $badgeClass = '';
+                                                        switch ($document->status) {
+                                                            case 'Ready for preview':
+                                                                $badgeClass = 'badge-warning';
+                                                                break;
+                                                            case 'Signing':
+                                                                $badgeClass = 'badge-primary';
+                                                                break;
+                                                            case 'Signed':
+                                                                $badgeClass = 'badge-success';
+                                                                break;
+                                                            default:
+                                                                $badgeClass = 'badge-danger';
+                                                        }
+                                                    @endphp
+                                                    <span
+                                                        class="badge badge {{ $badgeClass }}">{{ $document->status }}</span>
+                                                </td>
+                                                <td>{{ $document->note ?? '' }}</td>
+                                                <td>{{ $document->verified_at?->format('d M, Y') ?? '' }}</td>
+                                                <td>
+                                                    @if (Auth::user()->role === 'PRODUCER')
+                                                        <a href="{{ route('document.download', $document->id) }}"
+                                                            class="btn btn-primary btn-sm">Download</a>
+                                                    @endif
+                                                </td>
                                             @empty
-                                            <td colspan="7" align="center">No Data Available</td>
-                                        </tr>
+                                                <td colspan="7" align="center">No Data Available</td>
+                                            </tr>
                                         @endforelse
                                     </tbody>
                                 </table>
@@ -183,7 +194,8 @@
                                             </div>
 
                                             <div class="modal-body">
-                                                <form id="updateUserForm" class="createForm" onsubmit="return false;">
+                                                <form id="updateUserForm" class="createForm"
+                                                    onsubmit="return false;">
                                                     <fieldset style="border:0;">
                                                         <div class="form-group">
                                                             <label class="control-label" for="fullname">Full Name <i
@@ -195,15 +207,16 @@
                                                         <div class="form-group">
                                                             <label class="control-label" for="contactNumber">Contact
                                                                 No<i class="red">*</i></label>
-                                                            <input type="text" class="form-control" id="contactNumber"
-                                                                name="contactNumber" placeholder="Contact No."
-                                                                data-parsley-required="true" data-parsley-type="digits"
+                                                            <input type="text" class="form-control"
+                                                                id="contactNumber" name="contactNumber"
+                                                                placeholder="Contact No." data-parsley-required="true"
+                                                                data-parsley-type="digits"
                                                                 data-parsley-length="[10, 15]" maxlength="15">
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="control-label" for="role">Role </label>
-                                                            <select class="form-control" id="role" disabled="true"
-                                                                name="role">
+                                                            <select class="form-control" id="role"
+                                                                disabled="true" name="role">
                                                                 <option value="">Select Role</option>
                                                                 <option value="PRODUCER">Producer</option>
                                                                 <!-- <option value="CALCULATOR">Calculator</option> -->
@@ -340,8 +353,8 @@
 
                                         <div class="form-group">
                                             <label class="control-label" for="shipName">Ship Name</label>
-                                            <input type="text" class="form-control" id="shipName" name="shipName"
-                                                placeholder="Ship Name" data-parsley-required="true">
+                                            <input type="text" class="form-control" id="shipName"
+                                                name="shipName" placeholder="Ship Name" data-parsley-required="true">
                                         </div>
 
                                         <div class="form-group">
@@ -371,8 +384,8 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label" for="importerId">Importer Id</label>
-                                            <input type="number" min="1" class="form-control" id="importerId"
-                                                name="importerId" placeholder="Importer Id"
+                                            <input type="number" min="1" class="form-control"
+                                                id="importerId" name="importerId" placeholder="Importer Id"
                                                 data-parsley-required="true">
                                         </div>
 
@@ -403,9 +416,9 @@
                                         <div class="form-group">
                                             <label class="control-label" for="rostingDuration">Time for Roasting (in
                                                 Seconds)</label>
-                                            <input type="number" min="1" class="form-control" id="rostingDuration"
-                                                name="rostingDuration" placeholder="Time for roasting"
-                                                data-parsley-required="true">
+                                            <input type="number" min="1" class="form-control"
+                                                id="rostingDuration" name="rostingDuration"
+                                                placeholder="Time for roasting" data-parsley-required="true">
                                         </div>
 
                                         <div class="form-group">
@@ -420,8 +433,8 @@
                                             <label class="control-label" for="packageDateTime">Packaging Date &
                                                 Time</label>
                                             <input type="text" class="form-control datepicker-master"
-                                                id="packageDateTime" name="packageDateTime" placeholder="Packaging Date"
-                                                data-parsley-required="true">
+                                                id="packageDateTime" name="packageDateTime"
+                                                placeholder="Packaging Date" data-parsley-required="true">
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label" for="processorName">Processor Name</label>
@@ -457,157 +470,157 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
 
     <script>
-    Dropzone.autoDiscover = false;
-    const myDropzone = new Dropzone("#fileUpload", {
-        url: "{{ route('dashboard.upload') }}", // Specify the upload URL
-        maxFilesize: 1024, // Maximum file size in MB
-        acceptedFiles: ".pdf,.doc,.docx,.jpg,.jpeg,.png,.zip", // Accepted file types
-        addRemoveLinks: true,
-        autoProcessQueue: false,
-        createImageThumbnails: false,
-        maxFiles:1,
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        uploadedSize: 0, // Variable to store the total uploaded size
+        Dropzone.autoDiscover = false;
+        const myDropzone = new Dropzone("#fileUpload", {
+            url: "{{ route('dashboard.upload') }}", // Specify the upload URL
+            maxFilesize: 1024, // Maximum file size in MB
+            acceptedFiles: ".pdf,.doc,.docx,.jpg,.jpeg,.png,.zip", // Accepted file types
+            addRemoveLinks: true,
+            autoProcessQueue: false,
+            createImageThumbnails: false,
+            maxFiles: 1,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            uploadedSize: 0, // Variable to store the total uploaded size
 
-        init: function() {
-            let progressBarInner;
-            this.on("dragenter", function(event) {
-                event.preventDefault();
-                event.stopPropagation();
-            });
+            init: function() {
+                let progressBarInner;
+                this.on("dragenter", function(event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                });
 
-            this.on("dragover", function(event) {
-                event.preventDefault();
-                event.stopPropagation();
-            });
+                this.on("dragover", function(event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                });
 
-            this.on("drop", function(event) {
-                event.preventDefault();
-                event.stopPropagation();
-                // You can handle drop event actions here if needed
-            });
+                this.on("drop", function(event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    // You can handle drop event actions here if needed
+                });
 
-            this.on("maxfilesexceeded", function(file) {
-                this.removeAllFiles();
-                this.addFile(file);
-            });
+                this.on("maxfilesexceeded", function(file) {
+                    this.removeAllFiles();
+                    this.addFile(file);
+                });
 
-            this.on("sending", function(file, xhr, formData) {
-                formData.append("documentName", document.getElementById("documentName").value);
-            });
+                this.on("sending", function(file, xhr, formData) {
+                    formData.append("documentName", document.getElementById("documentName").value);
+                });
 
-            this.on("success", function(file, response) {
-                console.log(response.message);
+                this.on("success", function(file, response) {
+                    console.log(response.message);
 
-                // Check if the progress is 100% for the uploaded file
-                if (file.upload.progress === 100) {
-                    console.log("Success: File uploaded successfully");
+                    // Check if the progress is 100% for the uploaded file
+                    if (file.upload.progress === 100) {
+                        console.log("Success: File uploaded successfully");
 
-                    // Enable the submit button
-                    window.location.href = "/dashboard?success=Document uploaded successfully.";
-                } else {
-                    console.log("Error: File upload failed");
-                    // Handle error, e.g., show error message
-                }
-            });
+                        // Enable the submit button
+                        window.location.href = "/dashboard?success=Document uploaded successfully.";
+                    } else {
+                        console.log("Error: File upload failed");
+                        // Handle error, e.g., show error message
+                    }
+                });
 
-            this.on("error", function(file, errorMessage) {
-                console.error(errorMessage);
-                stopLoader();
-            });
+                this.on("error", function(file, errorMessage) {
+                    console.error(errorMessage);
+                    stopLoader();
+                });
 
-            this.on("addedfile", function(file) {
-                // Do something when a file is added to Dropzone
-                console.log("File added:", file);
-                $('#submitButton').prop('disabled', false);
-                
-                // Display progress bar when file is added
-                const progressBar = document.createElement("div");
-                progressBar.className = "progress";
-                progressBarInner = document.createElement("div");
-                progressBarInner.className = "progress-bar";
-                progressBarInner.setAttribute("role", "progressbar");
-                progressBarInner.setAttribute("aria-valuenow", "0");
-                progressBarInner.setAttribute("aria-valuemin", "0");
-                progressBarInner.setAttribute("aria-valuemax", "100");
-                progressBarInner.style.width = "0%";
-                progressBar.appendChild(progressBarInner);
-                file.previewElement.appendChild(
-                    progressBar); // Append progress bar to the file's preview element
-            });
+                this.on("addedfile", function(file) {
+                    // Do something when a file is added to Dropzone
+                    console.log("File added:", file);
+                    $('#submitButton').prop('disabled', false);
 
-            // Listen for uploadprogress event to update the progress bar
-            this.on("uploadprogress", function(file, progress, bytesSent) {
-                progressBarInner.style.width = progress + "%";
-                progressBarInner.setAttribute("aria-valuenow", progress);
-                if (progressBarInner) {
-                    progressBarInner.innerText = progress + "%"; // Update progress bar text content
-                }
-            });
+                    // Display progress bar when file is added
+                    const progressBar = document.createElement("div");
+                    progressBar.className = "progress";
+                    progressBarInner = document.createElement("div");
+                    progressBarInner.className = "progress-bar";
+                    progressBarInner.setAttribute("role", "progressbar");
+                    progressBarInner.setAttribute("aria-valuenow", "0");
+                    progressBarInner.setAttribute("aria-valuemin", "0");
+                    progressBarInner.setAttribute("aria-valuemax", "100");
+                    progressBarInner.style.width = "0%";
+                    progressBar.appendChild(progressBarInner);
+                    file.previewElement.appendChild(
+                        progressBar); // Append progress bar to the file's preview element
+                });
 
-            // Adding a listener for the remove event
-            this.on("removedfile", function(file) {
-                // Check if file is being canceled
-                $('#submitButton').prop('disabled', true);
-                if (!file.accepted && file.status === "canceled") {
-                    console.log("File canceled:", file);
-                    // Subtract the removed file's size from the uploaded size
-                    myDropzone.uploadedSize -= file.size;
-                }
+                // Listen for uploadprogress event to update the progress bar
+                this.on("uploadprogress", function(file, progress, bytesSent) {
+                    progressBarInner.style.width = progress + "%";
+                    progressBarInner.setAttribute("aria-valuenow", progress);
+                    if (progressBarInner) {
+                        progressBarInner.innerText = progress + "%"; // Update progress bar text content
+                    }
+                });
+
+                // Adding a listener for the remove event
+                this.on("removedfile", function(file) {
+                    // Check if file is being canceled
+                    $('#submitButton').prop('disabled', true);
+                    if (!file.accepted && file.status === "canceled") {
+                        console.log("File canceled:", file);
+                        // Subtract the removed file's size from the uploaded size
+                        myDropzone.uploadedSize -= file.size;
+                    }
+                });
+            }
+        });
+
+
+
+
+
+        // Handle form submission
+        $('#batchForm').submit(function(event) {
+            event.preventDefault(); // Prevent default form submission
+            myDropzone.processQueue(); // Trigger file upload process
+            // You may also include other form data handling here
+        });
+
+        // Handle submit button
+        $('#submitButton').click(function() {
+            myDropzone.processQueue();
+            startLoader();
+        });
+
+        // get current url withour params
+        var cleanUrl = window.location.href.split('?')[0];
+
+        // change URL without params
+        history.replaceState({}, document.title, cleanUrl);
+
+        // Initialize Switchery and DateTimePicker
+        initSwitch();
+        initDateTimePicker();
+
+
+        function initSwitch() {
+            /*For User Form Pop Up*/
+            var switchery = new Switchery($("#isActive")[0], $("#isActive").data());
+        }
+
+        function initDateTimePicker() {
+            $('.datepicker-master').datetimepicker({
+                format: 'dd-mm-yyyy hh:ii:ss',
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                forceParse: 0,
+                showMeridian: 1,
+                minuteStep: 1
             });
         }
-    });
-
-
-
-
-
-    // Handle form submission
-    $('#batchForm').submit(function(event) {
-        event.preventDefault(); // Prevent default form submission
-        myDropzone.processQueue(); // Trigger file upload process
-        // You may also include other form data handling here
-    });
-
-    // Handle submit button
-    $('#submitButton').click(function() {
-        myDropzone.processQueue();
-        startLoader();
-    });
-
-    // get current url withour params
-    var cleanUrl = window.location.href.split('?')[0];
-
-    // change URL without params
-    history.replaceState({}, document.title, cleanUrl);
-
-    // Initialize Switchery and DateTimePicker
-    initSwitch();
-    initDateTimePicker();
-
-
-    function initSwitch() {
-        /*For User Form Pop Up*/
-        var switchery = new Switchery($("#isActive")[0], $("#isActive").data());
-    }
-
-    function initDateTimePicker() {
-        $('.datepicker-master').datetimepicker({
-            format: 'dd-mm-yyyy hh:ii:ss',
-            weekStart: 1,
-            todayBtn: 1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            forceParse: 0,
-            showMeridian: 1,
-            minuteStep: 1
-        });
-    }
     </script>
-    <script type="text/javascript" src="{{asset('js/app/user.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('js/app/user.js') }}"></script>
 
 
 </x-app-layout>
