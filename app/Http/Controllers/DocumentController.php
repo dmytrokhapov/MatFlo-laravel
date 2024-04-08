@@ -6,6 +6,7 @@ use App\Models\User;
 use Aws\S3\S3Client;
 use Ramsey\Uuid\Uuid;
 use App\Models\Document;
+use FilePreviews\FilePreviews;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use SWeb3\SWeb3;
@@ -63,23 +64,53 @@ class DocumentController extends Controller
         $bucket = 'matflo';
         $key = str_replace(env("AWS_URL"), "", $document->file_path);
         try {
-            $result = $s3->getObject([
+            // $result = $s3->getObject([
+            //     'Bucket' => $bucket,
+            //     'Key'    => $key,
+            // ]);
+
+            // // content of file
+            // $fileContent = $result['Body'];
+
+            // // header Content-Type 
+            // $contentType = $result['ContentType'];
+            $cmd = $s3->getCommand('GetObject', [
                 'Bucket' => $bucket,
-                'Key'    => $key,
+                'Key'    => $key
             ]);
+            $result = $s3->createPresignedRequest($cmd, '+5 minutes');
+            $presignedUrl = (string) $result->getUri();
 
-            // content of file
-            $fileContent = $result['Body'];
 
-            // header Content-Type 
-            $contentType = $result['ContentType'];
+            $fp = new FilePreviews([
+                'api_key' => env('FILE_PREVIEWS_API_KEY'),
+                'api_secret' => env('FILE_PREVIEWS_SECRET_KEY')
+            ]);
+            $options = [
+                'format' => 'png',
+                'pages' => 'all',
+            ];
+            $response = $fp->generate($presignedUrl, $options);
 
+            $response = $fp->retrieve($response->id);
+            while (true) {
+                if ($response->status == 'success')
+                    break;
+                $response = $fp->retrieve($response->id);
+                sleep(1);
+            }
+
+            $allpages = [];
+            foreach ($response->thumbnails as $thumbnail) {
+                array_push($allpages,  $thumbnail->url);
+            }
+            return response($allpages)->header('Content-Type', 'application/json');
             // response HTTP
-            return response($fileContent)->header('Content-Type', $contentType);
+            // return response($fileContent)->header('Content-Type', $contentType);
         } catch (\Exception $e) {
             // Tangani kesalahan jika gagal mengambil file
             \Log::error('Error accessing S3 file: ' . $e->getMessage());
-            return response()->json(['message' => 'Error accessing S3 file' . $e->getMessage() . "AWS_URL: ". env("AWS_URL")], 500);
+            return response()->json(['message' => 'Error accessing S3 file' . $e->getMessage() . "AWS_URL: " . env("AWS_URL")], 500);
         }
     }
 
@@ -178,7 +209,7 @@ class DocumentController extends Controller
     {
         try {
             // Manipulate string file_path
-            if(is_null($document->signed_file_path)) {
+            if (is_null($document->signed_file_path)) {
                 $filePath = str_replace(env("AWS_URL"), "", $document->file_path);
             } else {
                 $filePath = str_replace(env("AWS_URL"), "", $document->signed_file_path);
@@ -205,5 +236,4 @@ class DocumentController extends Controller
             return response()->json(['message' => 'Error downloading file'], 500);
         }
     }
-
 }
