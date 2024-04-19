@@ -26,7 +26,8 @@ class ProfileUpdateRequest extends FormRequest
             }
         }, 'Email id is already exists.');
         return [
-            'name' => ['string', 'max:255'],
+            'user_name' => ['string', 'max:255'],
+            'image' => ['file', 'mimes:png,jpg,jpeg,ico,bmp', 'max:1024'],
             'email' => ['email', 'max:255', 'unique_email:'.$this->user()->id],
         ];
     }

@@ -27,11 +27,10 @@
     <form method="post" id="profile-form" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
         @csrf
         @method('patch')
-
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 form-control block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
+            <x-input-label for="user_name" :value="__('Name')" />
+            <x-text-input id="user_name" name="user_name" type="text" class="mt-1 form-control block w-full" :value="old('user_name', $user->user_name)" required autofocus autocomplete="user_name" />
+            <x-input-error class="mt-2" :messages="$errors->get('user_name')" />
         </div>
 
         <div>
@@ -84,7 +83,7 @@
                             return $.trim( value );
                         }
                     },
-                    name:{
+                    user_name:{
                         required:true,
                         normalizer: function( value ) {
                             return $.trim( value );
@@ -96,7 +95,7 @@
                         required: "Please enter email id",
                         email:"Please enter valid email id"
                     },
-                    name:{
+                    user_name:{
                         required:"Please enter name"
                     }
                 },
@@ -114,7 +113,7 @@
                     // Hide the error message label
                     label.hide();
                     },
-                        });
+                });
         });
     </script>
 </section>

@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Dashboard</h1>
+                    <h1>Declarations</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -39,21 +39,15 @@
                 @endif
             @endif
 
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-
             <div class="card work-flow">
                 <div class="card-header">
                     <h3 class="card-title">WorkFlows</h3>
                     <h4>
-                        @if (Auth::user()->role == 'PRODUCER')
-                            <a href="javascript:void(0);" id="btnBatch"
-                                class="create-btn btn btn-info float-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light"
-                                onclick="javascript:$('#batchFormModel').modal();"><i class="fa fa-plus"></i>Upload
-                                Document</a>
+                        @if(Auth::user()->role !== "ADMIN")
+                        <a href="javascript:void(0);" id="btnBatch"
+                            class="create-btn btn btn-info float-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light"
+                            onclick="javascript:$('#divUpload').show();$('#userFormEdit').hide();$('#submitButton').show();$('#batchFormModel').modal();"><i class="fa fa-plus"></i>Upload
+                            Document</a>
                         @endif
                     </h4>
                 </div>
@@ -67,7 +61,37 @@
                     </div>
                     <!--row -->
                     <!-- /.row -->
+                    <div id="previewDocumentModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+                        aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-top: 20px;">
+                        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
+                            role="document">
+                            <div class="modal-content">
+                                <div class="modal-header border-0">
+                                    <h3 class="modal-title">Preview Document</h3>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Loading indicator -->
+                                    <div id="loadingIndicator" style="display: none;">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                        <div>Loading...</div>
+                                    </div>
+                                    <div id="previewImage"></div>
+                                    {{-- <img id="previewImage" src="" style="width: 100%; display: none;">
+                                    <iframe id="previewFrame" src="" frameborder="0" style="width: 100%; height: 500px;"></iframe> --}}
+                                </div>
+                                <div class="modal-footer">
+                                    <a id="downloadButton" href="#" class="btn btn-primary btn-sm">Download</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <form action="" id="batchForm" class="createForm"
+                                        method="post" enctype="multipart/form-data">
                     <div id="batchFormModel" class="modal fade" tabindex="-1" role="dialog"
                         aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-top: 20px;">
                         <div class="modal-dialog">
@@ -78,15 +102,13 @@
                                         aria-hidden="true">×</button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="{{ route('dashboard.upload') }}" id="batchForm" class="createForm"
-                                        method="post" enctype="multipart/form-data">
                                         @csrf
                                         <fieldset style="border:0;">
                                             <div class="form-group">
-                                                <label class="control-label" for="documentName">Document Name <i
+                                                <label class="control-label" for="documentName">Product Name <i
                                                         class="red">*</i></label>
                                                 <input type="text" class="form-control" id="documentName"
-                                                    name="documentName" placeholder="Document Name"
+                                                    name="documentName" placeholder="Product Name"
                                                     data-parsley-required="true">
                                             </div>
 
@@ -94,23 +116,50 @@
                                                 <label class="control-label" for="documentLocation">Location <i
                                                         class="red">*</i></label>
                                                 <input type="text" class="form-control" id="documentLocation"
-                                                    name="documentLocation" placeholder="Location"
+                                                    name="documentLocation" placeholder="Product Location"
                                                     data-parsley-required="true">
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="control-label">Upload Documents</label>
+                                                <label class="control-label" for="documentProducer">Producer <i
+                                                        class="red">*</i></label>
+                                                <input type="text" class="form-control" id="documentProducer"
+                                                    name="documentProducer" placeholder="Producer"
+                                                    data-parsley-required="true" onkeyup="producerChange(this.value)" onblur="blurInput()">
+                                                <div id="producerList" style="position: absolute; background-color: white; width: calc(100% - 30px); max-height: 100px; overflow-y: auto;">
+                                                    
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label" for="documentVerifier">Verifier <i
+                                                        class="red">*</i></label>
+                                                <input type="text" class="form-control" id="documentVerifier"
+                                                    name="documentVerifier" placeholder="Verifier"
+                                                    data-parsley-required="true">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label" for="documentGWP">GWP <i
+                                                        class="red">*</i></label>
+                                                <input type="number" min="0" class="form-control" id="documentGWP"
+                                                    name="documentGWP" placeholder="GWP"
+                                                    data-parsley-required="true">
+                                            </div>
+
+                                            <div class="form-group" id="divUpload">
+                                                <label class="control-label">Upload Declaration</label>
                                                 <div id="fileUpload" class="dropzone border border-dashed mt-2">
                                                     <div class="dz-message" data-dz-message>
                                                         <span>Drag files here to upload</span>
                                                     </div>
                                                 </div>
                                             </div>
-                                    </form>
                                 </div>
                                 <div class="modal-footer border-0">
                                     <button type="button" class="btn submit-btn" id="submitButton"
                                         disabled>Submit</button>
+                                    <button type="button" class="btn submit-btn" id="userFormEdit">Edit</button>
                                 </div>
                                 <!-- Progress bar -->
                                 <div class="progress" style="display: none;">
@@ -120,6 +169,7 @@
                             </div>
                         </div>
                     </div>
+                    </form>
                 </div>
 
                 <!-- row -->
@@ -133,14 +183,14 @@
                                     <thead>
                                         <tr>
                                             <th>Document ID</th>
-                                            <th>Document Name</th>
+                                            <th>Product Name</th>
                                             <th>Location</th>
                                             <th>Producer</th>
                                             <th>Created At</th>
                                             <th>Verifier</th>
                                             <th>Status</th>
-                                            <th>Note</th>
-                                            <th>Verified At</th>
+                                            <th>Publisher</th>
+                                            <th>Published At</th>
                                             <th>Actions</th>
 
                                         </tr>
@@ -148,24 +198,24 @@
                                     <tbody>
                                         @forelse ($documents as $document)
                                             <tr>
-                                                <td><a href="{{ route('viewBatch', $document->document_id) }}"
+                                                <td><a href="{{ route('viewPublish', $document->document_id) }}"
                                                         target="_blank">{{ $document->document_id }}</a></td>
                                                 <td>{{ $document->name }}</td>
                                                 <td>{{ $document->location }}</td>
-                                                <td>{{ $document->producer->user_name ?? 'N/A' }}</td>
+                                                <td>{{ $document->producer ?? 'N/A' }}</td>
                                                 <td>{{ $document->created_at->format('d M, Y') }}</td>
-                                                <td>{{ $document->verifier->user_name ?? 'N/A' }}</td>
+                                                <td>{{ $document->verifier ?? 'N/A' }}</td>
                                                 <td>
                                                     @php
                                                         $badgeClass = '';
                                                         switch ($document->status) {
-                                                            case 'Ready for preview':
+                                                            case 'Need Info':
                                                                 $badgeClass = 'badge-warning';
                                                                 break;
-                                                            case 'Signing':
+                                                            case 'Under Review':
                                                                 $badgeClass = 'badge-primary';
                                                                 break;
-                                                            case 'Signed':
+                                                            case 'Published':
                                                                 $badgeClass = 'badge-success';
                                                                 break;
                                                             default:
@@ -175,12 +225,35 @@
                                                     <span
                                                         class="badge badge {{ $badgeClass }}">{{ $document->status }}</span>
                                                 </td>
-                                                <td>{{ $document->note ?? '' }}</td>
-                                                <td>{{ $document->verified_at?->format('d M, Y') ?? '' }}</td>
+                                                <td>{{ $document->uploader->user_name ?? '' }}</td>
+                                                <td>{{ $document->published_at?->format('d M, Y') ?? '' }}</td>
                                                 <td>
-                                                    @if (Auth::user()->role === 'PRODUCER')
-                                                        <a href="{{ route('document.download', $document->id) }}"
-                                                            class="btn btn-primary btn-sm">Download</a>
+                                                    
+                                                    <a href="javascript:void(0);"
+                                                        class="btn btn-primary btn-sm @if (($document->status !== 'Need Info' && $document->status !== 'Rejected') && Auth::user()->role !== 'ADMIN') disabled @endif"
+                                                        data-document-form="{{ $document }}"
+                                                        data-document-id="{{ route('document.edit', $document->id) }}"
+                                                        onclick="editDocument(this)"
+                                                    >
+                                                        Edit
+                                                    </a>
+                                                    <a href="{{ route('document.delete', $document->id) }}" class="btn btn-danger btn-sm @if ($document->status === 'Published') disabled @endif">Delete</a>
+                                                    @if(Auth::user()->role === "ADMIN")
+                                                        <a href="javascript:void(0);"
+                                                            class="btn btn-primary btn-sm previewBtn"
+                                                            data-document-path="{{ route('admin.document.preview', $document->id) }}"
+                                                            data-document-download="{{ route('document.download_publish', $document->id) }}"
+                                                            data-document-id="{{ $document->id }}"
+                                                            onclick="previewDocument(this)">Preview</a>
+                                                        @if($document->status === "Under Review")
+                                                        <a href="{{ route('document.approve', $document->id) }}"
+                                                            class="btn btn-success btn-sm"
+                                                            onclick="startLoader()"
+                                                        >
+                                                            Approve
+                                                        </a>
+                                                        <a href="{{ route('admin.document.reject', $document->id) }}" class="btn btn-danger btn-sm">Reject</a>
+                                                        @endif
                                                     @endif
                                                 </td>
                                             @empty
@@ -189,7 +262,6 @@
                                         @endforelse
                                     </tbody>
                                 </table>
-                                {{ $documents->links() }}
 
                                 <!-- Update User Form -->
                                 <div id="userFormModel" class="modal fade" tabindex="-1" role="dialog"
@@ -482,7 +554,7 @@
     <script>
         Dropzone.autoDiscover = false;
         const myDropzone = new Dropzone("#fileUpload", {
-            url: "{{ route('dashboard.upload') }}", // Specify the upload URL
+            url: "{{ route('dashboard.publish') }}", // Specify the upload URL
             maxFilesize: 1024, // Maximum file size in MB
             acceptedFiles: ".pdf,.doc,.docx,.jpg,.jpeg,.png,.zip", // Accepted file types
             addRemoveLinks: true,
@@ -520,6 +592,9 @@
                 this.on("sending", function(file, xhr, formData) {
                     formData.append("documentName", document.getElementById("documentName").value);
                     formData.append("documentLocation", document.getElementById("documentLocation").value);
+                    formData.append("documentProducer", document.getElementById("documentProducer").value);
+                    formData.append("documentVerifier", document.getElementById("documentVerifier").value);
+                    formData.append("documentGWP", document.getElementById("documentGWP").value);
                 });
 
                 this.on("success", function(file, response) {
@@ -530,7 +605,7 @@
                         console.log("Success: File uploaded successfully");
 
                         // Enable the submit button
-                        window.location.href = "/dashboard?success=Document uploaded successfully.";
+                        window.location.href = "/publish?success=Declaration uploaded successfully.";
                     } else {
                         console.log("Error: File upload failed");
                         // Handle error, e.g., show error message
@@ -584,10 +659,6 @@
             }
         });
 
-
-
-
-
         // Handle form submission
         $('#batchForm').submit(function(event) {
             event.preventDefault(); // Prevent default form submission
@@ -629,6 +700,140 @@
                 showMeridian: 1,
                 minuteStep: 1
             });
+        }
+
+        $('#userFormEdit').click(function() {
+            var form = $('form#batchForm');
+            var actionUrl = form.attr('action');
+            startLoader();
+            $.ajax({
+                type: "POST",
+                url: actionUrl,
+                data: form.serialize(), // serializes the form's elements.
+                success: function(data)
+                {
+                    window.location.href = "/publish?success=Declaration updated successfully.";
+                },
+                error: function(error)
+                {
+                    alert(error.message);
+                }
+            });
+        });
+
+        function previewDocument(btn) {
+            var documentDownload = $(btn).data('document-download');
+            var documentPath = $(btn).data('document-path');
+            startLoader();
+
+            $('#previewFrame').on('load', function() {
+                stopLoader();
+            });
+
+            $.ajax({
+                'url': documentPath,
+                'type': 'GET',
+                'data': {
+                    'numberOfWords': 10
+                },
+                'success': function(data, status, xhr) {
+                    console.log(data);
+                    // var ct = xhr.getResponseHeader("content-type") || "";
+                    // if (ct.indexOf('image') > -1 || ct.indexOf('pdf') > -1) {
+                    var contentType = documentPath.split('.').pop().toLowerCase();
+                    stopLoader();
+                    updatePreview(contentType, data);
+                    updateDownloadLink(documentDownload);
+
+                    $('#previewDocumentModal').modal('show');
+                    // } else {
+                    //     var contentType = documentPath.split('.').pop().toLowerCase();
+                    //     alert('Only PDF and images can be previewed. Otherwise will be downloaded.');
+                    //     updatePreview(contentType, documentPath);
+                    //     updateDownloadLink(documentDownload);
+                    //     stopLoader();
+                    // }
+
+                },
+                'error': function(request, error) {
+                    alert("Request: " + JSON.stringify(request));
+                }
+            });
+        }
+
+        $('#previewDocumentModal').on('hidden.bs.modal', function() {
+            $('#previewFrame').hide().attr('src', '');
+        })
+
+        function updatePreview(contentType, documentPath) {
+            $("#previewImage").html('');
+            documentPath.forEach((document) => {
+                $("#previewImage").append('<img style="width: 100%;height: auto;" src="' + document + '" />');
+            });
+            // var $previewImage = $('#previewImage').show().attr('src', documentPath[0]);;
+            // var $previewFrame = $('#previewFrame');
+            // $previewFrame.show().attr('src', documentPath[0]);
+
+        }
+
+        function updateDownloadLink(downloadLink) {
+            $('#downloadButton').attr('href', downloadLink);
+        }
+
+        function editDocument(button) {
+            var documentForm = button.getAttribute('data-document-form');
+            var documentId = button.getAttribute('data-document-id');
+            var downloadButton = $('#downloadButton');
+            $('#userFormEdit').show();
+            $('#submitButton').hide();
+
+            fillFormWithData(documentForm);
+
+            $('form#batchForm').attr('action', documentId);
+
+            $('#batchFormModel').modal('show');
+            $('#divUpload').hide();
+        }
+
+        function fillFormWithData(data) {
+            var documentNameInput = document.getElementById('documentName');
+            var documentLocationInput = document.getElementById('documentLocation');
+            var documentProducerInput = document.getElementById('documentProducer');
+            var documentVerifierInput = document.getElementById('documentVerifier');
+            var documentGWPInput = document.getElementById('documentGWP');
+
+            var documentData = JSON.parse(data);
+
+            documentNameInput.value = documentData.name;
+            documentLocationInput.value = documentData.location;
+            documentProducerInput.value = documentData.producer;
+            documentVerifierInput.value = documentData.verifier;
+            documentGWPInput.value = documentData.gwp;
+        }
+        $("#producerList").hide();
+        function producerChange(str) {
+            
+                var producers = <?php print $producers; ?>;
+                console.log(producers, typeof producers);
+                var html = ''
+                for (var prod of producers) {
+                    if(prod.user_name.toUpperCase().includes(str.toUpperCase()))
+                        html += "<div style='padding: 10px;' onclick='enterName(`"+prod.user_name+"`)'>" + prod.user_name + "</div>"
+                }
+                $("#producerList").html(html);
+                $("#producerList").show();
+            
+            
+        }
+
+        function enterName(name) {
+            $("#documentProducer").val(name);
+            $("#producerList").hide();
+        }
+
+        function blurInput(e) {
+            e.preventDefault();
+            $("#producerList").hide();
         }
     </script>
     <script type="text/javascript" src="{{ asset('js/app/user.js') }}"></script>

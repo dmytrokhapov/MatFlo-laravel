@@ -39,13 +39,21 @@ Route::get('/', function () {
 //     Route::post('/d', [WorkspaceController::class,'export'])->name('export');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/view-batch/{batchNo}', [DashboardController::class,'viewBatch'])->name('viewBatch');
+Route::get('/view-publish/{batchNo}', [DashboardController::class,'viewPublish'])->name('viewPublish');
+Route::get('/documents/{document}/download', [DocumentController::class, 'download'])->name('document.download');
+Route::get('/documents/{document}/download_publish', [DocumentController::class, 'download_publish'])->name('document.download_publish');
+
+Route::get('/explorer', [DashboardController::class,'explorer'])->name('explorer');
+Route::get('/search', [DashboardController::class, 'search'])->name('search');
 
 Route::middleware(['auth'])->group(function () {
     // Route::middleware(['role:ADMIN,PRODUCER'])->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/publish', [DashboardController::class, 'publish'])->name('publish');
     // });
 
-    Route::get('/view-batch/{batchNo}', [DashboardController::class,'viewBatch'])->name('viewBatch');
+    
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::get('/change-password', [ProfileController::class, 'changepasswordFrom'])->name('profile.change-password');
@@ -67,6 +75,9 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/staffs/updateStatus', [UserController::class, 'updateStatus'])->name('staffs.updateStatus');
         // Update User
         Route::post('/updateUser', [UserController::class, 'updateUser'])->name('updateUser');
+        Route::get('/documents/{document}/preview_publish', [DocumentController::class, 'preview_publish'])->name('admin.document.preview');
+        Route::get('/documents/{document}/approve', [DocumentController::class, 'approve'])->name('document.approve');
+        Route::get('/documents/{document}/reject_publish', [DocumentController::class, 'reject_publish'])->name('admin.document.reject');
     });
 
     // Producer-only routes
@@ -78,15 +89,19 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::post('/dashboard/upload', [DocumentController::class, 'upload'])->name('dashboard.upload')->middleware('web');
+    Route::post('/dashboard/publish', [DocumentController::class, 'publish'])->name('dashboard.publish')->middleware('web');
     Route::post('/dashboard/sign', [DocumentController::class, 'sign'])->name('dashboard.sign')->middleware('web');
     Route::get('/documents/{document}/download', [DocumentController::class, 'download'])->name('document.download');
+    Route::get('/documents/{document}/download_publish', [DocumentController::class, 'download_publish'])->name('document.download_publish');
+    Route::post('/documents/{document}/edit', [DocumentController::class, 'edit'])->name('document.edit');
+    Route::get('/documents/{document}/delete', [DocumentController::class, 'delete'])->name('document.delete');
+    Route::get('/documents/{document}/preview', [DocumentController::class, 'preview'])->name('verifier.document.preview');
 
     // Verifier-only routes
     Route::middleware(['verifier'])->group(function () {
     // Verifier routes here
 
         Route::get('/documents/{document}/accept', [DocumentController::class, 'accept'])->name('verifier.document.accept');
-        Route::get('/documents/{document}/preview', [DocumentController::class, 'preview'])->name('verifier.document.preview');
         // Route::get('/documents/{document}/sign', [DocumentController::class, 'sign'])->name('verifier.document.sign');
         Route::get('/documents/{document}/reject', [DocumentController::class, 'reject'])->name('verifier.document.reject');
         Route::get('/documents/{document}/verify', [DocumentController::class, 'show'])->name('verifier.document.verify');

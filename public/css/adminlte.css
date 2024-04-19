@@ -10656,13 +10656,20 @@ a.text-dark:hover, a.text-dark:focus {
 .preloader {
   display: -ms-flexbox;
   display: flex;
+  flex-direction: column;
   background-color: #f4f6f9aa;
+  justify-content: center;
+    align-items: center;
   height: 100vh;
   width: 100%;
   position: fixed;
   left: 0;
   top: 0;
   z-index: 9999;
+}
+
+.preloader img {
+  margin-top: -60px;
 }
 
 .dark-mode .preloader {
