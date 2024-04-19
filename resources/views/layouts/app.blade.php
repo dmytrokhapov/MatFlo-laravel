@@ -252,11 +252,11 @@
                     <i class="nav-icon"><img src="{{asset('img/user.svg')}}" width="20"></i><p>My Profile</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a href="{{route('profile.change-password')}}" class="nav-link @if(Request::is('change-password')) active @endif">
                     <i class="nav-icon"><img src="{{asset('img/admin.svg')}}" width="20"></i><p>Change Password</p>
                 </a>
-              </li>
+              </li> -->
 
         </ul>
       </nav>
