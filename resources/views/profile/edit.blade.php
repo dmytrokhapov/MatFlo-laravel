@@ -13,12 +13,12 @@
           <!-- Main content -->
           <section class="content">
             <div class="container-fluid">
-                <div class="card">
-                    <div class="card-header">
-                      <h3 class="card-title">Change Profile</h3>
-                    </div>
+                <div class="card ml-2 mr-2 col-xs-12 col-md-8">
+                    
                     <!-- /.card-header -->
                     <div class="card-body">
+                        <h4 >Change Profile</h4>
+                        <hr>
                         @if(session('profile-status'))
                             <div class="alert alert-success">
                                 {{ session('profile-status') }}
@@ -86,12 +86,72 @@
                             </div>
 
                             <div class="flex items-center justify-end mt-4">
-                                <button type="submit" class="btn btn-success" id="submitBtn">
+                                <button type="submit" class="btn btn-success" id="submitBtn1">
                                     {{ __('Save') }}
                                 </button>
                             </div>
                         </form>
+                        
 
+
+
+
+                        <br>
+                        <br>
+                        <h4 >Change Password</h4>
+                        <hr>
+                        @if(session('success-password'))
+                            <div class="alert alert-success">
+                                {{ session('success-password') }}
+                            </div>
+                        @endif
+
+                        @if(session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+                        <form method="post" id="updatepasswordform" class="createForm" action="{{ route('password.update') }}">
+                            @csrf
+                            @method('put')
+                            <!-- Name -->
+                            <div class="form-group">
+                                <label for="current_password">{{__('Current Password')}}</label>
+                                <input id="current_password" class="form-control" type="password" name="current_password" autocomplete="current_password" />
+                                @error('current_password')
+                                    <div class="error">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Password -->
+                            <div class="form-group">
+                                <label for="password">{{__('Password')}}</label>
+
+                                <input id="password" class="form-control"
+                                                type="password"
+                                                name="password"
+                                                required autocomplete="new-password" />
+
+
+                            </div>
+
+                            <!-- Confirm Password -->
+                            <div class="form-group">
+                                <label for="password_confirmation">{{__('Confirm Password')}}</label>
+
+                                <input id="password_confirmation" class="form-control"
+                                                type="password"
+                                                name="password_confirmation" required autocomplete="new-password" />
+
+
+                            </div>
+
+                            <div class="flex items-center justify-end mt-4">
+                                <button type="submit" class="btn btn-success" id="submitBtn2">
+                                    {{ __('Save') }}
+                                </button>
+                            </div>
+                        </form>
                     </div>
                     <!-- /.card-body -->
                   </div>
@@ -137,7 +197,7 @@
                 },
                 submitHandler: function(form, event) {
                     event.preventDefault();
-                    $('#submitBtn').prop('disabled', true);
+                    $('#submitBtn1').prop('disabled', true);
                     form.submit();
                     //submit via ajax
                 },
@@ -149,6 +209,48 @@
                     // Hide the error message label
                     label.hide();
                     },
+            });
+
+            $("#updatepasswordform").validate({
+                rules: {
+                    current_password: {
+                        required: true,
+                    },
+                    password:{
+                        required:true,
+                        minlength:8
+                    },
+                    password_confirmation:{
+                        required:true,
+                        equalTo: "#password"
+                    }
+                },
+                messages: {
+                    current_password: {
+                        required: "Please enter current password.",
+                    },
+                    password:{
+                        required:"Please enter password"
+                    },
+                    password_confirmation:{
+                        required:"Please enter password confirmation",
+                       // equalTo:"Password confirmation not match with pa"
+                    }
+                },
+                submitHandler: function(form, event) {
+                    event.preventDefault();
+                    $('#submitBtn2').prop('disabled', true);
+                    form.submit();
+                    //submit via ajax
+                },
+                errorPlacement: function(error, element) {
+                    // Customize the placement of error messages
+                    error.insertAfter(element);
+                    },
+                    success: function(label, element) {
+                    // Hide the error message label
+                    label.hide();
+                },
             });
         });
 

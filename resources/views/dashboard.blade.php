@@ -178,10 +178,15 @@
                                                 <td>{{ $document->note ?? '' }}</td>
                                                 <td>{{ $document->verified_at?->format('d M, Y') ?? '' }}</td>
                                                 <td>
-                                                    @if (Auth::user()->role === 'PRODUCER')
-                                                        <a href="{{ route('document.download', $document->id) }}"
-                                                            class="btn btn-primary btn-sm">Download</a>
-                                                    @endif
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Actions
+                                                        <span class="caret"></span></button>
+                                                        <ul class="dropdown-menu">
+                                                            @if (Auth::user()->role === 'PRODUCER')
+                                                                <li style="text-align: center; margin: 5px;"><a href="{{ route('document.download', $document->id) }}">Download</a></li>
+                                                            @endif
+                                                        </ul>
+                                                    </div>
                                                 </td>
                                             @empty
                                                 <td colspan="7" align="center">No Data Available</td>

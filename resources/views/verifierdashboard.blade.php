@@ -218,28 +218,34 @@
                                                 <td>{{ $document->note ?? 'N/A' }}</td>
                                                 <td>
                                                     <!-- Include other actions like sign, reject, verify -->
-                                                    <a href="{{ route('verifier.document.accept', $document->id) }}"
-                                                        class="btn btn-primary btn-sm @if ($document->status !== 'Ready for preview') disabled @endif"
-                                                        onclick="startLoader(); return confirm('Are you sure?')">Accept</a>
-                                                    <a href="{{ route('verifier.document.reject', $document->id) }}"
-                                                        class="btn btn-danger btn-sm @if ($document->status !== 'Ready for preview' && $document->status !== 'Signing') disabled @endif"
-                                                        onclick="return confirm('Are you sure?')">Reject</a>
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Actions
+                                                        <span class="caret"></span></button>
+                                                        <ul class="dropdown-menu">                
+                                                                @if ($document->status === 'Ready for preview')                                        
+                                                                <li style="text-align: center; margin: 5px;"><a href="{{ route('verifier.document.accept', $document->id) }}"
+                                                                    onclick="return confirm('Are you sure?')">Accept</a></li>
+                                                                @endif
+                                                                @if ($document->status === 'Ready for preview' || $document->status === 'Signing')   
+                                                                <li style="text-align: center; margin: 5px;"><a href="{{ route('verifier.document.reject', $document->id) }}"
+                                                                    onclick="return confirm('Are you sure?')">Reject</a></li>
+                                                                @endif
 
-                                                    @if (Auth::user()->role == 'VERIFIER')
-                                                        <a href="javascript:void(0);"
-                                                            class="btn btn-warning btn-sm previewBtn"
-                                                            data-document-path="{{ route('verifier.document.preview', $document->id) }}"
-                                                            data-document-download="{{ route('document.download', $document->id) }}"
-                                                            data-document-id="{{ $document->id }}"
-                                                            onclick="previewDocument(this)">Preview</a>
-
-                                                        <a href="javascript:void(0);"
-                                                            class="btn btn-success btn-sm previewBtn @if ($document->status !== 'Signing') disabled @endif"
-                                                            data-document-form="{{ $document }}"
-                                                            data-document-id="{{ route('verifier.document.verify', $document->id) }}"
-                                                            onclick="verifyDocument(this)">Verify</a>
-                                                    @endif
-
+                                                                @if (Auth::user()->role == 'VERIFIER')
+                                                                    <li style="text-align: center; margin: 5px;"><a href="javascript:void(0);"
+                                                                        data-document-path="{{ route('verifier.document.preview', $document->id) }}"
+                                                                        data-document-download="{{ route('document.download', $document->id) }}"
+                                                                        data-document-id="{{ $document->id }}"
+                                                                        onclick="previewDocument(this)">Preview</a></li>
+                                                                    @if ($document->status === 'Signing')
+                                                                    <li style="text-align: center; margin: 5px;"><a href="javascript:void(0);"
+                                                                        data-document-form="{{ $document }}"
+                                                                        data-document-id="{{ route('verifier.document.verify', $document->id) }}"
+                                                                        onclick="verifyDocument(this)">Verify</a></li>
+                                                                    @endif
+                                                                @endif
+                                                        </ul>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         @empty

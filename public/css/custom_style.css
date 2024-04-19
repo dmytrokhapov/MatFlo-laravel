@@ -252,7 +252,7 @@ body.admin_body .sidebar-dark-primary{
     width: 260px;
 }
 body.admin_body .content-wrapper{
-    margin-left: 260px !important;
+    margin-left: 260px;
     background-color: #f3f9ff;
 }
 body.admin_body .logo-title a.brand-link{

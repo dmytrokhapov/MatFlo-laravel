@@ -113,6 +113,10 @@
                                                 <td colspan="7"><span><?php echo $document->name;?></span></td>
                                             </tr>
                                             <tr>
+                                                <td colspan="3"><span>Location: </span></td>
+                                                <td colspan="7"><span><?php echo $document->location;?></span></td>
+                                            </tr>
+                                            <tr>
                                                 <td colspan="3"><span>Producer: </span></td>
                                                 <td colspan="7"><span><?php echo $document->producer;?></span></td>
                                             </tr>

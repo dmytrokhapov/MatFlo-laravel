@@ -143,46 +143,10 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <div class="logo-title">
-      <a href="/" class="brand-link">
-        <small>MatFlo Explorer</small>
-      </a>
-    </div>
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Sidebar user (optional) -->
-      {{-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        
-      </div> --}}
-      <!-- /.sidebar-menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <li class="nav-item">
-              <a href="{{route('explorer')}}" class="nav-link @if(Request::is('explorer')) active @endif">
-                  <i class="nav-icon"> <img width="20" src="{{asset('img/search.svg')}}"></i><p>Explorer</p>
-              </a>
-            </li>
-        </ul>
-      </nav>
-    </div>
-    <!-- /.sidebar -->
-
-    <div class="logout">
-      <ul class="nav">
-        <li class="nav-item">
-        </li>
-      </ul>
-    </div>
-  </aside>
-  <form method="POST" action="{{ route('logout') }}" id="logout-form" style="display:none;">
-    @csrf
-  </form>
+  
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper" style="margin-left: 0px; padding: 10px;">
     <!-- Content Header (Page header) -->
     {{$slot}}
     <!-- /.content -->
