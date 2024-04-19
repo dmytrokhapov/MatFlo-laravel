@@ -132,22 +132,7 @@
 <!-- AdminLTE for demo purposes -->
 {{-- <script src="{{asset('dist/js/demo.js')}}"></script> --}}
 </head>
-@php
-    $className = "";
-    if(\Auth::user()->role == "ADMIN"){
-        $className="admin_body";
-    }
-    elseif (\Auth::user()->role == "PRODUCER") {
-        $className="admin_body producer_body";
-    }
-    elseif (\Auth::user()->role == "CALCULATOR") {
-        $className="admin_body calculator_body";
-    }
-    elseif (\Auth::user()->role == "VERIFIER") {
-        $className="admin_body verifier_body";
-    }
-@endphp
-<body class="hold-transition sidebar-mini {{$className}}">
+<body class="hold-transition sidebar-mini admin_body">
   
 <div class="wrapper">
   <!-- Navbar -->
@@ -155,59 +140,14 @@
     <img width="50" src="/img/spinner.svg" />
     <span>Please wait... </span>
   </div>
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <!-- Left navbar links -->
-
-    <div class="header-top-row">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-        </li>
-      </ul>
-
-      <div class="search">
-        <input id="searchQuery" type="text" placeholder="Search here..." onkeypress="inputKeyClicked(event)" value="{{$attributes['search']}}">
-        <img style="cursor: pointer" src="{{asset('img/search-top.svg')}}" onClick="searchDocument()">
-      </div>
-
-      <!-- Right navbar links -->
-      <ul class="navbar-nav ml-auto">
-        <!-- Notifications Dropdown Menu -->
-        <li class="nav-item dropdown">
-          <a class="nav-link" data-toggle="dropdown" href="#">
-            <img src="{{\Auth::user()->image}}" width="30" class="login">{{\Auth::user()->user_name}} <img src="{{asset('img/down-arrow.svg')}}" class="arrow">
-          </a>
-          <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
-              {{-- <a href="{{route('profile.edit')}}" class="dropdown-item">
-                  Profile
-                </a> --}}
-            <a href="{{route('profile.change-password')}}" class="dropdown-item">
-              Change Password
-            </a>
-
-                  <a href="{{route('logout')}}" id="logout" class="dropdown-item"
-                  onclick="event.preventDefault();
-                  document.getElementById('logout-form').submit();">
-                      {{ __('Log Out') }}
-              </a>
-
-
-
-          </div>
-        </li>
-
-      </ul>
-    </div>
-  </nav>
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <div class="logo-title">
-      <a href="{{route('dashboard')}}" class="brand-link">
-        {{-- <img src="{{asset('img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> --}}
-        <small>MatFlo</small> <span class="brand-text font-weight-light"> Management Platform<br>{{ucfirst(strtolower(\Auth::user()->role))}}</span>
+      <a href="/" class="brand-link">
+        <small>MatFlo Explorer</small>
       </a>
     </div>
 
@@ -215,70 +155,31 @@
     <div class="sidebar">
       <!-- Sidebar user (optional) -->
       {{-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="{{asset('img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">{{\Auth::user()->name}}</a>
-        </div>
+        
       </div> --}}
-
-
-      <!-- Sidebar Menu -->
+      <!-- /.sidebar-menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-
-               with font-awesome or any other icon font library -->
-            <li class="nav-header">MAIN CATEGORY</li>
-            <li class="nav-item">
-            <a href="{{route('dashboard')}}" class="nav-link @if(Request::is('dashboard')) active @endif">
-                <i class="nav-icon"> <img src="{{asset('img/dashboard.svg')}}"></i><p>Dashboard</p>
-            </a>
-            </li>
-            <li class="nav-item">
-            <a href="{{route('publish')}}" class="nav-link @if(Request::is('publish')) active @endif">
-                <i class="nav-icon"> <img src="{{asset('img/result.svg')}}"></i><p>Publish</p>
-            </a>
-            </li>
             <li class="nav-item">
               <a href="{{route('explorer')}}" class="nav-link @if(Request::is('explorer')) active @endif">
                   <i class="nav-icon"> <img width="20" src="{{asset('img/search.svg')}}"></i><p>Explorer</p>
               </a>
             </li>
-            <li class="nav-header title-border">USER SETTINGS</li>
-              <li class="nav-item">
-                <a href="{{route('profile.update')}}" class="nav-link @if(Request::is('update')) active @endif">
-                    <i class="nav-icon"><img src="{{asset('img/user.svg')}}" width="20"></i><p>My Profile</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('profile.change-password')}}" class="nav-link @if(Request::is('change-password')) active @endif">
-                    <i class="nav-icon"><img src="{{asset('img/admin.svg')}}" width="20"></i><p>Change Password</p>
-                </a>
-              </li>
-
         </ul>
       </nav>
-      <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
 
     <div class="logout">
       <ul class="nav">
         <li class="nav-item">
-          <a href="{{route('logout')}}" class="nav-link" onclick="event.preventDefault();
-          document.getElementById('logout-form').submit();">
-            <i class="nav-icon"><img src="{{asset('img/logout1.svg')}}"></i>
-            <p>{{ __('Logout') }}</p>
-          </a>
         </li>
       </ul>
     </div>
   </aside>
   <form method="POST" action="{{ route('logout') }}" id="logout-form" style="display:none;">
     @csrf
-</form>
+  </form>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">

@@ -55,8 +55,8 @@
                                                 <td colspan="7"><span><?php echo $document->name;?></span></td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3"><span>Producer: </span></td>
-                                                <td colspan="7"><span><?php echo $document->producer->user_name;?></span></td>
+                                                <td colspan="3"><span>Publisher: </span></td>
+                                                <td colspan="7"><span><?php echo $document->uploader->user_name;?></span></td>
                                             </tr>
                                             <tr>
                                                 <td colspan="3"><span>Created date: </span></td>
@@ -86,19 +86,23 @@
                                 </div>
                             </li> -->
                             <li class="timeline-inverted">
-                                @if($document->status == "Signed")
+                                @if($document->status == "Published")
                                 <div class="timeline-badge success">
                                     <i class="fa fa-check"></i>
                                 </div>
-                                @else
+                                @elseif($document->status == "Rejected")
                                 <div class="timeline-badge danger">
                                     <i class="fa fa-times"></i>
+                                </div>
+                                @else
+                                <div class="timeline-badge">
+                                    
                                 </div>
                                 @endif
                                 
                                 <div class="timeline-panel" id="exporterSection">
                                     <div class="timeline-heading">
-                                        <h4 class="timeline-title">Verifier</h4>
+                                        <h4 class="timeline-title">Details</h4>
                                         <p><small class="text-muted text-success activityDateTime"></small> </p>
                                         <span class="activityQrCode"></span>
                                     </div>
@@ -109,30 +113,30 @@
                                                 <td colspan="7"><span><?php echo $document->name;?></span></td>
                                             </tr>
                                             <tr>
+                                                <td colspan="3"><span>Producer: </span></td>
+                                                <td colspan="7"><span><?php echo $document->producer;?></span></td>
+                                            </tr>
+                                            <tr>
                                                 <td colspan="3"><span>Verifier: </span></td>
-                                                <td colspan="7"><span><?php echo $document->verifier->user_name;?></span></td>
+                                                <td colspan="7"><span><?php echo $document->verifier;?></span></td>
                                             </tr>
                                             <tr>
                                                 <td colspan="3"><span>Status: </span></td>
                                                 <td colspan="7"><span><?php echo $document->status;?></span></td>
                                             </tr>
-                                            @if($document->status == "Signed")
+                                            @if($document->status == "Published")
                                             <tr>
-                                                <td colspan="3"><span>Verified date: </span></td>
-                                                <td colspan="7"><span><?php echo $document->verified_at;?></span></td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="3"><span>Note: </span></td>
-                                                <td colspan="7"><span><?php echo $document->note;?></span></td>
+                                                <td colspan="3"><span>Published date: </span></td>
+                                                <td colspan="7"><span><?php echo $document->published_at;?></span></td>
                                             </tr>
                                             <tr>
                                                 <td colspan="3"><span>On-chain proof: </span></td>
-                                                <td colspan="7"><a href="https://mumbai.polygonscan.com/tx/{{$document->chain_address}}" target="_blank"><?php echo substr($document->chain_address, 0, 8)."...".substr($document->chain_address, -6); ?></a></td>
+                                                <td colspan="7"><a href="https://www.oklink.com/amoy/tx/{{$document->chain_address}}" target="_blank"><?php echo substr($document->chain_address, 0, 8)."...".substr($document->chain_address, -6); ?></a></td>
                                             </tr>
                                             
                                             <tr>
                                                 <td colspan="3"><span>Download: </span></td>
-                                                <td colspan="7"><a href="{{ route('verifier.document.preview', $document->id) }}" target="_blank"><?php echo $document->name;?></a></td>
+                                                <td colspan="7"><a href="{{ route('document.download_publish', $document->id) }}" target="_blank"><?php echo $document->name;?></a></td>
                                             </tr>
                                             
                                             @endif

@@ -17,6 +17,7 @@ class Document extends Model
         'signed_file_path',
         'verified_at',
         'created_at',
+        'location',
         'note',
     ];
 

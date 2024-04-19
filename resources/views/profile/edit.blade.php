@@ -6,12 +6,6 @@
                 <div class="col-sm-6">
                   <h1>Profile</h1>
                 </div>
-                <div class="col-sm-6">
-                  <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Change Profile</li>
-                  </ol>
-                </div>
               </div>
             </div><!-- /.container-fluid -->
           </section>
@@ -26,24 +20,36 @@
                     <!-- /.card-header -->
                     <div class="card-body">
                         @if(session('profile-status'))
-                        <div class="alert alert-success">
-                            {{ session('profile-status') }}
-                        </div>
-                    @endif
+                            <div class="alert alert-success">
+                                {{ session('profile-status') }}
+                            </div>
+                        @endif
 
                         @if(session('error'))
                             <div class="alert alert-danger">
                                 {{ session('error') }}
                             </div>
                         @endif
-                        <form method="post" id="profile-form" action="{{ route('profile.update') }}">
+                        <form method="post" id="profile-form" action="{{ route('profile.update') }}" enctype="multipart/form-data">
                             @csrf
                             @method('patch')
+                            <!-- Avatar -->
+                            <div class="form-group">
+                                <label for="image">{{__('Avatar')}}</label>
+                                <br />
+                                <img src="{{$user->image}}" id="blah" width="100" />
+                                <p></p>
+                                <input id="image" style="line-height: 1.2;" class="form-control" type="file" name="image" autocomplete="image" value="{{old('image', $user->image)}}" onChange="chooseFile()" />
+                                @error('image')
+                                    <div class="error">{{ $message }}</div>
+                                @enderror
+                            </div>
+
                             <!-- Name -->
                             <div class="form-group">
-                                <label for="name">{{__('Name')}}</label>
-                                <input id="name" class="form-control" type="text" name="name" autocomplete="name"  value="{{old('name', $user->name)}}"/>
-                                @error('name')
+                                <label for="user_name">{{__('Name')}}</label>
+                                <input id="user_name" class="form-control" type="text" name="user_name" autocomplete="user_name"  value="{{old('name', $user->user_name)}}"/>
+                                @error('user_name')
                                     <div class="error">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -143,8 +149,15 @@
                     // Hide the error message label
                     label.hide();
                     },
-                        });
+            });
         });
+
+        function chooseFile(event) {
+            const [file] = image.files
+            if (file) {
+                blah.src = URL.createObjectURL(file)
+            }
+        }
     </script>
 
 </x-app-layout>
