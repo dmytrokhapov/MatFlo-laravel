@@ -17,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['middleware' => 'api.key'], function () {
+    Route::get('/v1/ping', function(Request $request) {
+        return response()->json(['message' => 'pong']);
+    });
+});
