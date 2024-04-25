@@ -51,9 +51,11 @@ Route::middleware(['auth'])->group(function () {
     // Route::middleware(['role:ADMIN,PRODUCER'])->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/publish', [DashboardController::class, 'publish'])->name('publish');
+        Route::get('/apikey', [UserController::class, 'apikey'])->name('apikey');
     // });
 
-    
+    Route::post('/addkey', [UserController::class, 'add'])->name('addkey');
+    Route::get('/apikey/{apikey}/deletekey', [UserController::class, 'delete'])->name('apikey.delete');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::get('/change-password', [ProfileController::class, 'changepasswordFrom'])->name('profile.change-password');

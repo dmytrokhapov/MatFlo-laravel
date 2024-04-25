@@ -246,6 +246,11 @@
                   <i class="nav-icon"> <img width="20" src="{{asset('img/search.svg')}}"></i><p>Explorer</p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="{{route('apikey')}}" class="nav-link @if(Request::is('apikey')) active @endif">
+                  <i class="nav-icon"> <img width="20" src="{{asset('img/password.svg')}}"></i><p>API Key</p>
+              </a>
+            </li>
             <li class="nav-header title-border">USER SETTINGS</li>
               <li class="nav-item">
                 <a href="{{route('profile.update')}}" class="nav-link @if(Request::is('update')) active @endif">

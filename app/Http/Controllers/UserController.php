@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Api_key;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Validation\Rules;
@@ -17,6 +18,28 @@ class UserController extends Controller
     public function index()
     {
         return view('users.index');
+    }
+
+    public function apikey()
+    {
+        $apikeys = Api_key::where('user_id', auth()->id())->get();
+        return view('apikeys')->with(['search' => '', 'apikeys' => $apikeys]);
+    }
+
+    public function add(Request $request) 
+    {
+        Api_key::create([
+            'name' => $request->keyname,
+            'user_id' => auth()->id(),
+            'api_key' => bin2hex(random_bytes(32))
+        ]);
+        return \Redirect::route('apikey')->with('success','API Key created successfully.');
+    }
+
+    public function delete(Api_key $apikey)
+    {
+        Api_key::where('id', $apikey->id)->delete();
+        return \Redirect::route('apikey')->with('success','API Key deleted successfully.');
     }
 
     public function export(Request $request)
