@@ -136,7 +136,7 @@
                                             
                                             <tr>
                                                 <td colspan="3"><span>Download: </span></td>
-                                                <td colspan="7"><a href="{{ route('verifier.document.preview', $document->id) }}" target="_blank"><?php echo $document->name;?></a></td>
+                                                <td colspan="7"><a href="{{ route('document.download', $document->id) }}" target="_blank"><?php echo $document->name;?></a></td>
                                             </tr>
                                             
                                             @endif
