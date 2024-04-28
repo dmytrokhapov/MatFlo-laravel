@@ -246,17 +246,27 @@
                   <i class="nav-icon"> <img width="20" src="{{asset('img/search.svg')}}"></i><p>Explorer</p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="{{route('apikey')}}" class="nav-link @if(Request::is('apikey')) active @endif">
+                  <i class="nav-icon"> <img width="20" src="{{asset('img/password.svg')}}"></i><p>API Key</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/en/blog/" class="nav-link">
+                  <i class="nav-icon"> <img width="20" src="{{asset('img/total-batches.svg')}}"></i><p>Blog</p>
+              </a>
+            </li>
             <li class="nav-header title-border">USER SETTINGS</li>
               <li class="nav-item">
                 <a href="{{route('profile.update')}}" class="nav-link @if(Request::is('update')) active @endif">
                     <i class="nav-icon"><img src="{{asset('img/user.svg')}}" width="20"></i><p>My Profile</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a href="{{route('profile.change-password')}}" class="nav-link @if(Request::is('change-password')) active @endif">
                     <i class="nav-icon"><img src="{{asset('img/admin.svg')}}" width="20"></i><p>Change Password</p>
                 </a>
-              </li>
+              </li> -->
 
         </ul>
       </nav>

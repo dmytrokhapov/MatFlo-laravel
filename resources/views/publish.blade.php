@@ -228,33 +228,41 @@
                                                 <td>{{ $document->uploader->user_name ?? '' }}</td>
                                                 <td>{{ $document->published_at?->format('d M, Y') ?? '' }}</td>
                                                 <td>
-                                                    
-                                                    <a href="javascript:void(0);"
-                                                        class="btn btn-primary btn-sm @if (($document->status !== 'Need Info' && $document->status !== 'Rejected') && Auth::user()->role !== 'ADMIN') disabled @endif"
-                                                        data-document-form="{{ $document }}"
-                                                        data-document-id="{{ route('document.edit', $document->id) }}"
-                                                        onclick="editDocument(this)"
-                                                    >
-                                                        Edit
-                                                    </a>
-                                                    <a href="{{ route('document.delete', $document->id) }}" class="btn btn-danger btn-sm @if ($document->status === 'Published') disabled @endif">Delete</a>
-                                                    @if(Auth::user()->role === "ADMIN")
-                                                        <a href="javascript:void(0);"
-                                                            class="btn btn-primary btn-sm previewBtn"
-                                                            data-document-path="{{ route('admin.document.preview', $document->id) }}"
-                                                            data-document-download="{{ route('document.download_publish', $document->id) }}"
-                                                            data-document-id="{{ $document->id }}"
-                                                            onclick="previewDocument(this)">Preview</a>
-                                                        @if($document->status === "Under Review")
-                                                        <a href="{{ route('document.approve', $document->id) }}"
-                                                            class="btn btn-success btn-sm"
-                                                            onclick="startLoader()"
-                                                        >
-                                                            Approve
-                                                        </a>
-                                                        <a href="{{ route('admin.document.reject', $document->id) }}" class="btn btn-danger btn-sm">Reject</a>
-                                                        @endif
-                                                    @endif
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Actions
+                                                        <span class="caret"></span></button>
+                                                        <ul class="dropdown-menu">     
+                                                            @if ($document->status === 'Need Info' || $document->status === 'Rejected' || Auth::user()->role === 'ADMIN')                                    
+                                                            <li style="text-align: center; margin: 5px;"><a href="javascript:void(0);"
+                                                            data-document-form="{{ $document }}"
+                                                            data-document-id="{{ route('document.edit', $document->id) }}"
+                                                            onclick="editDocument(this)"
+                                                            >
+                                                                Edit
+                                                            </a></li>
+                                                            @endif
+                                                            @if ($document->status !== 'Published') 
+                                                            <li style="text-align: center; margin: 5px;"><a href="{{ route('document.delete', $document->id) }}">Delete</a></li>
+                                                            @endif
+                                                            @if(Auth::user()->role === "ADMIN")
+                                                                <li style="text-align: center; margin: 5px;"><a href="javascript:void(0);"
+                                                                    data-document-path="{{ route('admin.document.preview', $document->id) }}"
+                                                                    data-document-download="{{ route('document.download_publish', $document->id) }}"
+                                                                    data-document-id="{{ $document->id }}"
+                                                                    onclick="previewDocument(this)">Preview</a></li>
+                                                                @if($document->status === "Under Review")
+                                                                <li style="text-align: center; margin: 5px;">
+                                                                    <a href="{{ route('document.approve', $document->id) }}"
+                                                                        onclick="startLoader()"
+                                                                    >
+                                                                        Approve
+                                                                    </a>
+                                                                </li>
+                                                                <li style="text-align: center; margin: 5px;"><a href="{{ route('admin.document.reject', $document->id) }}">Reject</a></li>
+                                                                @endif
+                                                            @endif
+                                                        </ul>
+                                                    </div>
                                                 </td>
                                             @empty
                                                 <td colspan="7" align="center">No Data Available</td>

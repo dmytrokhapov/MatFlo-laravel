@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'adminRoutes' => \App\Http\Middleware\AdminRoutes::class,
         'producer' => \App\Http\Middleware\ProducerMiddleware::class,
         'verifier' => \App\Http\Middleware\VerifierMiddleware::class,
+        'api.key' => \App\Http\Middleware\ApiKeyMiddleware::class,
     ];
 }

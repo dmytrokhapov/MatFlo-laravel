@@ -51,9 +51,11 @@ Route::middleware(['auth'])->group(function () {
     // Route::middleware(['role:ADMIN,PRODUCER'])->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/publish', [DashboardController::class, 'publish'])->name('publish');
+        Route::get('/apikey', [UserController::class, 'apikey'])->name('apikey');
     // });
 
-    
+    Route::post('/addkey', [UserController::class, 'add'])->name('addkey');
+    Route::get('/apikey/{apikey}/deletekey', [UserController::class, 'delete'])->name('apikey.delete');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::get('/change-password', [ProfileController::class, 'changepasswordFrom'])->name('profile.change-password');
@@ -91,8 +93,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/dashboard/upload', [DocumentController::class, 'upload'])->name('dashboard.upload')->middleware('web');
     Route::post('/dashboard/publish', [DocumentController::class, 'publish'])->name('dashboard.publish')->middleware('web');
     Route::post('/dashboard/sign', [DocumentController::class, 'sign'])->name('dashboard.sign')->middleware('web');
-    Route::get('/documents/{document}/download', [DocumentController::class, 'download'])->name('document.download');
-    Route::get('/documents/{document}/download_publish', [DocumentController::class, 'download_publish'])->name('document.download_publish');
     Route::post('/documents/{document}/edit', [DocumentController::class, 'edit'])->name('document.edit');
     Route::get('/documents/{document}/delete', [DocumentController::class, 'delete'])->name('document.delete');
     Route::get('/documents/{document}/preview', [DocumentController::class, 'preview'])->name('verifier.document.preview');
