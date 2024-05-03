@@ -248,7 +248,7 @@
             </li>
             <li class="nav-item">
               <a href="{{route('apikey')}}" class="nav-link @if(Request::is('apikey')) active @endif">
-                  <i class="nav-icon"> <img width="20" src="{{asset('img/password.svg')}}"></i><p>API Key</p>
+                  <i class="nav-icon"> <img width="20" src="{{asset('img/password.svg')}}"></i><p>Developer</p>
               </a>
             </li>
             <li class="nav-item">
