@@ -251,11 +251,6 @@
                   <i class="nav-icon"> <img width="20" src="{{asset('img/password.svg')}}"></i><p>Developer</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="/en/blog/" class="nav-link">
-                  <i class="nav-icon"> <img width="20" src="{{asset('img/total-batches.svg')}}"></i><p>Blog</p>
-              </a>
-            </li>
             <li class="nav-header title-border">USER SETTINGS</li>
               <li class="nav-item">
                 <a href="{{route('profile.update')}}" class="nav-link @if(Request::is('update')) active @endif">
