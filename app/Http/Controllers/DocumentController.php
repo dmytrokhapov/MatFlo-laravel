@@ -279,8 +279,8 @@ class DocumentController extends Controller
             $filename = time() . '_' . str_replace(" ", "_", $file->getClientOriginalName());
             $filePath = 'documents/' . $filename;
 
-            $response = Storage::disk('s3')->put($filePath, file_get_contents($file));
-            $fileUrl = Storage::disk('s3')->url($filePath);
+            $response = Storage::disk('s3-private')->put($filePath, file_get_contents($file));
+            $fileUrl = Storage::disk('s3-private')->url($filePath);
 
             \Log::info("File Path: " . $filePath);
             \Log::info("File URL: " . $fileUrl);
@@ -367,10 +367,10 @@ class DocumentController extends Controller
             }
 
             // Retrieve file from S3
-            $fileContents = Storage::disk('s3')->get($filePath);
+            $fileContents = Storage::disk('s3-private')->get($filePath);
 
             // Determine the MIME type of the file
-            $mimeType = Storage::disk('s3')->mimeType($filePath);
+            $mimeType = Storage::disk('s3-private')->mimeType($filePath);
 
             // Set appropriate headers for file download
             $headers = [
@@ -395,10 +395,10 @@ class DocumentController extends Controller
             $filePath = str_replace(env("AWS_URL"), "", $document->file_path);
 
             // Retrieve file from S3
-            $fileContents = Storage::disk('s3')->get($filePath);
+            $fileContents = Storage::disk('s3-private')->get($filePath);
 
             // Determine the MIME type of the file
-            $mimeType = Storage::disk('s3')->mimeType($filePath);
+            $mimeType = Storage::disk('s3-private')->mimeType($filePath);
 
             // Set appropriate headers for file download
             $headers = [

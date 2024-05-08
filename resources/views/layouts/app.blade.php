@@ -231,6 +231,7 @@
 
                with font-awesome or any other icon font library -->
             <li class="nav-header">MAIN CATEGORY</li>
+            @if(Auth::user()->status === 1)
             <li class="nav-item">
             <a href="{{route('dashboard')}}" class="nav-link @if(Request::is('dashboard')) active @endif">
                 <i class="nav-icon"> <img src="{{asset('img/dashboard.svg')}}"></i><p>Dashboard</p>
@@ -241,16 +242,19 @@
                 <i class="nav-icon"> <img src="{{asset('img/result.svg')}}"></i><p>Publish</p>
             </a>
             </li>
+            @endif
             <li class="nav-item">
               <a href="{{route('explorer')}}" class="nav-link @if(Request::is('explorer')) active @endif">
                   <i class="nav-icon"> <img width="20" src="{{asset('img/search.svg')}}"></i><p>Explorer</p>
               </a>
             </li>
+            @if(Auth::user()->status === 1)
             <li class="nav-item">
               <a href="{{route('apikey')}}" class="nav-link @if(Request::is('apikey')) active @endif">
                   <i class="nav-icon"> <img width="20" src="{{asset('img/password.svg')}}"></i><p>Developer</p>
               </a>
             </li>
+            @endif
             <li class="nav-header title-border">USER SETTINGS</li>
               <li class="nav-item">
                 <a href="{{route('profile.update')}}" class="nav-link @if(Request::is('update')) active @endif">

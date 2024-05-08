@@ -44,8 +44,8 @@ class ApiDocumentController extends Controller
             $filename = time() . '_' . str_replace(" ", "_", $file->getClientOriginalName());
             $filePath = 'documents/' . $filename;
 
-            $response = Storage::disk('s3')->put($filePath, file_get_contents($file));
-            $fileUrl = Storage::disk('s3')->url($filePath);
+            $response = Storage::disk('s3-private')->put($filePath, file_get_contents($file));
+            $fileUrl = Storage::disk('s3-private')->url($filePath);
 
             return $fileUrl;
         } catch (\Exception $e) {

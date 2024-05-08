@@ -8,6 +8,9 @@ class Api_key extends Model
 {
     protected $fillable = [
         'name',
+        'company',
+        'description',
+        'website',
         'user_id',
         'api_key',
         'created_at',

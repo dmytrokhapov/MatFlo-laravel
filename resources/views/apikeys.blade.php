@@ -111,6 +111,26 @@
                                                                 name="keyname" placeholder="Name"
                                                                 data-parsley-required="true">
                                                         </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="keydescription">Description </label>
+                                                            <input type="text" class="form-control" id="keydescription"
+                                                                name="keydescription" placeholder="Short description"
+                                                                data-parsley-required="true">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="keycompany">Company Name <i
+                                                                    class="red">*</i></label>
+                                                            <input type="text" class="form-control" id="keycompany"
+                                                                name="keycompany" placeholder="Company name"
+                                                                data-parsley-required="true">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="keysite">Company Website <i
+                                                                    class="red">*</i></label>
+                                                            <input type="text" class="form-control" id="keysite"
+                                                                name="keysite" placeholder="https://example.com"
+                                                                data-parsley-required="true">
+                                                        </div>
                                                     </fieldset>
 
                                             </div>
