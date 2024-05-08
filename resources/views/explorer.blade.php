@@ -4,6 +4,20 @@
         .verified_info{
             color: green;
         }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; height: 500px; }
+        #marker {
+            background-image: url('https://docs.mapbox.com/mapbox-gl-js/assets/washington-monument.jpg');
+            background-size: cover;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .mapboxgl-popup {
+            max-width: 200px;
+        }
+
     </style>
 
       <!-- Main content -->
@@ -20,10 +34,10 @@
             <br />
             <!-- .row -->
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-8">
                     <div class="white-box">
                         <div style="display: flex; gap: 5px;">
-                            <input type="text" style="max-width: 500px;" class="form-control" size="30" placeholder="Search Documents" onkeyup="filterResult(event, this.value)" onblur="hideDropDown()">
+                            <input type="text" style="max-width: 500px;" class="form-control" size="30" placeholder="Search Documents" onkeyup="filterResult(event, this.value)" >
                             <button class="btn btn-primary" onclick="showTable()">Search</button>
                         </div>    
                         <div id="livesearch" style="max-width: 500px; border-radius: 5px; position: fixed; background-color: white;" ></div>
@@ -48,13 +62,40 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <div id="map"></div>
+                </div>
             </div>
         </div>
       </section>
 
       <!-- <script type="text/javascript" src="{{asset('js/app/batch-details.js')}}"></script> -->
       <script>
-        var res;
+        // TO MAKE THE MAP APPEAR YOU MUST
+        // ADD YOUR ACCESS TOKEN FROM
+        // https://account.mapbox.com
+        mapboxgl.accessToken = 'pk.eyJ1IjoibW9oaXRkb3llbjEiLCJhIjoiY2xqd2tmbzZrMGJjbTNkbnZmcXVjcjcxeSJ9.KyeOVUuO1zBUNT55Bh4QFQ';
+        const monument = [-97.0353, 38.8895];
+        const map = new mapboxgl.Map({
+            container: 'map',
+            // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+            style: 'mapbox://styles/mapbox/standard',
+            center: monument,
+            zoom: 1.2
+        });
+
+        // create the popup
+        const popup = new mapboxgl.Popup({ offset: 25 }).setText(
+            'Construction on the Washington Monument began in 1848.'
+        );
+
+        // create DOM element for the marker
+        const el = document.createElement('div');
+        el.id = 'marker';
+
+        
+
+        var res, features = [], promises = [];
         function showResult(str) {
             // if (str.length==0) {
             //     document.getElementById("livesearch").innerHTML="";
@@ -64,7 +105,60 @@
             var xmlhttp=new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (this.readyState==4 && this.status==200) {
-                    res = JSON.parse(this.responseText)
+                    res = JSON.parse(this.responseText);
+                    
+                    for(rs of res) {
+                        if(rs.location != null) {
+                            let promise = fetch('https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(rs.location)+'&format=json&addressdetails=1&polygon_geojson=0&countrycodes=US')
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log(encodeURIComponent(rs.location), data)
+                                if(data.length > 0) {
+                                    // create the marker
+                                    features.push({
+                                        // feature for Mapbox DC
+                                        'type': 'Feature',
+                                        'geometry': {
+                                            'type': 'Point',
+                                            'coordinates': [data[0].lon, data[0].lat]
+                                        },
+                                        'properties': {
+                                            'description':
+                                                '<strong>'+rs.name+'</strong>'
+                                        },
+                                    })
+                                }
+                                
+                            })
+                            .catch(err => console.error(err));
+
+                            promises.push(promise)
+                        }
+                        
+                    }
+                    Promise.all(promises)
+                    .then(() => {
+                        map.addSource('places', {
+                            'type': 'geojson',
+                            'data': {
+                                'type': 'FeatureCollection',
+                                'features': features
+                            }
+                        });
+                        map.addLayer({
+                            'id': 'places',
+                            'type': 'circle',
+                            'source': 'places',
+                            'paint': {
+                                'circle-color': '#4264fb',
+                                'circle-radius': 6,
+                                'circle-stroke-width': 2,
+                                'circle-stroke-color': '#ffffff'
+                            }
+                        });
+                    });
+                    
+                    
                     stopLoader();
                 }
             }
@@ -140,6 +234,7 @@
 
         function showTable() {
             $("#resTable").show();
+            hideDropDown();
         }
 
         showResult('');

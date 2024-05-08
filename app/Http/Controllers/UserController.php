@@ -28,8 +28,17 @@ class UserController extends Controller
 
     public function add(Request $request) 
     {
+        $request->validate([
+            'keyname' => ['required', 'string', 'max:255'],
+            'keycompany' => ['required', 'string', 'max:255'],
+            'keysite' => ['required', 'url'],
+        ]);
+
         Api_key::create([
             'name' => $request->keyname,
+            'description' => $request->keydescription,
+            'company' => $request->keycompany,
+            'website' => $request->keysite,
             'user_id' => auth()->id(),
             'api_key' => bin2hex(random_bytes(32))
         ]);
@@ -233,6 +242,7 @@ class UserController extends Controller
        // dd(date('Y-m-d H:i:s'));
         if($user->email_verified_at == null){
             $user->email_verified_at = date('Y-m-d H:i:s');
+            $user->status = 1;
         }
 
         $user->save();

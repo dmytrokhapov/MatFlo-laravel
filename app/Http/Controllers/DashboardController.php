@@ -30,11 +30,15 @@ class DashboardController extends Controller
         $documentAll = Document::with(['producer', 'verifier'])->where('name', 'LIKE', '%'.$search.'%')->orWhere('document_id', 'LIKE', '%'.$search.'%')->orWhere('status', 'LIKE', '%'.$search.'%')->orWhereHas('producer', function ($query) use ($search) {
             $query->where('user_name', 'like', '%' . $search . '%');
         })->get();
-        $documents = Document::with(['producer', 'verifier'])->where('producer_id', $userId)->where('name', 'LIKE', '%'.$search.'%')->orWhere('document_id', 'LIKE', '%'.$search.'%')->orWhere('status', 'LIKE', '%'.$search.'%')->orWhereHas('producer', function ($query) use ($search) {
-            $query->where('user_name', 'like', '%' . $search . '%');
+        $documents = Document::with(['producer', 'verifier'])->where('producer_id', $userId)->where(function ($query) use ($request, $search) {
+            $query->where('name', 'LIKE', '%'.$search.'%')->orWhere('document_id', 'LIKE', '%'.$search.'%')->orWhere('status', 'LIKE', '%'.$search.'%')->orWhereHas('producer', function ($query) use ($search) {
+                $query->where('user_name', 'like', '%' . $search . '%');
+            });
         })->latest()->paginate(10);
-        $documentsForReview = Document::with(['producer', 'verifier'])->where('verifier_id', $userId)->where('name', 'LIKE', '%'.$search.'%')->orWhere('document_id', 'LIKE', '%'.$search.'%')->orWhere('status', 'LIKE', '%'.$search.'%')->orWhereHas('producer', function ($query) use ($search) {
-            $query->where('user_name', 'like', '%' . $search . '%');
+        $documentsForReview = Document::with(['producer', 'verifier'])->where('verifier_id', $userId)->where(function ($query) use ($request, $search) {
+            $query->where('name', 'LIKE', '%'.$search.'%')->orWhere('document_id', 'LIKE', '%'.$search.'%')->orWhere('status', 'LIKE', '%'.$search.'%')->orWhereHas('producer', function ($query) use ($search) {
+                $query->where('user_name', 'like', '%' . $search . '%');
+            });
         })->latest()->paginate(10);
 
 

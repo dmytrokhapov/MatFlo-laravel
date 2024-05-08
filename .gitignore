@@ -16,6 +16,7 @@ Dockerfile.local
 /public/hot
 /public/storage
 /public/ImportExcelFiles
+/public/blog_images/*
 /storage/*.key
 /vendor
 .env

@@ -93,6 +93,7 @@
                                             <div class="form-group">
                                                 <label class="control-label" for="documentLocation">Location <i
                                                         class="red">*</i></label>
+                                                
                                                 <input type="text" class="form-control" id="documentLocation"
                                                     name="documentLocation" placeholder="Location"
                                                     data-parsley-required="true">
@@ -636,6 +637,28 @@
             });
         }
     </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXlDcThCKtvEVQFNFyrkOWJkY1hfUuRnc&libraries=places&callback=initAutocomplete" async></script>
+        <script>
+            let autocomplete;
+
+            /* ------------------------- Initialize Autocomplete ------------------------ */
+            function initAutocomplete() {
+                const input = document.getElementById("documentlocation");
+                const options = {
+                    componentRestrictions: { country: "IN" }
+                }
+                autocomplete = new google.maps.places.Autocomplete(input, options);
+                autocomplete.addListener("place_changed", onPlaceChange)
+            }
+
+            /* --------------------------- Handle Place Change -------------------------- */
+            function onPlaceChange() {
+                const place = autocomplete.getPlace();
+                console.log(place.formatted_address)
+                console.log(place.geometry.location.lat())
+                console.log(place.geometry.location.lng())
+            }
+        </script>
     <script type="text/javascript" src="{{ asset('js/app/user.js') }}"></script>
 
 

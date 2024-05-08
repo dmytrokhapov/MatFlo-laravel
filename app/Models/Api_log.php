@@ -4,15 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Api_key extends Model
+class Api_log extends Model
 {
     protected $fillable = [
-        'name',
-        'company',
-        'description',
-        'website',
-        'user_id',
-        'api_key',
+        'ip_address',
+        'api_key_id',
+        'api',
         'created_at',
     ];
 
@@ -20,9 +17,9 @@ class Api_key extends Model
         'created_at' => 'datetime', // Cast 'created_at' attribute to datetime
     ];
 
-    public function keyuser()
+    public function api_key()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Api_key::class, 'api_key_id');
     }
 
 }

@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
+use App\Models\User;
 
 class VerifyEmailController extends Controller
 {
@@ -20,6 +21,10 @@ class VerifyEmailController extends Controller
         }
 
         if ($request->user()->markEmailAsVerified()) {
+            $user = $request->user();
+            $user->status = 1;
+            $user->save();
+
             event(new Verified($request->user()));
         }
 
