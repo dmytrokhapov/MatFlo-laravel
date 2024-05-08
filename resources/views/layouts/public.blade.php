@@ -29,6 +29,7 @@
   <link href="{{asset('plugins/switchery/dist/switchery.min.css')}}" rel="stylesheet" />
   <link href="{{asset('plugins/timepicker/bootstrap-timepicker.min.css')}}" rel="stylesheet">
   <link href="{{asset('plugins/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" media="screen">
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet">
   <style>
     .form-control.valid + label.error {
         display: none !important;
@@ -123,6 +124,7 @@
 <script src="{{asset('js/adminlte.min.js')}}"></script>
 <!-- Select Dropdown -->
 <script src="{{asset('js/jquery.nice-select.min.js')}}"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
 <script>
   $(document).ready(function() {
     $('.custom-select-design').niceSelect();
