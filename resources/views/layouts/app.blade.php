@@ -89,7 +89,6 @@
 {{-- <script src="{{asset('plugins/jquery-sparkline/jquery.sparkline.min.js')}}"></script> --}}
 {{-- <script src="plugins/datatables/jquery.dataTables.min.js"></script> --}}
 <!--Counter js -->
-<script src="https://cdn.jsdelivr.net/npm/ipfs/dist/index.min.js" crossorigin="anonymous"></script>
 
 <script>
     var list_image_url = "{{asset('img/list-action.svg')}}";
