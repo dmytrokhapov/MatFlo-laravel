@@ -4,17 +4,22 @@
             <div class="login-logo mb-5">
                 <a href="{{route('login')}}">MatFlo</a>
             </div>
+            @if($errors->any())
+            <div class="alert alert-danger">
+                {!! implode('', $errors->all('<div>:message</div>')) !!}
+            </div>
+            @endif
             <form method="POST" id="formSignUp" action="{{ route('register') }}">
                 @csrf
                 <div class="form-group mb-3">
                     <label for="role">Role</label>
                     <p>
                         <select name="role" id="userRoles" class="form-control custom-select-design"
-                            placeholder="Select Role">
-                            <option value="">Select Role</option>
-                            <option value="PRODUCER">Producer</option>
+                            placeholder="Select Role" value="{{old('role')}}">
+                            <option value="" >Select Role</option>
+                            <option value="PRODUCER" @selected(old('role') == 'PRODUCER')>Producer</option>
                             <!-- <option value="CALCULATOR">Calculator</option> -->
-                            <option value="VERIFIER">Verifier</option>
+                            <option value="VERIFIER" @selected(old('role') == 'VERIFIER')>Verifier</option>
                         </select>
                     </p>
                 </div>
