@@ -47,7 +47,7 @@ Route::get('/documents/{document}/download_publish', [DocumentController::class,
 Route::get('/explorer', [DashboardController::class,'explorer'])->name('explorer');
 Route::get('/search', [DashboardController::class, 'search'])->name('search');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     // Route::middleware(['role:ADMIN,PRODUCER'])->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/publish', [DashboardController::class, 'publish'])->name('publish');
