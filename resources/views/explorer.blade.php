@@ -37,6 +37,7 @@
             cursor: pointer;
             padding: 10px 20px;
             border-radius: 3px;
+            display: none;
         }
         #btn-spin:hover {
             background-color: #4ea0da;
