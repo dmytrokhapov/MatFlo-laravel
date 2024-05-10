@@ -24,7 +24,7 @@ class ProfileUpdateRequest extends FormRequest
             } else {
                 return true;
             }
-        }, 'Email id is already exists.');
+        }, 'Email already exists.');
         return [
             'user_name' => ['string', 'max:255'],
             'image' => ['file', 'mimes:png,jpg,jpeg,ico,bmp', 'max:1024'],
