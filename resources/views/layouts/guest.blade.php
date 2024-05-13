@@ -47,7 +47,6 @@
 {{-- <script src="{{asset('assets/js/jquery.min.js')}}"></script> --}}
 <script src="{{asset('assets/js/jquery.validate.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/sweetAlert.js')}}"></script>
-<script src="https://cdn.jsdelivr.net/npm/ipfs/dist/index.min.js" crossorigin="anonymous"></script>
 <script src="{{asset('plugins/waypoints/lib/jquery.waypoints.js')}}"></script>
 <script src="{{asset('plugins/counterup/jquery.counterup.min.js')}}"></script>
 {{-- <script src="{{asset('js/custom.min.js')}}"></script> --}}
