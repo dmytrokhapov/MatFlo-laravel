@@ -11,6 +11,7 @@ use App\Http\Controllers\LandDetailController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WorkFlowController;
 use App\Http\Controllers\WorkspaceController;
+use App\Http\Controllers\PostsController;
 
 
 /*
@@ -46,6 +47,10 @@ Route::get('/documents/{document}/download_publish', [DocumentController::class,
 
 Route::get('/explorer', [DashboardController::class,'explorer'])->name('explorer');
 Route::get('/search', [DashboardController::class, 'search'])->name('search');
+
+Route::get('/blogs', [PostsController::class, 'index']);
+Route::get('post/{slug}', [PostsController::class, 'single']);
+Route::get('/about', [PostsController::class, 'about']);
 
 Route::middleware(['auth', 'verified'])->group(function () {
     // Route::middleware(['role:ADMIN,PRODUCER'])->group(function () {

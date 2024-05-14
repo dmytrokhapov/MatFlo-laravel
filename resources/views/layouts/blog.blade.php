@@ -1,181 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{env('APP_NAME')}}</title>
-
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{asset('plugins/fontawesome-free/css/all.min.css')}}">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <link rel="stylesheet" href="{{asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
-  <link rel="stylesheet" href="{{asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
-  <link rel="stylesheet" href="{{asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{asset('css/adminlte.css')}}">
-  <link rel="stylesheet" href="{{asset('assets/css/toastr.min.css')}}">
-  <link rel="stylesheet" href="{{asset('css/sweetAlert.css')}}">
-  {{-- <link href="{{asset('css/style.css')}}" rel="stylesheet"> --}}
-   <link href="{{asset('css/custom_style.css')}}" rel="stylesheet">
-   <link href="{{asset('css/pavan.css')}}" rel="stylesheet">
-  <link rel="stylesheet" href="{{asset('plugins/select2/css/select2.min.css')}}">
-  <link rel="stylesheet" href="{{asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
-  <link href="{{asset('css/bootstrap-datepicker.min.css')}}" rel="stylesheet"/>
-  <link href="{{asset('plugins/Magnific-Popup-master/dist/magnific-popup.css')}}" rel="stylesheet">
-  <link href="{{asset('plugins/switchery/dist/switchery.min.css')}}" rel="stylesheet" />
-  <link href="{{asset('plugins/timepicker/bootstrap-timepicker.min.css')}}" rel="stylesheet">
-  <link href="{{asset('plugins/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" media="screen">
-  @yield('blog-custom-css')
-  <style>
-    .form-control.valid + label.error {
-        display: none !important;
-    }
-    .error{
-        color: red;
-        margin-bottom: 0 !important;
-    }
-    .action .custom-control{
-        display: inline-table;
-    }
-    .hideColumn  {
-        display: none;
-    }
-
-    .hide_first tr th:first-child:before , .hide_first tr th:first-child:after{
-        display: none;
-    }
-
-    .hidden{
-        display: none;
-    }
-
-    .align-end{
-        margin-top: 30px;
-    }
-
-</style>
-<script>
-    // globCoinbase = "0x60AA2C9825066cF93b22B0158F4882c1BFadFf90";
-    // console.log('globCoinbase--', globCoinbase);
-</script>
-<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
-<!-- Bootstrap 4 -->
-<script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-<!-- DataTables  & Plugins -->
-<script src="{{asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-<script src="{{asset('plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-<script src="{{asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-<script src="{{asset('plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
-<script src="{{asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
-<script src="{{asset('plugins/jszip/jszip.min.js')}}"></script>
-<script src="{{asset('plugins/pdfmake/pdfmake.min.js')}}"></script>
-<script src="{{asset('plugins/pdfmake/vfs_fonts.js')}}"></script>
-<script src="{{asset('plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
-<script src="{{asset('plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
-<script src="{{asset('plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
-<script src="{{asset('assets/js/toastr.min.js')}}"></script>
-<script src="{{asset('assets/js/jquery.validate.min.js')}}"></script>
-<script src="{{asset('plugins/select2/js/select2.full.min.js')}}"></script>
-<script src="{{asset('js/bootstrap-datepicker.min.js')}}"></script>
-
-
-<script src="{{asset('js/jquery.slimscroll.js')}}"></script>
-<!--Wave Effects -->
-<script src="{{asset('js/waves.js')}}"></script>
-{{-- <script src="{{asset('plugins/jquery-sparkline/jquery.sparkline.min.js')}}"></script> --}}
-{{-- <script src="plugins/datatables/jquery.dataTables.min.js"></script> --}}
-<!--Counter js -->
-
-<script>
-    var list_image_url = "{{asset('img/list-action.svg')}}";
-    var edit_image_url = "{{asset('img/edit.svg')}}";
-</script>
-<script type="text/javascript" src="{{asset('js/app/app.js')}}"></script>
-<script src="{{asset('plugins/waypoints/lib/jquery.waypoints.js')}}"></script>
-<script src="{{asset('plugins/counterup/jquery.counterup.min.js')}}"></script>
-{{-- <script src="{{asset('js/custom.min.js')}}"></script> --}}
-<script src="{{asset('js/dashboard1.js')}}"></script>
-<script src="{{asset('plugins/jquery-sparkline/jquery.sparkline.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/web3.min.js')}}"></script>
-
-<script type="text/javascript" src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js"></script>
-<script type="text/javascript" src="{{asset('js/abi/CoffeeSupplyChainAbi.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/abi/SupplyChainUserAbi.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/abi/SupplyChainStorageAbi.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/sweetAlert.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/parsley.min.js')}}"></script>
-<script src="{{asset('plugins/switchery/dist/switchery.min.js')}}"></script>
-
-<script src="{{asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
-
-<script type="text/javascript" src="{{asset('plugins/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js')}}" charset="UTF-8"></script>
-<script type="text/javascript" src="{{asset('plugins/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.fr.js')}}" charset="UTF-8"></script>
-
-
-<script src="{{asset('plugins/Magnific-Popup-master/dist/jquery.magnific-popup.min.js')}}"></script>
-<script src="{{asset('plugins/Magnific-Popup-master/dist/jquery.magnific-popup-init.js')}}"></script>
-<!-- AdminLTE App -->
-<script src="{{asset('js/adminlte.min.js')}}"></script>
-<!-- Select Dropdown -->
-<script src="{{asset('js/jquery.nice-select.min.js')}}"></script>
-<script>
-  $(document).ready(function() {
-    $('.custom-select-design').niceSelect();
-    // FastClick.attach(document.body);
-  });
-</script>
-<!-- AdminLTE for demo purposes -->
-{{-- <script src="{{asset('dist/js/demo.js')}}"></script> --}}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Matflo Blog')</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.9.6/tailwind.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.2.x/dist/typography.min.css" />
 </head>
-<body class="hold-transition sidebar-mini admin_body">
-  
-<div class="wrapper">
-  <!-- Navbar -->
-  <div class="preloader">
-    <img width="50" src="/img/spinner.svg" />
-    <span>Please wait... </span>
-  </div>
-  <!-- /.navbar -->
+<body>
 
-  <!-- Main Sidebar Container -->
-  
-
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper" style="margin-left: 0px; padding: 10px;">
-    <!-- Content Header (Page header) -->
-    @yield('content')
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-  <footer class="main-footer" style="margin-left: 0px;">
-    <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.2.0
+<header class="text-gray-700 body-font border-b">
+    <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+        <nav class="flex flex-wrap items-center text-base m-auto">
+            <a href="/" class="mr-5 hover:text-gray-900">Home</a>
+            <a href="/blogs" class="mr-5 hover:text-gray-900">Blog</a>
+            <a href="/about" class="mr-5 hover:text-gray-900">About</a>
+        </nav>
     </div>
-    <strong>Copyright &copy; {{date('Y')}} <a href="{{route('dashboard')}}">{{env('APP_NAME')}}</a>.</strong> All rights reserved.
-  </footer>
+</header>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
-</div>
+    @yield('content')
+
 
 </body>
-<script>
-  function searchDocument() {
-    window.location.href = '/dashboard?q=' + $("#searchQuery").val();
-  }
-
-  function inputKeyClicked(e) {
-    if(e.keyCode == 13) {
-      window.location.href = '/dashboard?q=' + $("#searchQuery").val();
-    }
-  }
-</script>
 </html>
