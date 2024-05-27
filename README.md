@@ -5,4 +5,4 @@
  * Dockerfile
  * entrypoint.sh
  
- never put them under the main branch
+ Don't put them under the main branch.
