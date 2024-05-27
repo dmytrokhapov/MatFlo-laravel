@@ -265,7 +265,7 @@ input[type="checkbox"].js-switch:checked:after {
                             <tr>
                                 <th>IP address</th>
                                 <th>API</th>
-                                <th>Role</th>
+                                <th>API user</th>
                                 <th>Called Date</th>
                             </tr>
                         </thead>
