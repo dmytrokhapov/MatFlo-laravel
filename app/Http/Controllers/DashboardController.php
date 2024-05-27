@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Document;
 use App\Models\Declaration;
 use Illuminate\Http\Request;
+use App\Models\Api_log;
 
 class DashboardController extends Controller
 {
@@ -15,6 +16,7 @@ class DashboardController extends Controller
 
         // Get all users
         $res = User::where('role', '<>', 'ADMIN')->get();
+        $log = Api_log::with(['api_key'])->get();
         $userId = auth()->id();
 
         // check if there is a search string
@@ -45,7 +47,7 @@ class DashboardController extends Controller
         // return view files with users and documents data
 
         if ($userRole === 'ADMIN') {
-            return view('admindashboard', compact('res', 'documentAll', 'search'));
+            return view('admindashboard', compact('res', 'documentAll', 'search', 'log'));
         } elseif ($userRole === 'PRODUCER') {
             return view('dashboard')->with(['documents'=> $documents, 'search' => $search]);
         }elseif ($userRole === 'VERIFIER') {
