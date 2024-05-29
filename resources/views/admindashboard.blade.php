@@ -250,6 +250,45 @@ input[type="checkbox"].js-switch:checked:after {
                 <!-- /.card-body -->
               </div>
               @endif
+
+
+              @if(\Auth::user()->role == 'ADMIN')
+              <div class="card work-flow user">
+                <div class="card-header">
+                  <h3 class="card-title">API Log</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  
+                    <table class="table product-overview" id="tblUser">
+                        <thead>
+                            <tr>
+                                <th>IP address</th>
+                                <th>API</th>
+                                <th>API user</th>
+                                <th>Called Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          @forelse($log as $lg)
+                          <tr>
+                            <td>{{ $lg->ip_address }}</td>
+                            <td>{{ $lg->api }}</td>
+                            <td>{{ $lg->api_key->keyuser->user_name }}</td>
+                            <td>{{ $lg->created_at }}</td>
+                          </tr>
+                          @empty
+                          <tr>
+                              <td colspan="4" align="center">No Data Available</td>
+                          </tr>
+                          @endforelse
+                        </tbody>
+                    </table>
+                  
+                </div>
+                <!-- /.card-body -->
+              </div>
+              @endif
           <!-- /.row -->
         </div>
         <!-- /.container-fluid -->
