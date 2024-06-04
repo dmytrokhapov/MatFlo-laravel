@@ -118,8 +118,8 @@
 
         // create DOM element for the marker
         const el = document.createElement('div');
-        el.id = 'marker';
-
+        el.id = 'marker';     
+        
         
 
         var res, features = [], promises = [];
@@ -165,6 +165,12 @@
                     }
                     Promise.all(promises)
                     .then(() => {
+                        map.style.stylesheet.layers.forEach(function(layer) {
+                            if (layer.type === 'symbol') {
+                                map.removeLayer(layer.id);
+                            }
+                        });
+
                         map.addSource('places', {
                             'type': 'geojson',
                             'data': {
@@ -183,6 +189,7 @@
                                 'circle-stroke-color': '#ffffff'
                             }
                         });
+                        
                     });
                     
                     spinGlobe();

@@ -26,7 +26,7 @@ class UserController extends Controller
         return view('apikeys')->with(['search' => '', 'apikeys' => $apikeys]);
     }
 
-    public function add(Request $request) 
+    public function add(Request $request)
     {
         $request->validate([
             'keyname' => ['required', 'string', 'max:255'],
@@ -194,8 +194,7 @@ class UserController extends Controller
         $user = User::find($id);
         if($user){
 
-            if(\Auth::user()->id == $user->user_id || \Auth::user()->user_type == 2){
-
+            if(\Auth::user()->role === 'ADMIN' || \Auth::user()->id == $user->user_id || \Auth::user()->user_type == 2){
 
                 return view('users.edit',compact('user'));
             }
@@ -326,12 +325,12 @@ class UserController extends Controller
 		$ajax['message'] = '';
 		$ajax['data'] = '';
 		try {
-			// $user = User::findOrFail($request->id);
-            $user = User::where('wallet', $request->wallet)->firstOrFail();
+			 $user = User::findOrFail($request->id);
+//            $user = User::where('wallet', $request->wallet)->firstOrFail();
             if($user){
-               $user->role = $request->role;
-               $user->status = $request->status=='true'?1:0;
-               $user->image = $request->imageUrl;
+                if ($request->role) $user->role = $request->role;
+                if ($request->status) $user->status = $request->status=='true'?1:0;
+//               $user->image = $request->imageUrl;
                $user->save();
                $ajax['flag'] = 1;
             //    if($request->status == 1){
@@ -350,7 +349,7 @@ class UserController extends Controller
 		} catch (\Exception $e) {
 			\Log::error($e);
 			\Log::error($e->getMessage());
-			$ajax['message'] = 'Something went wrong.';
+			$ajax['message'] = $e->getMessage();
 			return response()->json($ajax);
 		}
 	}

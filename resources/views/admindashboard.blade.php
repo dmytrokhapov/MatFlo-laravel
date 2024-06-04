@@ -119,7 +119,7 @@ input[type="checkbox"].js-switch:checked:after {
                     <div class="inner">
                       <p>Regitered Users</p>
                       <h3 id="totalUsers" >{{count($res)}}</h3>
-                      
+
                     </div>
 
                     {{-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> --}}
@@ -131,7 +131,7 @@ input[type="checkbox"].js-switch:checked:after {
                   <div class="small-box bg-success">
                     <figure><img src="{{asset('img/total-roles.svg')}}"></figure>
                     <div class="inner">
-                      
+
                       <p>Total Role</p>
                       <h3>2</h3>
                     </div>
@@ -144,7 +144,7 @@ input[type="checkbox"].js-switch:checked:after {
                   <div class="small-box bg-warning">
                     <figure><img src="{{asset('img/total-batches.svg')}}"></figure>
                     <div class="inner">
-                      
+
                       <p>Total Batches</p>
                       <h3  id="totalBatch">{{count($documentAll)}}</h3>
                     </div>
@@ -220,7 +220,7 @@ input[type="checkbox"].js-switch:checked:after {
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                  
+
                     <table class="table product-overview" id="tblUser">
                         <thead>
                             <tr>
@@ -228,6 +228,7 @@ input[type="checkbox"].js-switch:checked:after {
                                 <th>Name</th>
                                 <th>Role</th>
                                 <th>Joined Date</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -237,6 +238,15 @@ input[type="checkbox"].js-switch:checked:after {
                             <td>{{ $user->user_name }}</td>
                             <td>{{ $user->role }}</td>
                             <td>{{ $user->created_at }}</td>
+                            <td>
+                                @if ($user->status === 1)
+                                    <button type="button" class="btn btn-outline-primary user-reject-btn" data-id="{{ $user->id }}">Reject</button>
+                                @else
+                                    <button type="button" class="btn btn-outline-success user-approve-btn" data-id="{{ $user->id }}">Approve</button>
+                                @endif
+                                <button type="button" class="btn btn-outline-info user-edit-btn" data-detail="{{ $user }}" data-id="{{ $user->id }}">Edit</button>
+                                <button type="button" class="btn btn-outline-danger user-delete-btn" data-id="{{ $user->id }}">Delete</button>
+                            </td>
                           </tr>
                           @empty
                           <tr>
@@ -245,7 +255,7 @@ input[type="checkbox"].js-switch:checked:after {
                           @endforelse
                         </tbody>
                     </table>
-                  
+
                 </div>
                 <!-- /.card-body -->
               </div>
@@ -259,7 +269,7 @@ input[type="checkbox"].js-switch:checked:after {
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                  
+
                     <table class="table product-overview" id="tblUser">
                         <thead>
                             <tr>
@@ -284,7 +294,7 @@ input[type="checkbox"].js-switch:checked:after {
                           @endforelse
                         </tbody>
                     </table>
-                  
+
                 </div>
                 <!-- /.card-body -->
               </div>
@@ -317,7 +327,7 @@ input[type="checkbox"].js-switch:checked:after {
                             <div class="form-group">
                                 <label class="control-label" for="userRoles">User Role <i class="red">*</i></label>
                                 <select class="form-control" id="userRoles" name="userRoles" data-parsley-required="true">
-                                    <option value="">Select Role</option>
+                                    <option value="" disabled>Select Role</option>
                                     <option value="PRODUCER">Producer</option>
                                     <option value="CALCULATOR">Calculator</option>
                                     <option value="VERIFIER">Verifier</option>
@@ -327,15 +337,15 @@ input[type="checkbox"].js-switch:checked:after {
                                 <label class="control-label" for="isActive">User Status</label>
                                 <input type="checkbox" class="js-switch" data-color="#99d683" data-secondary-color="#f96262" id="isActive" name="isActive" data-size="small"/>
                             </div>
-                            <div class="form-group">
+                            {{--<div class="form-group">
                                 <label class="control-label" for="userProfileHash">Profile Image <i class="red">*</i></label>
                                 <input type="file" class="form-control" onchange="handleFileUpload(event);" />
                                 <input type="hidden" class="form-control" id="userProfileHash" name="userProfileHash" placeholder="User Profile Hash" data-parsley-required="true" >
                                 <span id="imageHash"></span>
                                 <input type="hidden" name="imageUrl" id="imageUrl">
-                            </div>
+                            </div>--}}
                         </fieldset>
-
+                    </form>
                 </div>
                 <div class="modal-footer border-0">
                     <i style="display: none;" class="fa fa-spinner fa-spin"></i>
@@ -355,21 +365,21 @@ input[type="checkbox"].js-switch:checked:after {
                 </div>
                 <div class="modal-body">
                     <form id="batchForm" class="createForm" onsubmit="return false;">
-                    <fieldset style="border:0;">
-                        <div class="form-group">
-                            <label class="control-label" for="registrationNo">Registration No <i class="red">*</i></label>
-                            <input type="text" class="form-control" id="registrationNo" name="registrationNo" placeholder="Registration No" data-parsley-required="true">
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label" for="producerName">Producer Name <i class="red">*</i></label>
-                            <input type="text" class="form-control" id="producerName" name="producerName" placeholder="Producer Name" data-parsley-required="true">
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label" for="factoryAddress">Factory Address <i class="red">*</i></label>
-                            <input class="form-control" id="factoryAddress" name="factoryAddress" placeholder="Factory Address" data-parsley-required="true">
-                        </div>
-                    </fieldset>
-
+                        <fieldset style="border:0;">
+                            <div class="form-group">
+                                <label class="control-label" for="registrationNo">Registration No <i class="red">*</i></label>
+                                <input type="text" class="form-control" id="registrationNo" name="registrationNo" placeholder="Registration No" data-parsley-required="true">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="producerName">Producer Name <i class="red">*</i></label>
+                                <input type="text" class="form-control" id="producerName" name="producerName" placeholder="Producer Name" data-parsley-required="true">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="factoryAddress">Factory Address <i class="red">*</i></label>
+                                <input class="form-control" id="factoryAddress" name="factoryAddress" placeholder="Factory Address" data-parsley-required="true">
+                            </div>
+                        </fieldset>
+                    </form>
                 </div>
                 <div class="modal-footer border-0">
                     <button type="submit" onclick="addCultivationBatch();" class="fcbtn btn submit-btn btn-1f">Submit</button>
@@ -378,19 +388,138 @@ input[type="checkbox"].js-switch:checked:after {
             </div>
         </div>
       </div>
-    
+
       <script>
         var res = '<?php echo json_encode($res);?>';
         //console.log(res);
         var users_res = JSON.parse(res);
         //console.log(users_res);
+        @if(session('error'))
+            var error_server = "{{ session('error') }}";
+            // Handle the error here, for example:
+            toastr.error(error_server);
+        @endif
+
       </script>
       <script>
          var _token = "{{ csrf_token() }}";
-         var _url = "{{ route('updateUser') }}";
          var list_image_url = "{{asset('img/list-action.svg')}}";
-         
+         var _update_user_url = "{{ route('updateUser') }}";
+         var _delete_user_url = "{{ route('deleteUser', ['id' => '__ID__']) }}";
+         var userId = "";
+         var userInfo = "";
       </script>
+    <script>
+        $(document).ready(function(){
+
+            $(".user-edit-btn").click(function(){
+                var element = $(this);
+                userInfo = element.data("detail");
+                console.log(userInfo)
+                userId = userInfo.id;
+                $("#userFormModel #userName").val(userInfo.user_name);
+                $("#userFormModel #userRoles").val(userInfo.role).change();
+                $("#userFormModel #isActive").val(userInfo.isActive);
+                $("#userFormModel").modal('show');
+
+            });
+
+            $(".user-delete-btn").click(function(){
+                var element = $(this);
+                userId = element.data("id");
+                var url = _delete_user_url.replace('__ID__', userId);
+
+                startLoader();
+                $.ajax({
+                    'url': url,
+                    'type': 'DELETE',
+                    'headers': {
+                        'X-CSRF-TOKEN': _token
+                    },
+                    'success': function(data, status, xhr) {
+                        toastr.success(data.message);
+                        element.parent().parent().hide();
+                    },
+                    'error': function(res, error) {
+                        toastr.error(res.message);
+                    },
+                    'complete': function () {
+                        stopLoader();
+                    }
+                });
+            });
+
+            $(".user-approve-btn").click(function(){
+                var element = $(this);
+                userId = element.data("id");
+
+                startLoader();
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    url: _update_user_url,
+                    data: {
+                        "_token": _token,
+                        "id": userId,
+                        "status": true
+                    },
+                    success: function (response) {
+                        console.log("response", response);
+                        if(response.flag){
+                            toastr.success(response.message);
+                            element.removeClass("user-approve-btn btn-outline-success");
+                            element.addClass("user-reject-btn btn-outline-primary");
+                            element.text("Reject")
+                        }
+                        else{
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function (res) {
+                        toastr.warning(res.message);
+                    },
+                    complete: function () {
+                        stopLoader();
+                    }
+                });
+            });
+
+            $(".user-reject-btn").click(function(){
+                var element = $(this);
+                userId = element.data("id");
+
+                startLoader();
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    url: _update_user_url,
+                    data: {
+                        "_token": _token,
+                        "id": userId,
+                        "status": false
+                    },
+                    success: function (response) {
+                        console.log("response", response);
+                        if(response.flag){
+                            toastr.success(response.message);
+                            element.removeClass("user-reject-btn btn-outline-primary");
+                            element.addClass("user-approve-btn btn-outline-success");
+                            element.text("Approve")
+                        }
+                        else{
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function (res) {
+                        toastr.warning(res.message);
+                    },
+                    complete: function () {
+                        stopLoader();
+                    }
+                });
+            });
+        });
+    </script>
     <script type="text/javascript" src="{{asset('js/app/admin.js')}}"></script>
-    
+
 </x-app-layout>

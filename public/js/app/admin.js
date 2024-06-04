@@ -6,18 +6,47 @@ $(window).on('coinbaseReady',function(){
 
 function userFormSubmit(){
     if($("form#userForm").parsley().isValid()){
-        var userWalletAddress = $("#userWalletAddress").val();
-		// var userName          = $("#userName").val();
-		// var userContactNo     = $("#userContactNo").val();
-		// var password          = $("#password").val();
 		var userRoles         = $("#userRoles").val();
 		var isActive          = $("#isActive").is(":checked");
-		var userImageAddress  = $("#userProfileHash").val();
-		var imageUrl  = $("#imageUrl").val();
-        // startLoader();
         $("#userFormBtn").prop('disabled', true);
         $("#userFormModel .fa-spinner").show();
-		globUserContractEthers.updateUserForAdmin(userWalletAddress,userRoles,isActive,userImageAddress)
+
+        startLoader();
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: _update_user_url,
+            data: {
+                "_token": _token,
+                "id": userId,
+                "role":userRoles,
+                "status":isActive
+            },
+            success: function (response) {
+                console.log("response", response);
+                if(response.flag){
+                    toastr.success(response.message);
+                }
+                else{
+                    toastr.error(response.message);
+                }
+            },
+            error: function (res) {
+                toastr.warning(res.message);
+            },
+            complete: function () {
+                var ele = $(".user-edit-btn[data-id=" + userId + "]");
+                var userInfo = ele.data("detail");
+                userInfo.role = userRoles;
+                ele.attr("data-detail", userInfo);
+                stopLoader();
+            }
+        });
+        $("#userFormBtn").prop('disabled', false);
+        $("#userFormModel .fa-spinner").hide();
+        $("#userFormModel").modal('hide');
+
+		/*globUserContractEthers.updateUserForAdmin(userWalletAddress,userRoles,isActive,userImageAddress)
 		.then(function(transaction) {
             handleTransactionResponse(transaction.hash);
             transaction.wait().then(function(transactionReceipt) {
@@ -70,7 +99,7 @@ function userFormSubmit(){
             $("#userFormBtn").prop('disabled', false);
             $("#userFormModel .fa-spinner").hide();
             return;
-        });
+        });*/
 	}
 }
 
