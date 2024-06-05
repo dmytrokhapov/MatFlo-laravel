@@ -141,4 +141,9 @@ class DashboardController extends Controller
         return view('explorer');
     }
 
+    public function explorerOld()
+    {
+        return view('explorerOld');
+    }
+
 }

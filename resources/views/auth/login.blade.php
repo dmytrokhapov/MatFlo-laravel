@@ -16,6 +16,16 @@
                 {{ session('error') }}
             </div>
             @endif
+            @if ($errors->has('email'))
+                <div class="alert alert-danger">
+                    {{ $errors->first('email') }}
+                </div>
+            @endif
+            @if ($errors->has('password'))
+                <div class="alert alert-danger">
+                    <span>{{ $errors->first('password') }}</span>
+                </div>
+            @endif
             {{-- <x-auth-session-status class="mb-4" :status="session('status')" /> --}}
             <form method="POST" id="loginform" action="{{ route('login') }}">
                 @csrf
