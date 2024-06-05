@@ -16,7 +16,7 @@
                     <p>
                         <select name="role" id="userRoles" class="form-control custom-select-design"
                             placeholder="Select Role" value="{{old('role')}}">
-                            <option value="" >Select Role</option>
+                            <option value="" disabled>Select Role</option>
                             <option value="PRODUCER" @selected(old('role') == 'PRODUCER')>Producer</option>
                             <!-- <option value="CALCULATOR">Calculator</option> -->
                             <option value="VERIFIER" @selected(old('role') == 'VERIFIER')>Verifier</option>

@@ -1,10 +1,207 @@
 <x-public-layout>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Nunito', sans-serif;
+        }
 
-    <style type="text/css">
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #f9f9f9;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            padding: 10px 0;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #007BFF;
+        }
+
+        .btn {
+            background-color: #000;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 15px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #333;
+        }
+
+        .transparent-btn {
+            background-color: rgba(255, 255, 255, 0.5);
+            color: #000;
+            border: 2px solid #000;
+            border-radius: 15px;
+            font-size: 14px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .transparent-btn:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+            color: #333;
+        }
+
+        .main-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .map-container {
+            flex: 1 1 45%;
+            padding: 20px;
+        }
+
+        .world-map {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .table-container {
+            flex: 1 1 55%;
+            padding: 20px;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .cta-section h1 {
+            margin-bottom: 30px;
+        }
+
+        .cta-buttons .btn {
+            background-color: #000;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 15px;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-buttons .btn:hover {
+            background-color: #333;
+        }
+
+        footer {
+            background-color: #fff;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #ddd;
+        }
+
+        footer nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        footer nav ul li {
+            margin: 0 15px;
+        }
+
+        footer nav ul li a {
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+        footer nav ul li a:hover {
+            color: #007BFF;
+        }
+
         .verified_info{
             color: green;
         }
-        #map { position: absolute; top: 0; bottom: 0; width: 100%; height: 500px; }
+        #map { top: 0; bottom: 0; width: 100%; height: 500px; }
         #marker {
             background-image: url('https://docs.mapbox.com/mapbox-gl-js/assets/washington-monument.jpg');
             background-size: cover;
@@ -43,60 +240,113 @@
             background-color: #4ea0da;
         }
 
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+
+            .map-container, .table-container {
+                flex: 1 1 100%;
+                padding: 10px;
+            }
+        }
+
     </style>
-
-      <!-- Main content -->
-      <section class="content">
-        <div class="container-fluid">
-            <div class="bg-title workflow-card-header" style="padding-top: 20px">
-                <h3 class="page-title">Matflo Explorer</h3>
-                <br />
-                <h5>Explore your documents!</h5>
-                <p>
-                    Check your document's detail. Enter the document ID number or name.
-                </p>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <img src="{{asset('img/logo.png')}}" alt="MatFlo Logo" class="logo">
+                <span class="logo-text">MatFlo</span>
             </div>
-            <br />
-            <!-- .row -->
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="white-box">
-                        <div style="display: flex; gap: 5px;">
-                            <input type="text" style="max-width: 500px;" class="form-control" size="30" placeholder="Search Documents" onkeyup="filterResult(event, this.value)" >
-                            <button class="btn btn-primary" onclick="showTable()">Search</button>
-                        </div>    
-                        <div id="livesearch" style="max-width: 500px; border-radius: 5px; position: fixed; background-color: white;" ></div>
-                        <div style="margin-top: 20px;">
-                            <div class="table-responsive" id="resTable" style="display:none;">
-                                <table class="table product-overview">
-                                    <thead>
-                                        <tr>
-                                            <th>Document ID</th>
-                                            <th>Name</th>
-                                            <th>Location</th>
-                                            <th>Created At</th>
-                                            <th>Producer</th>
-                                            <th>Verifier</th>
-                                            <th>Signed / Published at</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tbody">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div id="map"></div>
-                    <button id="btn-spin">Pause rotation</button>
-                </div>
-            </div>
+            <nav>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#developers">Developers</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                </ul>
+            </nav>
+            @if (Auth::check())
+                <a href="{{ route("dashboard") }}" class="login-btn btn">Log in</a>
+            @else
+                <a href="{{ route("login")}}" class="login-btn btn">Log in</a>
+            @endif
         </div>
-      </section>
+    </header>
+    <main>
+        <section class="main-content">
+            <div class="map-container">
+                <div id="map"></div>
+                <button id="btn-spin">Pause rotation</button>
+            </div>
+            <div class="table-container">
+                <input type="text" placeholder="Type your search" class="search-bar">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Document ID</th>
+                        <th>Product Name</th>
+                        <th>GWP</th>
+                        <th>Location</th>
+                        <th>Producer</th>
+                        <th>Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>250998</td>
+                        <td>iPhone X 64GB Grey</td>
+                        <td>500</td>
+                        <td>USA</td>
+                        <td>Apple Inc.</td>
+                        <td>2017-03-29</td>
+                    </tr>
+                    <tr>
+                        <td>250999</td>
+                        <td>Samsung Galaxy S8</td>
+                        <td>400</td>
+                        <td>South Korea</td>
+                        <td>Samsung</td>
+                        <td>2017-04-01</td>
+                    </tr>
+                    <tr>
+                        <td>251000</td>
+                        <td>Google Pixel 2</td>
+                        <td>450</td>
+                        <td>USA</td>
+                        <td>Google</td>
+                        <td>2017-10-19</td>
+                    </tr>
+                    <tr>
+                        <td>251001</td>
+                        <td>OnePlus 5T</td>
+                        <td>420</td>
+                        <td>China</td>
+                        <td>OnePlus</td>
+                        <td>2017-11-21</td>
+                    </tr>
+                    <tr>
+                        <td>251002</td>
+                        <td>Huawei Mate 10 Pro</td>
+                        <td>430</td>
+                        <td>China</td>
+                        <td>Huawei</td>
+                        <td>2017-10-16</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section class="cta-section">
+            <h1>Get your document certified and hosted on the blockchain.</h1>
+            <div class="cta-buttons">
+                <a href="#get-started" class="btn">Get Started</a>
+                <a href="#learn-more" class="btn">Learn More</a>
+            </div>
+        </section>
+    </main>
 
-      <!-- <script type="text/javascript" src="{{asset('js/app/batch-details.js')}}"></script> -->
-      <script>
+    <script>
         // TO MAKE THE MAP APPEAR YOU MUST
         // ADD YOUR ACCESS TOKEN FROM
         // https://account.mapbox.com
@@ -118,9 +368,7 @@
 
         // create DOM element for the marker
         const el = document.createElement('div');
-        el.id = 'marker';     
-        
-        
+        el.id = 'marker';
 
         var res, features = [], promises = [];
         function showResult(str) {
@@ -133,65 +381,65 @@
             xmlhttp.onreadystatechange=function() {
                 if (this.readyState==4 && this.status==200) {
                     res = JSON.parse(this.responseText);
-                    
+
                     for(rs of res) {
                         if(rs.location != null) {
                             let promise = fetch('https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(rs.location)+'&format=json&addressdetails=1&polygon_geojson=0&countrycodes=US')
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log(encodeURIComponent(rs.location), data)
-                                if(data.length > 0) {
-                                    // create the marker
-                                    features.push({
-                                        // feature for Mapbox DC
-                                        'type': 'Feature',
-                                        'geometry': {
-                                            'type': 'Point',
-                                            'coordinates': [data[0].lon, data[0].lat]
-                                        },
-                                        'properties': {
-                                            'description':
-                                                '<strong>'+rs.name+'</strong>'
-                                        },
-                                    })
-                                }
-                                
-                            })
-                            .catch(err => console.error(err));
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log(encodeURIComponent(rs.location), data)
+                                    if(data.length > 0) {
+                                        // create the marker
+                                        features.push({
+                                            // feature for Mapbox DC
+                                            'type': 'Feature',
+                                            'geometry': {
+                                                'type': 'Point',
+                                                'coordinates': [data[0].lon, data[0].lat]
+                                            },
+                                            'properties': {
+                                                'description':
+                                                    '<strong>'+rs.name+'</strong>'
+                                            },
+                                        })
+                                    }
+
+                                })
+                                .catch(err => console.error(err));
 
                             promises.push(promise)
                         }
-                        
+
                     }
                     Promise.all(promises)
-                    .then(() => {
-                        map.style.stylesheet.layers.forEach(function(layer) {
-                            if (layer.type === 'symbol') {
-                                map.removeLayer(layer.id);
-                            }
+                        .then(() => {
+                            map.style.stylesheet.layers.forEach(function(layer) {
+                                if (layer.type === 'symbol') {
+                                    map.removeLayer(layer.id);
+                                }
+                            });
+
+                            map.addSource('places', {
+                                'type': 'geojson',
+                                'data': {
+                                    'type': 'FeatureCollection',
+                                    'features': features
+                                }
+                            });
+                            map.addLayer({
+                                'id': 'places',
+                                'type': 'circle',
+                                'source': 'places',
+                                'paint': {
+                                    'circle-color': '#4264fb',
+                                    'circle-radius': 6,
+                                    'circle-stroke-width': 2,
+                                    'circle-stroke-color': '#ffffff'
+                                }
+                            });
+
                         });
 
-                        map.addSource('places', {
-                            'type': 'geojson',
-                            'data': {
-                                'type': 'FeatureCollection',
-                                'features': features
-                            }
-                        });
-                        map.addLayer({
-                            'id': 'places',
-                            'type': 'circle',
-                            'source': 'places',
-                            'paint': {
-                                'circle-color': '#4264fb',
-                                'circle-radius': 6,
-                                'circle-stroke-width': 2,
-                                'circle-stroke-color': '#ffffff'
-                            }
-                        });
-                        
-                    });
-                    
                     spinGlobe();
                     stopLoader();
                 }
@@ -206,7 +454,7 @@
                 showTable();
                 return;
             }
-                
+
             if (str.length==0) {
                 document.getElementById("livesearch").innerHTML="";
                 document.getElementById("livesearch").style.border="0px";
@@ -220,7 +468,7 @@
             }
             var innerHtml = '';
             var tblHtml = '';
-            
+
             for(doc of res) {
                 var link;
                 if(doc.status == 'Signed') {
@@ -236,12 +484,12 @@
                     } else {
                         tblHtml += "<tr><td><a href='view-publish/"+doc.document_id+"' target='_blank'>"+doc.document_id+"</a></td><td>"+doc.name+"</td><td>"+(doc.location ?? '')+"</td><td>"+(new Date(doc.created_at).toDateString())+"</td><td>"+doc.producer+"</td><td>"+doc.verifier+"</td><td>"+(new Date(doc.published_at).toDateString())+"</td></tr>";
                     }
-                    
+
                 }
 
             }
 
-            
+
             if(innerHtml === '') {
                 innerHtml = "No suggestions";
                 $("#tbody").html("No Data Available");
@@ -254,7 +502,7 @@
 
             document.getElementById("livesearch").innerHTML = innerHtml;
             document.getElementById("livesearch").style.border="1px solid #A5ACB2";
-            
+
         }
 
         function hideDropDown() {
@@ -345,4 +593,3 @@
 
     </script>
 </x-public-layout>
-
