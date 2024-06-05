@@ -48,7 +48,7 @@ Route::get('/documents/{document}/download_publish', [DocumentController::class,
 Route::get('/explorer', [DashboardController::class,'explorer'])->name('explorer');
 Route::get('/search', [DashboardController::class, 'search'])->name('search');
 
-Route::get('/blogs', [PostsController::class, 'index']);
+Route::get('/blog', [PostsController::class, 'index']);
 Route::get('post/{slug}', [PostsController::class, 'single']);
 Route::get('/about', [PostsController::class, 'about']);
 
