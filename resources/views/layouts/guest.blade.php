@@ -39,9 +39,9 @@
 <script src="{{asset('js/jquery.nice-select.min.js')}}"></script>
 <script>
   $(document).ready(function() {
-    $('.custom-select-design').niceSelect();      
+    $('.custom-select-design').niceSelect();
     FastClick.attach(document.body);
-  });    
+  });
 </script>
 
 {{-- <script src="{{asset('assets/js/jquery.min.js')}}"></script> --}}
@@ -69,14 +69,14 @@
   <!-- /.login-logo -->
   {{$slot}}
 </div>
-<div class="footer-menu">
+{{--<div class="footer-menu">
     <ul>
         <li><a href="javascript:void(0);">Terms of Use</a></li>
         <li><a href="javascript:void(0);">Cookies</a></li>
         <li><a href="javascript:void(0);">About Us</a></li>
         <li><a href="javascript:void(0);">Help Center</a></li>
     </ul>
-</div>
+</div>--}}
 {{-- <script type="text/javascript" src="{{asset('js/app/app.js')}}"></script> --}}
 <!-- /.login-box -->
 </body>

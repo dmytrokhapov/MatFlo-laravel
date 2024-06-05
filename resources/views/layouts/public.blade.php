@@ -134,7 +134,7 @@
 {{-- <script src="{{asset('dist/js/demo.js')}}"></script> --}}
 </head>
 <body class="hold-transition sidebar-mini admin_body">
-  
+
 <div class="wrapper">
   <!-- Navbar -->
   <div class="preloader">
@@ -144,7 +144,7 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  
+
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper" style="margin-left: 0px; padding: 10px;">
@@ -153,13 +153,18 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.2.0
-    </div>
-    <strong>Copyright &copy; {{date('Y')}} <a href="{{route('dashboard')}}">{{env('APP_NAME')}}</a>.</strong> All rights reserved.
-  </footer>
-
+    <footer class="main-footer">
+        <div class="container">
+            <div><strong>Copyright &copy; {{date('Y')}} <a href="{{route('dashboard')}}">{{env('APP_NAME')}}</a>.</strong> All rights reserved.</div>
+            <nav>
+                <ul>
+                    <li><a href="#contact">Contact Us</a></li>
+                    <li><a href="#privacy">Privacy Policy</a></li>
+                    <li><a href="#terms">Terms of Service</a></li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->

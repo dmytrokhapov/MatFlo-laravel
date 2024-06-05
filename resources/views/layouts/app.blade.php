@@ -180,8 +180,8 @@
               {{-- <a href="{{route('profile.edit')}}" class="dropdown-item">
                   Profile
                 </a> --}}
-            <a href="{{route('profile.change-password')}}" class="dropdown-item">
-              Change Password
+            <a href="{{route('profile.update')}}" class="dropdown-item">
+              My Profile
             </a>
 
                   <a href="{{route('logout')}}" id="logout" class="dropdown-item"

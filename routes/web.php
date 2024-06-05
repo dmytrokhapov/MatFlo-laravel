@@ -33,8 +33,8 @@ Route::middleware('auth','verified')->group(function () {
 });
 Route::group(['middleware' => 'preventBackHistory'], function () {
 Route::get('/', function () {
-    return view('auth.login');
-})->middleware(['auth', 'verified','guest']);
+    return view('explorer');
+})->middleware(['guest']);
 
 // Route::get('/dashboard', function () {
 //     Route::post('/d', [WorkspaceController::class,'export'])->name('export');
@@ -46,9 +46,10 @@ Route::get('/documents/{document}/download', [DocumentController::class, 'downlo
 Route::get('/documents/{document}/download_publish', [DocumentController::class, 'download_publish'])->name('document.download_publish');
 
 Route::get('/explorer', [DashboardController::class,'explorer'])->name('explorer');
+Route::get('/explorerOld', [DashboardController::class,'explorerOld'])->name('explorerOld');
 Route::get('/search', [DashboardController::class, 'search'])->name('search');
 
-Route::get('/blogs', [PostsController::class, 'index']);
+Route::get('/blog', [PostsController::class, 'index']);
 Route::get('post/{slug}', [PostsController::class, 'single']);
 Route::get('/about', [PostsController::class, 'about']);
 
