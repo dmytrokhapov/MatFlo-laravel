@@ -271,14 +271,14 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#products">Products</a></li>
-                    <li><a href="#developers">Developers</a></li>
-                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="{{ route('about') }}">About</a></li>
+                    <li><a href="{{ route('publish') }}">Products</a></li>
+                    <li><a href="{{ route('apikey') }}">Developers</a></li>
+                    <li><a href="{{ route('blog') }}">Blog</a></li>
                 </ul>
             </nav>
             @if (Auth::check())
-                <a href="{{ route("dashboard") }}" class="login-btn btn">Log in</a>
+                <a href="{{ route("dashboard") }}" class="login-btn btn">go to Dashboard</a>
             @else
                 <a href="{{ route("login")}}" class="login-btn btn">Log in</a>
             @endif
