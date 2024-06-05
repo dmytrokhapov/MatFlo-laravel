@@ -33,4 +33,4 @@ yarn-error.log
 /.vscode
 /.example
 
-composer.lock
+./composer.lock
