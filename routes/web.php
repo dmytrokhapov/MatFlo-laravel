@@ -32,9 +32,7 @@ Route::middleware('auth','verified')->group(function () {
     Route::post('/land-details/export',  [LandDetailController::class, 'export'])->name('landDetails.export');
 });
 Route::group(['middleware' => 'preventBackHistory'], function () {
-Route::get('/', function () {
-    return view('explorer');
-})->middleware(['guest']);
+Route::get('/', [DashboardController::class,'explorer'])->middleware(['guest']);
 
 // Route::get('/dashboard', function () {
 //     Route::post('/d', [WorkspaceController::class,'export'])->name('export');
