@@ -40,7 +40,7 @@ class RegisteredUserController extends Controller
             } else {
                 return true;
             }
-        }, 'Email id is already exists.');
+        }, 'Email already exists.');
 
         $request->validate([
             'role' => ['required'],

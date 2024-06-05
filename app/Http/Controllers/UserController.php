@@ -153,7 +153,7 @@ class UserController extends Controller
             } else {
                 return true;
             }
-        }, 'Email id is already exists.');
+        }, 'Email already exists.');
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique_email:'.$id],
@@ -221,7 +221,7 @@ class UserController extends Controller
             } else {
                 return true;
             }
-        }, 'Email id is already exists.');
+        }, 'Email already exists.');
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique_email:'.$request->id],
