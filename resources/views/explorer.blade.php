@@ -198,10 +198,17 @@
             color: #007BFF;
         }
 
-        .verified_info{
+        .verified_info {
             color: green;
         }
-        #map { top: 0; bottom: 0; width: 100%; height: 500px; }
+
+        #map {
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            height: 500px;
+        }
+
         #marker {
             background-image: url('https://docs.mapbox.com/mapbox-gl-js/assets/washington-monument.jpg');
             background-size: cover;
@@ -216,11 +223,10 @@
         }
 
         #btn-spin {
-            font:
-                bold 12px/20px 'Helvetica Neue',
-                Arial,
-                Helvetica,
-                sans-serif;
+            font: bold 12px/20px 'Helvetica Neue',
+            Arial,
+            Helvetica,
+            sans-serif;
             background-color: #3386c0;
             color: #fff;
             position: absolute;
@@ -236,6 +242,7 @@
             border-radius: 3px;
             display: none;
         }
+
         #btn-spin:hover {
             background-color: #4ea0da;
         }
@@ -251,6 +258,10 @@
             }
         }
 
+        header, footer {
+            background-color: #f3f9ff;
+        }
+
     </style>
     <header>
         <div class="container">
@@ -260,14 +271,14 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#products">Products</a></li>
-                    <li><a href="#developers">Developers</a></li>
-                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="{{ route('about') }}">About</a></li>
+                    <li><a href="{{ route('publish') }}">Products</a></li>
+                    <li><a href="{{ route('apikey') }}">Developers</a></li>
+                    <li><a href="{{ route('blog') }}">Blog</a></li>
                 </ul>
             </nav>
             @if (Auth::check())
-                <a href="{{ route("dashboard") }}" class="login-btn btn">Log in</a>
+                <a href="{{ route("dashboard") }}" class="login-btn btn">go to Dashboard</a>
             @else
                 <a href="{{ route("login")}}" class="login-btn btn">Log in</a>
             @endif
@@ -280,8 +291,8 @@
                 <button id="btn-spin">Pause rotation</button>
             </div>
             <div class="table-container">
-                <input type="text" placeholder="Type your search" class="search-bar">
-                <table>
+                <input type="text" placeholder="Type your search" class="search-bar" id="searchInput">
+                <table id="declarationTable">
                     <thead>
                     <tr>
                         <th>Document ID</th>
@@ -293,46 +304,16 @@
                     </tr>
                     </thead>
                     <tbody>
+                    @foreach($declarations as $declaration)
                     <tr>
-                        <td>250998</td>
-                        <td>iPhone X 64GB Grey</td>
-                        <td>500</td>
-                        <td>USA</td>
-                        <td>Apple Inc.</td>
-                        <td>2017-03-29</td>
+                        <td>{{ $declaration->document_id }}</td>
+                        <td>{{ $declaration->name }}</td>
+                        <td>{{ $declaration->gwp }}</td>
+                        <td>{{ $declaration->location }}</td>
+                        <td>{{ $declaration->producer }}</td>
+                        <td>{{ $declaration->published_at->format('Y-m-d') }}</td>
                     </tr>
-                    <tr>
-                        <td>250999</td>
-                        <td>Samsung Galaxy S8</td>
-                        <td>400</td>
-                        <td>South Korea</td>
-                        <td>Samsung</td>
-                        <td>2017-04-01</td>
-                    </tr>
-                    <tr>
-                        <td>251000</td>
-                        <td>Google Pixel 2</td>
-                        <td>450</td>
-                        <td>USA</td>
-                        <td>Google</td>
-                        <td>2017-10-19</td>
-                    </tr>
-                    <tr>
-                        <td>251001</td>
-                        <td>OnePlus 5T</td>
-                        <td>420</td>
-                        <td>China</td>
-                        <td>OnePlus</td>
-                        <td>2017-11-21</td>
-                    </tr>
-                    <tr>
-                        <td>251002</td>
-                        <td>Huawei Mate 10 Pro</td>
-                        <td>430</td>
-                        <td>China</td>
-                        <td>Huawei</td>
-                        <td>2017-10-16</td>
-                    </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>
@@ -362,7 +343,7 @@
         });
 
         // create the popup
-        const popup = new mapboxgl.Popup({ offset: 25 }).setText(
+        const popup = new mapboxgl.Popup({offset: 25}).setText(
             'Construction on the Washington Monument began in 1848.'
         );
 
@@ -371,26 +352,26 @@
         el.id = 'marker';
 
 
-
         var res, features = [], promises = [];
+
         function showResult(str) {
             // if (str.length==0) {
             //     document.getElementById("livesearch").innerHTML="";
             //     document.getElementById("livesearch").style.border="0px";
             //     return;
             // }
-            var xmlhttp=new XMLHttpRequest();
-            xmlhttp.onreadystatechange=function() {
-                if (this.readyState==4 && this.status==200) {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
                     res = JSON.parse(this.responseText);
 
-                    for(rs of res) {
-                        if(rs.location != null) {
-                            let promise = fetch('https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(rs.location)+'&format=json&addressdetails=1&polygon_geojson=0&countrycodes=US')
+                    for (rs of res) {
+                        if (rs.location != null) {
+                            let promise = fetch('https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(rs.location) + '&format=json&addressdetails=1&polygon_geojson=0&countrycodes=US')
                                 .then(response => response.json())
                                 .then(data => {
                                     console.log(encodeURIComponent(rs.location), data)
-                                    if(data.length > 0) {
+                                    if (data.length > 0) {
                                         // create the marker
                                         features.push({
                                             // feature for Mapbox DC
@@ -401,7 +382,7 @@
                                             },
                                             'properties': {
                                                 'description':
-                                                    '<strong>'+rs.name+'</strong>'
+                                                    '<strong>' + rs.name + '</strong>'
                                             },
                                         })
                                     }
@@ -415,7 +396,7 @@
                     }
                     Promise.all(promises)
                         .then(() => {
-                            map.style.stylesheet.layers.forEach(function(layer) {
+                            map.style.stylesheet.layers.forEach(function (layer) {
                                 if (layer.type === 'symbol') {
                                     map.removeLayer(layer.id);
                                 }
@@ -446,24 +427,24 @@
                     stopLoader();
                 }
             }
-            xmlhttp.open("GET","/search?q="+str, true);
+            xmlhttp.open("GET", "/search?q=" + str, true);
             xmlhttp.send();
             startLoader();
         }
 
         function filterResult(event, str) {
-            if(event.keyCode == 13) {
+            if (event.keyCode == 13) {
                 showTable();
                 return;
             }
 
-            if (str.length==0) {
-                document.getElementById("livesearch").innerHTML="";
-                document.getElementById("livesearch").style.border="0px";
-                document.getElementById("livesearch").style.paddingTop="0";
-                document.getElementById("livesearch").style.paddingLeft="0";
-                document.getElementById("livesearch").style.paddingRight="0";
-                document.getElementById("livesearch").style.paddingBottom="0";
+            if (str.length == 0) {
+                document.getElementById("livesearch").innerHTML = "";
+                document.getElementById("livesearch").style.border = "0px";
+                document.getElementById("livesearch").style.paddingTop = "0";
+                document.getElementById("livesearch").style.paddingLeft = "0";
+                document.getElementById("livesearch").style.paddingRight = "0";
+                document.getElementById("livesearch").style.paddingBottom = "0";
                 $("#tbody").html('No Data Available');
                 $("#resTable").hide();
                 return;
@@ -471,20 +452,20 @@
             var innerHtml = '';
             var tblHtml = '';
 
-            for(doc of res) {
+            for (doc of res) {
                 var link;
-                if(doc.status == 'Signed') {
-                    link = 'view-batch/'+doc.document_id;
+                if (doc.status == 'Signed') {
+                    link = 'view-batch/' + doc.document_id;
                 } else {
-                    link = 'view-publish/'+doc.document_id;
+                    link = 'view-publish/' + doc.document_id;
                 }
                 console.log(doc)
-                if(doc.name.toUpperCase().includes(str.toUpperCase()) || doc.document_id.toUpperCase().includes(str.toUpperCase())){
-                    innerHtml += "<div style='margin-bottom: 5px;'><a href='"+link+"' target='_blank'>"+doc.name+"</a></div>";
-                    if(doc.status == 'Signed') {
-                        tblHtml += "<tr><td><a href='view-batch/"+doc.document_id+"' target='_blank'>"+doc.document_id+"</a></td><td>"+doc.name+"</td><td>"+(doc.location ?? '')+"</td><td>"+(new Date(doc.created_at).toDateString())+"</td><td>"+doc.producer.user_name+"</td><td>"+doc.verifier.user_name+"</td><td>"+(new Date(doc.verified_at).toDateString())+"</td></tr>";
+                if (doc.name.toUpperCase().includes(str.toUpperCase()) || doc.document_id.toUpperCase().includes(str.toUpperCase())) {
+                    innerHtml += "<div style='margin-bottom: 5px;'><a href='" + link + "' target='_blank'>" + doc.name + "</a></div>";
+                    if (doc.status == 'Signed') {
+                        tblHtml += "<tr><td><a href='view-batch/" + doc.document_id + "' target='_blank'>" + doc.document_id + "</a></td><td>" + doc.name + "</td><td>" + (doc.location ?? '') + "</td><td>" + (new Date(doc.created_at).toDateString()) + "</td><td>" + doc.producer.user_name + "</td><td>" + doc.verifier.user_name + "</td><td>" + (new Date(doc.verified_at).toDateString()) + "</td></tr>";
                     } else {
-                        tblHtml += "<tr><td><a href='view-publish/"+doc.document_id+"' target='_blank'>"+doc.document_id+"</a></td><td>"+doc.name+"</td><td>"+(doc.location ?? '')+"</td><td>"+(new Date(doc.created_at).toDateString())+"</td><td>"+doc.producer+"</td><td>"+doc.verifier+"</td><td>"+(new Date(doc.published_at).toDateString())+"</td></tr>";
+                        tblHtml += "<tr><td><a href='view-publish/" + doc.document_id + "' target='_blank'>" + doc.document_id + "</a></td><td>" + doc.name + "</td><td>" + (doc.location ?? '') + "</td><td>" + (new Date(doc.created_at).toDateString()) + "</td><td>" + doc.producer + "</td><td>" + doc.verifier + "</td><td>" + (new Date(doc.published_at).toDateString()) + "</td></tr>";
                     }
 
                 }
@@ -492,28 +473,28 @@
             }
 
 
-            if(innerHtml === '') {
+            if (innerHtml === '') {
                 innerHtml = "No suggestions";
                 $("#tbody").html("No Data Available");
             }
             $("#tbody").html(tblHtml);
-            document.getElementById("livesearch").style.paddingTop="15px";
-            document.getElementById("livesearch").style.paddingLeft="15px";
-            document.getElementById("livesearch").style.paddingRight="15px";
-            document.getElementById("livesearch").style.paddingBottom="10px";
+            document.getElementById("livesearch").style.paddingTop = "15px";
+            document.getElementById("livesearch").style.paddingLeft = "15px";
+            document.getElementById("livesearch").style.paddingRight = "15px";
+            document.getElementById("livesearch").style.paddingBottom = "10px";
 
             document.getElementById("livesearch").innerHTML = innerHtml;
-            document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+            document.getElementById("livesearch").style.border = "1px solid #A5ACB2";
 
         }
 
         function hideDropDown() {
-            document.getElementById("livesearch").innerHTML="";
-            document.getElementById("livesearch").style.border="0px";
-            document.getElementById("livesearch").style.paddingTop="0";
-            document.getElementById("livesearch").style.paddingLeft="0";
-            document.getElementById("livesearch").style.paddingRight="0";
-            document.getElementById("livesearch").style.paddingBottom="0";
+            document.getElementById("livesearch").innerHTML = "";
+            document.getElementById("livesearch").style.border = "0px";
+            document.getElementById("livesearch").style.paddingTop = "0";
+            document.getElementById("livesearch").style.paddingLeft = "0";
+            document.getElementById("livesearch").style.paddingRight = "0";
+            document.getElementById("livesearch").style.paddingBottom = "0";
         }
 
         function showTable() {
@@ -547,7 +528,7 @@
                 center.lng -= distancePerSecond;
                 // Smoothly animate the map over one second.
                 // When this animation is complete, it calls a 'moveend' event.
-                map.easeTo({ center, duration: 1000, easing: (n) => n });
+                map.easeTo({center, duration: 1000, easing: (n) => n});
             }
         }
 
@@ -591,6 +572,15 @@
                 map.stop(); // Immediately end ongoing animation
                 e.target.innerHTML = 'Start rotation';
             }
+        });
+
+        $(document).ready(function(){
+            $("#searchInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#declarationTable tbody tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
         });
 
     </script>

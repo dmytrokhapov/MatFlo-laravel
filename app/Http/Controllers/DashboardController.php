@@ -138,7 +138,8 @@ class DashboardController extends Controller
 
     public function explorer()
     {
-        return view('explorer');
+        $declarations = Declaration::whereNotNull('published_at')->get();
+        return view('explorer', compact('declarations'));
     }
 
     public function explorerOld()

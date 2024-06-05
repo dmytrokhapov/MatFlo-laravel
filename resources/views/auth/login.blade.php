@@ -16,14 +16,14 @@
                 {{ session('error') }}
             </div>
             @endif
-            @if ($errors->has('email'))
+            @if ($errors->has('credential'))
                 <div class="alert alert-danger">
                     {{ $errors->first('email') }}
                 </div>
             @endif
-            @if ($errors->has('password'))
+            @if ($errors->has('status'))
                 <div class="alert alert-danger">
-                    <span>{{ $errors->first('password') }}</span>
+                    <span>{{ 'You need to be approved by the administrator' }}</span>
                 </div>
             @endif
             {{-- <x-auth-session-status class="mb-4" :status="session('status')" /> --}}
