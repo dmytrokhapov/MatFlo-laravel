@@ -102,7 +102,7 @@
             padding: 50px 20px;
             max-width: 1200px;
             margin: 0 auto;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
         }
 
         .map-container {
@@ -247,9 +247,10 @@
             background-color: #4ea0da;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1200px) {
             .main-content {
-                flex-direction: column;
+                /*flex-direction: column;*/
+                flex-wrap: wrap;
             }
 
             .map-container, .table-container {
@@ -259,7 +260,11 @@
         }
 
         header, footer {
-            background-color: #f3f9ff;
+            background-color: #f3f9ff!important;
+        }
+
+        .main-footer {
+            margin-left: 0!important;
         }
 
     </style>
