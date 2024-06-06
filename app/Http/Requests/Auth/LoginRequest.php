@@ -41,17 +41,45 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
+        // Retrieve credentials from the request
         $credentials = $this->only('email', 'password');
-        $credentials['status'] = 1;
-        $credentials['deleted_at'] = NULL;
-        if (! Auth::attempt($credentials, $this->boolean('remember'))) {
+
+        // Attempt to authenticate using the credentials
+        if (!Auth::attempt($credentials, $this->boolean('remember'))) {
+            // Record a failed attempt and throw a validation exception
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'credential' => trans('auth.failed'),
             ]);
         }
 
+        // Authentication was successful, retrieve the authenticated user
+        $user = Auth::user();
+
+        // Check if user is soft-deleted (deleted_at is not null)
+        if ($user->deleted_at !== null) {
+            // Logout the user and record a failed attempt
+            Auth::logout();
+            RateLimiter::hit($this->throttleKey());
+
+            throw ValidationException::withMessages([
+                'credential' => trans('auth.failed'),
+            ]);
+        }
+
+        // Check the user's status, ensuring it is 1 (approved by administrator)
+        if ($user->status !== 1) {
+            // Logout the user and record a failed attempt
+            Auth::logout();
+            RateLimiter::hit($this->throttleKey());
+
+            throw ValidationException::withMessages([
+                'status' => trans("You need to be approved by the administrator"),
+            ]);
+        }
+
+        // Clear the throttle key because authentication succeeded
         RateLimiter::clear($this->throttleKey());
     }
 

@@ -32,9 +32,7 @@ Route::middleware('auth','verified')->group(function () {
     Route::post('/land-details/export',  [LandDetailController::class, 'export'])->name('landDetails.export');
 });
 Route::group(['middleware' => 'preventBackHistory'], function () {
-Route::get('/', function () {
-    return view('explorer');
-})->middleware(['guest']);
+Route::get('/', [DashboardController::class,'explorer'])->middleware(['guest']);
 
 // Route::get('/dashboard', function () {
 //     Route::post('/d', [WorkspaceController::class,'export'])->name('export');
@@ -49,9 +47,9 @@ Route::get('/explorer', [DashboardController::class,'explorer'])->name('explorer
 Route::get('/explorerOld', [DashboardController::class,'explorerOld'])->name('explorerOld');
 Route::get('/search', [DashboardController::class, 'search'])->name('search');
 
-Route::get('/blog', [PostsController::class, 'index']);
+Route::get('/blog', [PostsController::class, 'index'])->name('blog');
 Route::get('post/{slug}', [PostsController::class, 'single']);
-Route::get('/about', [PostsController::class, 'about']);
+Route::get('/about', [PostsController::class, 'about'])->name('about');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     // Route::middleware(['role:ADMIN,PRODUCER'])->group(function () {
