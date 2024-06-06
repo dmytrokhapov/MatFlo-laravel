@@ -18,6 +18,15 @@
             @if (request()->has('error'))
                 <div class="alert alert-danger"> {{ request()->get('error') }} </div>
             @endif
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul style="margin-bottom: 0;">
+                        @foreach ($errors->all() as $error)
+                            <li style="list-style: none;">{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             @if (session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
@@ -148,6 +157,116 @@
                 </div>
             </div>
             <!-- /.card-body -->
+
+            <div class="card work-flow">
+                <div class="card-header">
+                    <h3 class="card-title">API Documentation</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <p><h5><b>1. Authentication</b></h5></p>
+                            <p>To authenticate your requests to the API, you need to include your API key in the Authorization header.</p>
+                            <p><strong>MATFLO-API-KEY:</strong> YOUR_API_KEY</p>
+                            <hr />
+                            <p><h5><b>2. API Endpoints</b></h5></p>
+
+                            <p><h5>Retrieve Documents</h5></p>
+                            <p><strong>Endpoint:</strong> <code>GET /v1/getDocuments</code></p>
+                            <p><strong>Description:</strong> Retrieve documents from the API.</p>
+                            <p><strong>Parameters:</strong> None</p>
+                            <p><strong>Response:</strong></p>
+                            <span>
+                            {
+                                "status": "success",
+                                "documents": Documents
+                            }
+                            </span>
+                            <hr />
+                            <p><h5>Retrieve Publishments</h5></p>
+                            <p><strong>Endpoint:</strong> <code>GET /v1/getDeclarations</code></p>
+                            <p><strong>Description:</strong> Retrieve publishments from the API.</p>
+                            <p><strong>Parameters:</strong> None</p>
+                            <p><strong>Response:</strong></p>
+                            <span>
+                            {
+                                "status": "success",
+                                "declarations": Publishments
+                            }
+                            </span>
+                            <hr />
+                            <p><h5>Upload Document</h5></p>
+                            <p><strong>Endpoint:</strong> <code>POST /v1/upload</code></p>
+                            <p><strong>Description:</strong> Upload document from the API.</p>
+                            <p><strong>Parameters:</strong></p>
+                            <ul>
+                                <li><strong>file</strong> (required, file, mimes:pdf,doc,docx,jpg,jpeg,png,zip, max size:1024): The document file to be uploaded.</li>
+                                <li><strong>documentName</strong> (string, required): The title of the document.</li>
+                                <li><strong>documentLocation</strong> (string): The location of the document.</li>
+                            </ul>
+                            <p><strong>Response:</strong></p>
+                            <span>
+                            {
+                                "status": "success",
+                                "message": "Document uploaded successfully",
+                                "document": Document
+                            }
+                            </span>
+                            <hr />
+                            <p><h5>Accept Document</h5></p>
+                            <p><strong>Endpoint:</strong> <code>GET /v1/accept/{document}</code></p>
+                            <p><strong>Description:</strong> Accept document</p>
+                            <p><strong>Parameters:</strong></p>
+                            <ul>
+                                <li><strong>document</strong> (required): The document id to be accepted.</li>
+                            </ul>
+                            <p><strong>Response:</strong></p>
+                            <span>
+                            {
+                                "status": "success",
+                                "message": "Document accepted successfully",
+                            }
+                            </span>
+                            <hr />
+                            <p><h5>Reject Document</h5></p>
+                            <p><strong>Endpoint:</strong> <code>GET /v1/reject/{document}</code></p>
+                            <p><strong>Description:</strong> Reject document</p>
+                            <p><strong>Parameters:</strong></p>
+                            <ul>
+                                <li><strong>document</strong> (required): The document id to be rejected.</li>
+                            </ul>
+                            <p><strong>Response:</strong></p>
+                            <span>
+                            {
+                                "status": "success",
+                                "message": "Document rejected successfully",
+                            }
+                            </span>
+                            <hr />
+                            <p><h5>Sign Document</h5></p>
+                            <p><strong>Endpoint:</strong> <code>POST /v1/sign/{document}</code></p>
+                            <p><strong>Description:</strong> Sign document</p>
+                            <p><strong>Parameters:</strong></p>
+                            <ul>
+                                <li><strong>document</strong> (required): The document id to be signed.</li>
+                                <li><strong>file</strong> (required, file, mimes:pdf,doc,docx,jpg,jpeg,png,zip, max size:1024): The signed document.</li>
+                            </ul>
+                            <p><strong>Response:</strong></p>
+                            <span>
+                            {
+                                "status": "success",
+                                "message": "Document signed successfully",
+                            }
+                            </span>
+                            <hr />
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
         </div>
         <!-- /.row -->
         </div>
