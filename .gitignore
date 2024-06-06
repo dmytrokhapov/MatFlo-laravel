@@ -33,5 +33,5 @@ yarn-error.log
 /.vscode
 /.example
 
-./composer.lock
 aws/*
+/composer.lock
