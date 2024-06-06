@@ -351,7 +351,6 @@
         const el = document.createElement('div');
         el.id = 'marker';
 
-
         var res, features = [], promises = [];
 
         function showResult(str) {
