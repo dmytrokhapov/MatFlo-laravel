@@ -145,7 +145,7 @@
                                             </div>
                                             <div class="modal-footer border-0">
                                                 <i style="display: none;" class="fa fa-spinner fa-spin"></i>
-                                                <button type="submit" class="btn submit-btn">Generate</button>
+                                                <button class="btn submit-btn" id="submitBtn">Generate</button>
                                                 </form>
                                             </div>
                                         </div>
@@ -273,5 +273,48 @@
         <!-- /.container-fluid -->
     </section>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
+    <script>
+        $("#createForm").validate({
+            rules: {
+                keyname: {
+                    required: true,
+                },
+                keycompany: {
+                    required: true,
+                },
+                keysite: {
+                    required: true,
+                    url: true
+                }
+            },
+            messages: {
+                keyname: {
+                    required: "Please enter API key name",
+                },
+                keycompany: {
+                    required: "Please enter company name",
+                },
+                keysite: {
+                    required: "Please enter company website",
+                    url: "Please enter valid website url"
+                }
+            },
+            submitHandler: function(form, event) {
+                event.preventDefault();
+                $('#submitBtn').prop('disabled', true);
+                // signIn();
+                form.submit();
+                //submit via ajax
+            },
+            errorPlacement: function(error, element) {
+                // Customize the placement of error messages
+                error.insertAfter(element);
+            },
+            success: function(label, element) {
+                // Hide the error message label
+                label.hide();
+            },
+        });
+    </script>
 
 </x-app-layout>
