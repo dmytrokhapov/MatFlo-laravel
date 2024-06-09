@@ -16,10 +16,10 @@ use SWeb3\SWeb3_Contract;
 
 class ApiDocumentController extends Controller
 {
-    public function getDocuments()
+    public function getDocuments(Request $request)
     {
         try {
-            $documents = Document::get();
+            $documents = Document::where('producer_id', $request->keyuser->id)->orWhere('verifier_id', $request->keyuser->id)->get();
             return response()->json(['success' => 'success', 'documents' => $documents]);
         } catch (\Exception $e) {
 
@@ -30,7 +30,7 @@ class ApiDocumentController extends Controller
     public function getDeclarations(Request $request)
     {
         try {
-            $documents = Declaration::where('uploader_id', $request->keyuser->id,)->get();
+            $documents = Declaration::where('uploader_id', $request->keyuser->id)->get();
             return response()->json(['success' => 'success', 'declarations' => $documents]);
         } catch (\Exception $e) {
 
