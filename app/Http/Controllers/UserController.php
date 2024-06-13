@@ -28,11 +28,16 @@ class UserController extends Controller
 
     public function add(Request $request)
     {
-        $request->validate([
+
+        $validator = Validator::make($request->all(), [
             'keyname' => ['required', 'string', 'max:255'],
             'keycompany' => ['required', 'string', 'max:255'],
             'keysite' => ['required', 'url'],
         ]);
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         Api_key::create([
             'name' => $request->keyname,

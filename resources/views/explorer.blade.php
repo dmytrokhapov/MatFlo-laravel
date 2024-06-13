@@ -283,7 +283,7 @@
                 </ul>
             </nav>
             @if (Auth::check())
-                <a href="{{ route("dashboard") }}" class="login-btn btn">go to Dashboard</a>
+                <a href="{{ route("dashboard") }}" class="login-btn btn">Go to Dashboard</a>
             @else
                 <a href="{{ route("login")}}" class="login-btn btn">Log in</a>
             @endif
