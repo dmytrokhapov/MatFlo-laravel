@@ -310,8 +310,12 @@
                     </thead>
                     <tbody>
                     @foreach($declarations as $declaration)
-                    <tr>
-                        <td>{{ $declaration->document_id }}</td>
+                    <tr data-detail="{{ $declaration }}">
+                        @if ($declaration->status === "Signed")
+                            <td><a href='view-batch/{{$declaration->document_id}}' target='_blank'>{{ $declaration->document_id }}</a></td>
+                        @else
+                            <td><a href='view-publish/{{$declaration->document_id}}' target='_blank'>{{ $declaration->document_id }}</a></td>
+                        @endif
                         <td>{{ $declaration->name }}</td>
                         <td>{{ $declaration->gwp }}</td>
                         <td>{{ $declaration->location }}</td>
